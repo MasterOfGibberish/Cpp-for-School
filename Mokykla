@@ -1,0 +1,75 @@
+#include <iostream>
+#include <fstream>
+#include <iomanip>
+
+const char FR[]="Skaitymas.txt";
+const char FW[]="Akatsukai.txt";
+
+using namespace std;
+void Skaito (const char FR[], double a[], int &n);
+void Filtravimas (double a[], int n, double &akatsukai);
+void Irasymas (const char FW[], int n, double a[], double akatsukai);
+int main()
+{  int n;
+   double a[100], akatsukai;
+    Skaito ( FR,a,n);
+    Filtravimas(a,n,akatsukai);
+    Irasymas (FW, n, a, akatsukai);
+    return 0;
+}
+
+void Skaito (const char FR[], double a[], int &n)
+{
+   ifstream fr(FR);
+  fr>>n;
+  for(int i=0; i<n; i++)
+  {
+       fr>>a[i];
+  }
+}
+
+void Filtravmas(double a[], int n, double &akatsukai)
+{
+    for(int i=0; i<n; i++)
+  {
+      akatsukai = a[0]+a[1];
+    if(a[i]+a[i+1]>akatsukai)
+    {
+        akatsukai=a[i]+a[i+1];
+
+    }
+  }
+}
+void Irasymas (const char FW[], int n, double a[],double akatsukai)
+{
+   ofstream fw(FW);
+   fw<<n<<" ";
+         for(int i=0; i<n; i++)
+         {
+              fw<<akatsukai<<" ";
+         }
+
+}
+
+//Darzas///////////////////////////////////////////////////////////
+
+
+
+void Skaiciuojame (int a[], int n, int k, int min)
+{
+  for(int i=0; i<n; i++)
+  {
+   for (int i=0; i<k; i++)
+    {
+        min=a[i];
+      for (int j=i+1; j<k; j++)
+        {
+          if(a[i]>a[j])
+              min =a[j];
+              a[i]=a[j];
+              a[j]=min;
+                Irasymas (FW, n, k,a, min);
+        }
+    }
+  }
+}
