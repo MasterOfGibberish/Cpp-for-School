@@ -2,19 +2,19 @@
 #include <fstream>
 #include <iomanip>
 
-const char FR[]="Skaitymas.txt";
+const char FR[]="duomenys.txt";
 const char FW[]="Akatsukai.txt";
 
 using namespace std;
 void Skaito (const char FR[], double a[], int &n);
-void Filtravimas (double a[], int n, double &akatsukai);
-void Irasymas (const char FW[], int n, double a[], double akatsukai);
+void Filtravimas (double a[], int n, double &akatsukai,double &akatsukai2);
+void Irasymas (const char FW[], int n, double a[], double akatsukai, double akatsukai2);
 int main()
 {  int n;
-   double a[100], akatsukai;
+   double a[100], akatsukai, akatsukai2;
     Skaito ( FR,a,n);
-    Filtravimas(a,n,akatsukai);
-    Irasymas (FW, n, a, akatsukai);
+    Filtravimas(a,n,akatsukai, akatsukai2);
+    Irasymas (FW, n, a, akatsukai,akatsukai2);
     return 0;
 }
 
@@ -28,26 +28,37 @@ void Skaito (const char FR[], double a[], int &n)
   }
 }
 
-void Filtravmas(double a[], int n, double &akatsukai)
+void Filtravimas(double a[], int n, double &akatsukai, double &akatsukai2)
 {
+      akatsukai = a[0]+a[1];
     for(int i=0; i<n; i++)
   {
-      akatsukai = a[0]+a[1];
     if(a[i]+a[i+1]>akatsukai)
     {
-        akatsukai=a[i]+a[i+1];
-
+        akatsukai=a[i];
+        akatsukai2=a[i-1];
     }
   }
+  if(akatsukai==0 || akatsukai2==0){
+             akatsukai=69;
+      }
+  cout<<akatsukai;
 }
-void Irasymas (const char FW[], int n, double a[],double akatsukai)
+void Irasymas (const char FW[], int n, double a[],double akatsukai, double akatsukai2)
 {
    ofstream fw(FW);
-   fw<<n<<" ";
          for(int i=0; i<n; i++)
-         {
-              fw<<akatsukai<<" ";
-         }
+  {
+      if(akatsukai==a[i] && akatsukai2==a[i-1] && akatsukai!=69)
+      {
+          fw<<i+1<<" "<<akatsukai<<" "<<endl;
+          fw<<i-1+1<<" "<<akatsukai2<<endl;
+      }
+  }
+    if(akatsukai==69)
+    {
+        fw<<"neee"<<endl;
+    }
 
 }
 
@@ -55,96 +66,124 @@ void Irasymas (const char FW[], int n, double a[],double akatsukai)
 
 
 
-void Skaiciuojame (int a[], int n, int k, int min)
-{
-  for(int i=0; i<n; i++)
-  {
-   for (int i=0; i<k; i++)
-    {
-        min=a[i];
-      for (int j=i+1; j<k; j++)
-        {
-          if(a[i]>a[j])
-              min =a[j];
-              a[i]=a[j];
-              a[j]=min;
-                Irasymas (FW, n, k,a, min);
-        }
-    }
-  }
-}
-
-////////////////////////////////////////////
-
-
 #include <iostream>
 #include <fstream>
 #include <iomanip>
+#include <algorithm>
+#include <string>
 
 const char FR[]="duomenys.txt";
 const char FW[]="Akatsukai.txt";
 
 using namespace std;
 
-void Skaito (const char FR[], int a[], int &k, int &n, int min);
-void Skaiciuojame (int a[], int n, int k,int min);
-void Irasymas (const char FW[], int n, int k, int a[], int min );
+void Skaito (const char FR[], int a[], int &n);
+void display (const char FW[], int a[], int n);
+void Skaiciuojame (int a[], int n);
+void naikiname (int a[], int n, int &k);
+void Iterpiame(int a[], int n, int k);
+void Irasymas (const char FW[], int n, int a[], int min );
 
 int main()
 {
- int a[100], k,n, min;
-  Skaito( FR,a,k,n, min);
-  Skaiciuojame(a,n,k, min);
-  Irasymas (FW, n, k,a, min);
+ int a[100], n;
+ int k=0;
+ int min=0;
+  Skaito(FR,a,n);
+  Skaiciuojame(a,n);
+  naikiname(a,n, k);
+  Irasymas(FW, n, a,min);
+  Iterpiame( a, n,k);
+  Irasymas(FW, n, a,min);
   return 0;
 }
 
-void Skaito (const char FR[],int a[], int &k, int &n, int min)
+void Skaito (const char FR[],int a[], int &n)
 {
    ifstream fr(FR);
    fr>>n;
-   // cout<<" "<<k<<endl;
   for(int i=0; i<n; i++)
   {
-      fr>>k;
-       for(int i=0; i<k; i++)
-       {
        fr>>a[i];
-       cout<<a[i];
-        Skaiciuojame(a,n,k, min);
-       }
   }
 }
 
-void Skaiciuojame (int a[], int n, int k, int min)
+void Skaiciuojame (int a[], int n)
 {
-  for(int i=0; i<n; i++)
-  {
-   for (int i=0; i<k; i++)
-    {
-        min=a[i];
-      for (int j=i+1; j<k; j++)
-        {
-          if(a[i]>a[j])
-              min =a[j];
-              a[i]=a[j];
-              a[j]=min;
-                Irasymas (FW, n, k,a, min);
-        }
-    }
-  }
-}
-
-void Irasymas (const char FW[], int n, int k, int a[], int min)
-{
-   ofstream fw(FW);
+   sort(a, a+n);
+   display(FW, a, n);
+ }
+ 
+void naikiname(int a[], int n, int &k){
+    int m;
     for(int i=0; i<n; i++)
   {
-       for(int j=0; j<k; j++)
+    for(int j=i+1; j<n; j++)
        {
-       fw<<a[j]<<endl;
+           if(a[i]==a[j]){
+               //a[i]==a[j];
+               m=i;
+                a[m]=69;
+             k++;
+           }
        }
-  }
+    }
+}
+    
+void display(const char FW[], int a[], int n) {
+       ofstream fw(FW);
+   for(int i = 0; i < n; ++i)
+   {
+       fw<< a[i] <<" ";
+   }
+   fw<<" "<<endl;
+} 
 
+void Iterpiame(int a[], int n, int k)
+{
+    int g,s;
+    int l=0;
+    for(int i=0; i<n; i++)
+    {
+      if(a[i]==0)
+      {
+          g=i;
+           l=n-g-k;
+           
+             for(int j=1; j<l; j++)
+          {
+               for(int z =j+1; z<l; z++)
+              {
+                  s=a[g+1+j];
+                  cout<<a[g+1];
+                  //a[g+1+j]=a[g+1+z];
+                  a[g+1+z]=s;
+              }
+               
+          }
+                 s=a[g+1];
+                   a[g+1]=100;
+                    a[g+2]=s;
+         
+      }
+     
+     }
+    
 }
 
+void Irasymas (const char FW[], int n,  int a[], int min)
+{
+   ofstream fw(FW, ios::app);
+    for(int i=0; i<n; i++)
+  {
+     if(a[i]==69){
+       fw<<" ";}
+       if(a[i]!=69){
+       fw<<a[i]<<" ";}
+      
+  }
+     fw<<" "<<endl;
+  fw.close();
+}
+
+////////////neveikia 159 eilutejej jauciu reikia triju stikliniu metodo//////////////////////
