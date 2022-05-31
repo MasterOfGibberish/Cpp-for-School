@@ -187,3 +187,81 @@ void Irasymas (const char FW[], int n,  int a[], int min)
 }
 
 ////////////neveikia 159 eilutejej jauciu reikia triju stikliniu metodo//////////////////////
+
+
+
+#include <iostream>
+#include <fstream>
+
+using namespace std;
+
+const char FR[]="duomenys.txt";
+const char FW []= "Akatsukai.txt";
+//const char DF[]="duomenys.txt";
+
+void Skaitymas( const char FR[], int a[], int &n, int b[], int &z)
+{
+    ifstream fr(FR);
+    fr>>n;
+    for(int j=0; j<n; j++)
+        {
+       fr>>a[j];
+      }
+
+      fr>>z;
+        for(int i=0; i<z; i++)
+            {
+           fr>>b[i];
+          }
+
+}
+
+
+void Iterpimas(int a[], int n, int b[])
+{
+    int g=n;
+ for(int i=0; i<n; i++)
+    {
+     if(b[i]%a[i]==0)
+        {
+        for(int t = g; t>i; t--)
+            {
+            a[t+1]= a[t];
+            }
+        n++;
+        a[i+1]=b[i];
+        }
+        else
+            {
+            a[i]=0;
+                n++;
+                 cout<<g<<" ";
+            }
+    }
+}
+
+void Irasymas (const char FW[], int a[], int n, int z)
+{
+ofstream fw(FW);
+for(int i=0; i<n; i++)
+    {
+        fw<<a[i]<<" ";
+    }
+    fw.close();
+   // ofstream df(DF);
+    //for(int i=0; i<n; i++)
+    //{
+    //    if(a[i]==)
+    //        fw<<a[i]<<" ";
+    //}
+}
+
+int main()
+{
+    int a[10], n, b[10], z;
+   Skaitymas(FR, a, n, b, z);
+   Iterpimas (a, n, b);
+   Irasymas( FW, a, n, z);
+    return 0;
+}
+
