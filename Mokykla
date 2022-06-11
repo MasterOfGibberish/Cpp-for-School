@@ -178,76 +178,74 @@ void Irasymas (const char FW[], int n,  int a[], int min)
 
 #include <iostream>
 #include <fstream>
+#include <iomanip>
 
 using namespace std;
 
 const char FR[]="duomenys.txt";
-const char FW []= "Akatsukai.txt";
-//const char DF[]="duomenys.txt";
+const char FW[]="Akatsukai.txt";
+
+void Skaitymas(const char FR[], int a[], int &n, int b[], int &z);
+void Iterpimas(int a[], int &n, int b[], int z);
+void Irasymas (const char FW[], int a[], int n, int z);
+
+int main()
+{
+    int a[10], n, b[10], z;
+   Skaitymas(FR, a, n, b, z);
+   Iterpimas (a, n, b, z);
+   Irasymas( FW, a, n, z);
+    return 0;
+}
 
 void Skaitymas( const char FR[], int a[], int &n, int b[], int &z)
 {
     ifstream fr(FR);
     fr>>n;
     for(int j=0; j<n; j++)
-        {
-       fr>>a[j];
-      }
+         {
+         fr>>a[j];
+         }
 
       fr>>z;
         for(int i=0; i<z; i++)
             {
-           fr>>b[i];
-          }
-
+            fr>>b[i];
+            }
 }
 
 
-void Iterpimas(int a[], int n, int b[])
+void Iterpimas(int a[], int &n, int b[], int z)
 {
     int g=n;
- for(int i=0; i<n; i++)
+   for(int i=0; i<z; i++)
     {
-     if(b[i]%a[i]==0)
-        {
-        for(int t = g; t>i; t--)
+        for(int j=0; j<1; j++)
+         {
+          if(b[i]%a[j]==0)
             {
-            a[t+1]= a[t];
+            //g++;
+             cout<<b[4]<<" ";
+             for(int t = g; t>j; t--)
+                       {
+                       a[i]= b[i-1];
+                       a[t]= b[i];
+                       }
             }
-        n++;
-        a[i+1]=b[i];
-        }
-        else
-            {
-            a[i]=0;
-                n++;
-                 cout<<g<<" ";
-            }
+       }
     }
+    n=g;
+
 }
 
 void Irasymas (const char FW[], int a[], int n, int z)
 {
-ofstream fw(FW);
-for(int i=0; i<n; i++)
-    {
-        fw<<a[i]<<" ";
-    }
-    fw.close();
-   // ofstream df(DF);
-    //for(int i=0; i<n; i++)
-    //{
-    //    if(a[i]==)
-    //        fw<<a[i]<<" ";
-    //}
+    ofstream fw(FW);
+    for(int i=0; i<n; i++)
+        {
+            fw<<a[i]<<" ";
+        }
+
 }
 
-int main()
-{
-    int a[10], n, b[10], z;
-   Skaitymas(FR, a, n, b, z);
-   Iterpimas (a, n, b);
-   Irasymas( FW, a, n, z);
-    return 0;
-}
 
