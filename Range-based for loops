@@ -1,0 +1,34 @@
+#include <iostream>
+#include <fstream>
+#include <iomanip>
+
+const char FR[]="duomenys.txt";
+const char FW[]="Akatsukai.txt";
+
+using namespace std;
+
+int main()
+{
+     ifstream fr(FR);
+     ofstream fw(FW);
+    int array[10];
+    
+     for(int i=0;i<6;i++)
+    fr>>array[i];
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////
+    for(auto& i:array){
+            if(i==3){
+                fw<<i++<<" ";
+            }
+         }
+         /////////////////////////////////////////////////////////////////////////////////////////////////////
+    fw<<endl;
+    for(int i=0;i<6;i++)
+      fw<<array[i]<<" ";
+     
+    
+    
+    
+ return 0;
+   
+}
