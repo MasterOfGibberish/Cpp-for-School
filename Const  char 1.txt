@@ -1,0 +1,30 @@
+Atlikti 88 psl. 1. Skaitmenys:
+
+#include <iostream>
+#include <fstream>
+const char FR[]="duom.txt";
+const char FW[]="akatsukai.txt";
+using namespace std;
+int skaiciuojame(char sim);
+int main()
+{
+    ofstream ats(FW);
+    for(char sim='0'; sim <='9'; sim++){
+        cout<<sim<<" ";
+    ats<< sim <<" "<<skaiciuojame(sim) <<endl;
+    }
+    return 0;
+}
+int skaiciuojame(char sim)
+{
+    char ch;
+    int k=0;
+    ifstream duom(FR);
+     while(!duom.eof())
+    {
+       duom.get(ch); 
+       if (!duom.eof() && (ch==sim)) k++;
+    }
+     duom.close();
+     return k;
+}
