@@ -28,3 +28,126 @@ int skaiciuojame(char sim)
      duom.close();
      return k;
 }
+
+////////////////////////////////////////////////////
+--------7--------------------
+#include <iostream>
+#include <fstream>
+const char FR[]="duom.txt";
+const char FW[]="akatsukai.txt";
+using namespace std;
+
+void Skaiciavimas (const char FR[], int a, int b, char ch, int c[]);
+void Irasymas (const char FW[], int c[]);
+int main()
+{
+    int a, b, c[100];
+    char ch;
+    Skaiciavimas(FR, a, b, ch, c);
+    Irasymas(FW, c);
+     return 0;
+}
+
+void Skaiciavimas (const char FR[], int a, int b, char ch, int c[])
+{
+   ifstream fr(FR);
+  for(int i=0; i<4; i++)
+  {
+      fr>>a>>ch>>b;
+      if(ch=='+')
+      {
+          c[i]=a+b;
+      }  
+      if(ch=='-')
+      {
+          c[i]=a-b;
+      } 
+      if(ch=='/')
+      {
+          c[i]=a/b;
+      } 
+      if(ch=='*')
+      {
+          c[i]=a*b;
+      } 
+  }
+}
+
+void Irasymas (const char FW[], int c[])
+{
+   ofstream fw(FW);
+         for(int i=0; i<4; i++)
+  {
+     fw<<c[i]<<" "<<endl;
+  }
+}
+
+///////////////////////////////////////////////
+-------------8------------------------------
+#include <iostream>
+#include <fstream>
+const char FR[]="duom.txt";
+const char FW[]="akatsukai.txt";
+using namespace std;
+
+void Skaitymas (const char FR[], int &a, int &b, char ch[]);
+void Skaiciavimas(int &a, char ch[]);
+void Irasymas (const char FW[], int a, char ch[]);
+int main()
+{
+    int a, b;
+    char ch[100];
+    Skaitymas(FR, a, b, ch);
+    Skaiciavimas( a,ch);
+    Irasymas(FW, a, ch);
+     return 0;  
+}
+
+void Skaitymas (const char FR[], int &a, int &b, char ch[])
+{
+    ifstream fr(FR);
+    int k=0;
+    fr>>a>>b;
+    if(a>0){
+        for(int i=0; i<b; i++)
+        {
+         fr>>ch[i];
+        }
+    }
+}
+
+void Skaiciavimas(int &a, char ch[])
+{
+    int k=0;
+    int g=0;
+    int j=0;
+    for(int i=0; i<5;i++)
+     {
+          if(ch[i]=='M') k++;
+          if(ch[i]=='F') g++;
+          if(ch[i]=='K') j++;
+     }
+     (a-=2*k);
+     (a-=3*g);
+     (a-=5*j);
+}
+void Irasymas(const char FW[], int a, char ch[])
+{
+    ofstream fw(FW);
+    cout<<a;
+   if(a<0)
+    { 
+        a=a*(-1);
+          if(a==5) fw<<"3"<<" "<<"Karlsons";
+          if(a==2) fw<<""<<" "<<"Mazylis";
+          if(a==3) fw<<""<<" "<<"Dede Fede";
+    }
+    else
+    {
+        fw<<a<<" "<<"Liko";
+    }
+          
+}
+
+
+
