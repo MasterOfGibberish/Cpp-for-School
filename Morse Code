@@ -1,0 +1,73 @@
+#include <iostream>
+
+using namespace std;
+
+int main() {
+
+string morseCode[36];
+morseCode[0] = ".-"; //A
+morseCode[1] = "-..."; //B
+morseCode[2] = "-.-."; //C
+morseCode[3] = "-.."; //D
+morseCode[4] = "."; //E
+morseCode[5] = "..-."; //F
+morseCode[6] = "--."; //G
+morseCode[7] = "...."; //H
+morseCode[8] = ".."; //I
+morseCode[9] = ".---"; //J
+morseCode[10] = "-.-"; //K
+morseCode[11] = ".-.."; //L
+morseCode[12] = "--"; //M
+morseCode[13] = "-."; //N
+morseCode[14] = "---"; //O
+morseCode[15] = ".--."; //P
+morseCode[16] = "--.-"; //Q
+morseCode[17] = ".-."; //R
+morseCode[18] = "..."; //S
+morseCode[19] = "-"; //T
+morseCode[20] = "..-"; //U
+morseCode[21] = "...-"; //V
+morseCode[22] = ".--"; //W
+morseCode[23] = "-..-"; //X
+morseCode[24] = "-.--"; //Y
+morseCode[25] = "--.."; //Z
+morseCode[26] = "-----";// 0
+morseCode[27] = ".----";// 1
+morseCode[28] = "..---";// 2
+morseCode[29] = "...--";// 3
+morseCode[30] = "....-";// 4
+morseCode[31] = ".....";// 5
+morseCode[32] = "----.";// 6
+morseCode[33] = "---..";// 7
+morseCode[33] = "--...";// 8
+morseCode[34] = "-....";// 9
+morseCode[35] = " ";// " "
+
+string userInput;
+cout << "Input a message to translate into Morse code:" <<endl;
+getline(cin, userInput);
+
+string translate = "";
+string translate2 = "";
+for(int i = 0; i < userInput.length(); i++) 
+{  
+      int c = userInput[i] - 97;
+      if (c >= 0 && c <=25) 
+      {
+           translate += morseCode[c] + morseCode[35];
+      }
+      for(char sim='0'; sim <='9'; sim++)
+      {
+          string str = "";
+          str+=sim;
+           if(userInput == str)
+           {
+               int c = userInput[i] - 23;
+            translate2 += morseCode[c] + morseCode[35];
+           }
+      }
+}
+
+cout << translate<<" "<<translate2<<" ";
+return 0;
+}
