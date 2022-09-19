@@ -86,68 +86,61 @@ void Irasymas (const char FW[], int c[])
 -------------8------------------------------
 #include <iostream>
 #include <fstream>
-const char FR[]="duom.txt";
-const char FW[]="akatsukai.txt";
+#include <cmath>
+const char FF[] ="duom.txt";
+const char BB[] ="ans.txt";
 using namespace std;
 
-void Skaitymas (const char FR[], int &a, int &b, char ch[]);
-void Skaiciavimas(int &a, char ch[]);
-void Irasymas (const char FW[], int a, char ch[]);
 int main()
 {
-    int a, b;
-    char ch[100];
-    Skaitymas(FR, a, b, ch);
-    Skaiciavimas( a,ch);
-    Irasymas(FW, a, ch);
-     return 0;  
+int u, n, d;
+d=0;
+ifstream sf(FF);
+ofstream rf(BB);
+sf>>u>>n;
+char c, ch[n];
+sf.ignore(1); //WAS IST DASS???
+for(int i=0; i<=n; i++){
+    sf.get(c);
+    ch[i]=c;
 }
+for(int i=0; i<n; i++){
+    if(ch[i]=='K'){
+            if(u>5){
+                u=u-5;
+            }
+            else{
+                rf<<u<<" Karlsonas"<<endl;
+                d++;
+                break;
 
-void Skaitymas (const char FR[], int &a, int &b, char ch[])
-{
-    ifstream fr(FR);
-    int k=0;
-    fr>>a>>b;
-    if(a>0){
-        for(int i=0; i<b; i++)
-        {
-         fr>>ch[i];
-        }
+            }
+    }
+    if(ch[i]=='F'){
+            if(u>3){
+                u=u-3;
+            }
+            else{
+                rf<<u<<" Frekenbok"<<endl;
+                d++;
+                break;
+
+            }
+    }
+    if(ch[i]=='M'){
+            if(u>2){
+                u=u-2;
+            }
+            else{
+                rf<<u<<" Mazylis"<<endl;
+                d++;
+                break;
+            }
     }
 }
-
-void Skaiciavimas(int &a, char ch[])
-{
-    int k=0;
-    int g=0;
-    int j=0;
-    for(int i=0; i<5;i++)
-     {
-          if(ch[i]=='M') k++;
-          if(ch[i]=='F') g++;
-          if(ch[i]=='K') j++;
-     }
-     (a-=2*k);
-     (a-=3*g);
-     (a-=5*j);
-}
-void Irasymas(const char FW[], int a, char ch[])
-{
-    ofstream fw(FW);
-    cout<<a;
-   if(a<0)
-    { 
-        a=a*(-1);
-          if(a==5) fw<<"3"<<" "<<"Karlsons";
-          if(a==2) fw<<""<<" "<<"Mazylis";
-          if(a==3) fw<<""<<" "<<"Dede Fede";
-    }
-    else
-    {
-        fw<<a<<" "<<"Liko";
-    }
-          
+if(d==0){
+    rf<<u<<" liko"<<endl;
 }
 
-
-
+    return 0;
+}
