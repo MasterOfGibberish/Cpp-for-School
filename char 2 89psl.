@@ -1,0 +1,61 @@
+//89psl. Dvigarsiai
+
+#include <iostream>
+#include <fstream>
+const char FR[]="duom.txt";
+const char FW[]="akatsukai.txt";
+using namespace std;
+
+int main()
+{
+    char ch, ch2;
+    int au=0;
+    ifstream duom(FR);
+    duom.get(ch);
+    while(!duom.eof() && !duom.fail())
+    {
+         duom.get(ch2);
+        if(ch=='a' && ch2=='u')
+        {
+            au++;
+        }
+        else{
+            ch=ch2;
+        }
+
+    }
+   ofstream ats(FW);
+   ats<<au;
+    return 0;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////Komentarai/////////////////////////////////////////////////////
+
+#include <iostream>
+#include <fstream>
+const char FR[]="duom.txt";
+const char FW[]="akatsukai.txt";
+using namespace std;
+
+int main()
+{
+    char ch, ch2;
+    int komentarai=0;
+    ifstream duom(FR);
+    duom.get(ch);
+    while(!duom.eof() && !duom.fail())
+    {
+         duom.get(ch2);
+        if(ch=='/' && ch2=='/')
+        {
+            komentarai++;
+        }
+        else{
+            ch=ch2;
+        }
+
+    }
+   ofstream ats(FW);
+   ats<<komentarai;
+    return 0;
+}
