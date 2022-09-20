@@ -1,0 +1,95 @@
+#include <iostream>
+#include <fstream>
+const char FR[]="duom.txt";
+const char FW[]="ans.txt";
+using namespace std;
+void skt(const char FR[], int A[], int &n1, int &n2, int B[], int &k, int &g);
+void rusiuojam(int A[], int B[], int k, int g);
+void Irasymas (const char FW[], int A[], int B[], int k, int g);
+
+int main()
+{
+   int n1, n2, A[10], B[10], k, g;
+   skt(FR,A,n1,n2,B,k, g);
+   rusiuojam(A,B, k, g);
+   Irasymas(FW, A, B, k, g);
+   return 0;
+}
+void skt(const char FR[], int A[], int &n1, int &n2, int B[], int &k, int &g)
+{
+    ifstream fr(FR);
+    fr>>n1;
+    k=0;
+    g=0;
+    int c;
+    for(int i=0; i<n1; i++)
+    {
+        fr>>c;
+        if(c<100)
+        {
+            A[0+k]=c;
+            k++;
+        }
+         if(c>99)
+        {
+            B[0+g]=c;
+            g++;
+        }
+    }
+    fr>>n2;
+    for(int i=0; i<n2; i++)
+    {
+        fr>>c;
+        if(c<100)
+        {
+            A[0+k]=c;
+            k++;
+        }
+         if(c>99)
+        {
+            B[0+g]=c;
+            g++;
+        }
+    }
+}
+void rusiuojam(int A[], int B[], int k, int g)
+{ 
+    int a=0;
+    for(int i=0; i<k; i++){
+        for(int y=i; y<k; y++){
+            if(A[i]>A[y]){
+                a=A[i];
+                A[i]=A[y];
+                A[y]=a;
+            }
+        }
+    }
+    for(int i=0; i<g; i++){
+        for(int y=i; y<g; y++){
+            if(B[i]>B[y]){
+                a=B[i];
+                B[i]=B[y];
+                B[y]=a;
+            }
+        }
+    }
+}
+
+void Irasymas (const char FW[], int A[], int B[], int k, int g)
+{
+    ofstream fw(FW);
+    fw<<"Rasos kolekcija:"<<endl;
+    for(int i=0; i<k; i++)
+    {
+    fw<<A[i]<<" ";
+        if(i==k-1)
+        {
+          fw<<" "<<endl;  
+        }
+    }
+      fw<<"Rimo kolekcija:"<<endl;
+     for(int i=0; i<g; i++)
+     {
+     fw<<B[i]<<" ";
+     }
+}
