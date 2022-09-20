@@ -1,0 +1,66 @@
+#include <iostream>
+#include <fstream>
+#include <cmath>
+const char SF[]="duom.txt";
+const char RF[]="ans.txt";
+using namespace std;
+void skt(const char SF[], int A[], int &n1, int &n2, int B[]);
+void skc(int A[], int &n1, int &n2, int B[]);
+void Irasymas (const char RF[], int A[], int n1);
+int main()
+{
+   int n1, n2, A[10], B[10];
+   
+   skt(SF,A,n1,n2,B);
+   skc(A,n1,n2,B);
+   Irasymas(RF, A, n1);
+   return 0;
+}
+void skt(const char SF[], int A[], int &n1, int &n2, int B[])
+{
+    ifstream sf(SF);
+    sf>>n1;
+    for(int i=0; i<n1; i++)
+    {
+        sf>>A[i];
+    }
+    sf>>n2;
+    for(int i=0; i<n2; i++)
+    {
+        sf>>B[i];
+    }
+}
+void skc(int A[], int &n1, int &n2, int B[])
+{
+    int b, k;
+     for(int i=0; i<n1; i++)
+     {
+            k=0;
+            b=i;
+        for(int y=0; y<n2; y++)
+        {
+            if(B[y]%A[i]==0)
+            {
+                n1+=1;
+                b+=1;
+                for(int d=n1; d>=b-k; d--)
+                {
+                    cout<<d<<" ";   
+                    A[d]=A[d-1];
+                }
+                A[b-k]=B[y];
+                k+=1;
+            }
+        }
+        i+=k;
+     }
+}
+
+void Irasymas (const char RF[], int A[], int n1)
+{
+    ofstream rf(RF);
+    for(int i=0; i<n1; i++){
+    rf<<A[i]<<" ";
+   }
+
+}
