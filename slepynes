@@ -1,0 +1,36 @@
+#include <iostream>
+#include <fstream>
+#include <cmath>
+const char FR[]="duom.txt";
+const char FW[]="ans.txt";
+using namespace std;
+void skaitymas(const char FR[], int &n, int &k, int &nr, int a[]);
+void iterpimas(int a[], int n, int nr);
+int main()
+{
+    int n, a[10], k, nr;
+    skaitymas(FR,n, k,nr,a);
+    iterpimas(a,n,nr);
+    return 0;
+}
+
+void skaitymas(const char FR[], int &n, int &k, int &nr, int a[])
+{
+    ifstream fr(FR);
+    fr>>n>>k>>nr;
+    for(int i=0; i<n; i++)
+    {
+        fr>>a[i];
+    }
+}
+
+void iterpimas(int a[], int n, int nr)
+{
+     for(int i=0; i<n+1; i++)
+     {
+         if(i==n)
+         {
+             a[i]=nr;
+         }
+     }   
+}
