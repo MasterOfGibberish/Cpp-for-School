@@ -34,3 +34,73 @@ void iterpimas(int a[], int n, int nr)
          }
      }   
 }
+/////////////////////////////////////////////////////////////////////////////
+
+#include <iostream>
+#include <fstream>
+#include <iomanip>
+#include <algorithm>
+#include <string>
+
+const char FR[]="duom.txt";
+const char FW[]="Akatsukai.txt";
+
+using namespace std;
+
+void Skaito (const char FR[], int a[],int b[], int &n, int n2, int &k);
+void Skaiciuojame (int a[], int n);
+void display (const char FW[], int a[], int n);
+
+int main()
+{
+ int a[100], b[100], n, n2;
+ int k=0;
+  Skaito(FR,a, b, n, n2,k);
+  Skaiciuojame(a,n);
+  display(FW,a,n);
+  return 0;
+}
+
+void Skaito (const char FR[],int a[], int b[], int &n, int n2, int &k)
+{
+   ifstream fr(FR);
+   fr>>n;
+  for(int i=0; i<n; i++)
+  {
+       fr>>n2;
+       k+=n2;
+       for(int j=0; j<n2;j++)
+       {
+           fr>>a[j];
+           cout<<a[j]<<" ";
+       }
+  }
+  n+=k-n;
+}
+
+
+void Skaiciuojame (int a[], int n)
+{
+   for(int i=0; i<n; i++)
+    {
+        int min=0;
+      for(int j=i+1; j<n; j++)
+        {
+          if(a[i]>a[j])
+            {
+             min=a[i];
+             a[i]=a[j];
+             a[j]=min;
+            }
+        }
+    }
+ }
+ 
+void display(const char FW[], int a[], int n) {
+       ofstream fw(FW);
+   for(int i = 0; i<n; ++i)
+   {
+       fw<< a[i] <<" ";
+   }
+   fw<<" "<<endl;
+} 
