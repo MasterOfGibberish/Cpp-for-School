@@ -1,1 +1,460 @@
 //
+Atlikti 88 psl. 1. Skaitmenys:
+
+#include <iostream>
+#include <fstream>
+const char FR[]="duom.txt";
+const char FW[]="akatsukai.txt";
+using namespace std;
+int skaiciuojame(char sim);
+int main()
+{
+    ofstream ats(FW);
+    for(char sim='0'; sim <='9'; sim++){
+        cout<<sim<<" ";
+    ats<< sim <<" "<<skaiciuojame(sim) <<endl;
+    }
+    return 0;
+}
+int skaiciuojame(char sim)
+{
+    char ch;
+    int k=0;
+    ifstream duom(FR);
+     while(!duom.eof())
+    {
+       duom.get(ch); 
+       if (!duom.eof() && (ch==sim)) k++;
+    }
+     duom.close();
+     return k;
+}
+
+////////////////////////////////////////////////////
+--------7--------------------
+#include <iostream>
+#include <fstream>
+const char FR[]="duom.txt";
+const char FW[]="akatsukai.txt";
+using namespace std;
+
+void Skaiciavimas (const char FR[], int a, int b, char ch, int c[]);
+void Irasymas (const char FW[], int c[]);
+int main()
+{
+    int a, b, c[100];
+    char ch;
+    Skaiciavimas(FR, a, b, ch, c);
+    Irasymas(FW, c);
+     return 0;
+}
+
+void Skaiciavimas (const char FR[], int a, int b, char ch, int c[])
+{
+   ifstream fr(FR);
+  for(int i=0; i<4; i++)
+  {
+      fr>>a>>ch>>b;
+      if(ch=='+')
+      {
+          c[i]=a+b;
+      }  
+      if(ch=='-')
+      {
+          c[i]=a-b;
+      } 
+      if(ch=='/')
+      {
+          c[i]=a/b;
+      } 
+      if(ch=='*')
+      {
+          c[i]=a*b;
+      } 
+  }
+}
+
+void Irasymas (const char FW[], int c[])
+{
+   ofstream fw(FW);
+         for(int i=0; i<4; i++)
+  {
+     fw<<c[i]<<" "<<endl;
+  }
+}
+
+///////////////////////////////////////////////
+-------------8------------------------------
+#include <iostream>
+#include <fstream>
+#include <cmath>
+const char FF[] ="duom.txt";
+const char BB[] ="ans.txt";
+using namespace std;
+
+int main()
+{
+int u, n, d;
+d=0;
+ifstream sf(FF);
+ofstream rf(BB);
+sf>>u>>n;
+char c, ch[n];
+sf.ignore(1); //WAS IST DASS???
+for(int i=0; i<=n; i++){
+    sf.get(c);
+    ch[i]=c;
+}
+for(int i=0; i<n; i++){
+    if(ch[i]=='K'){
+            if(u>5){
+                u=u-5;
+            }
+            else{
+                rf<<u<<" Karlsonas"<<endl;
+                d++;
+                break;
+
+            }
+    }
+    if(ch[i]=='F'){
+            if(u>3){
+                u=u-3;
+            }
+            else{
+                rf<<u<<" Frekenbok"<<endl;
+                d++;
+                break;
+
+            }
+    }
+    if(ch[i]=='M'){
+            if(u>2){
+                u=u-2;
+            }
+            else{
+                rf<<u<<" Mazylis"<<endl;
+                d++;
+                break;
+            }
+    }
+}
+if(d==0){
+    rf<<u<<" liko"<<endl;
+}
+
+    return 0;
+}
+
+///////////////////////////////////////////////////
+
+//89psl. Dvigarsiai
+
+#include <iostream>
+#include <fstream>
+const char FR[]="duom.txt";
+const char FW[]="akatsukai.txt";
+using namespace std;
+
+int main()
+{
+    char ch, ch2;
+    int au=0;
+    ifstream duom(FR);
+    duom.get(ch);
+    while(!duom.eof() && !duom.fail())
+    {
+         duom.get(ch2);
+        if(ch=='a' && ch2=='u')
+        {
+            au++;
+        }
+        else{
+            ch=ch2;
+        }
+
+    }
+   ofstream ats(FW);
+   ats<<au;
+    return 0;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////Komentarai/////////////////////////////////////////////////////
+
+#include <iostream>
+#include <fstream>
+const char FR[]="duom.txt";
+const char FW[]="akatsukai.txt";
+using namespace std;
+
+int main()
+{
+    char ch, ch2;
+    int komentarai=0;
+    ifstream duom(FR);
+    duom.get(ch);
+    while(!duom.eof() && !duom.fail())
+    {
+         duom.get(ch2);
+        if(ch=='/' && ch2=='/')
+        {
+            komentarai++;
+        }
+        else{
+            ch=ch2;
+        }
+
+    }
+   ofstream ats(FW);
+   ats<<komentarai;
+    return 0;
+}
+/////////////////////////////////////////
+//////////////Seka///////////////////
+
+
+#include <iostream>
+#include <fstream>
+#include <cmath>
+const char SF[]="duom.txt";
+const char RF[]="ans.txt";
+using namespace std;
+void skt(const char SF[], int A[], int &n1, int &n2, int B[]);
+void skc(int A[], int &n1, int &n2, int B[]);
+void Irasymas (const char RF[], int A[], int n1);
+int main()
+{
+   int n1, n2, A[10], B[10];
+   
+   skt(SF,A,n1,n2,B);
+   skc(A,n1,n2,B);
+   Irasymas(RF, A, n1);
+   return 0;
+}
+void skt(const char SF[], int A[], int &n1, int &n2, int B[])
+{
+    ifstream sf(SF);
+    sf>>n1;
+    for(int i=0; i<n1; i++)
+    {
+        sf>>A[i];
+    }
+    sf>>n2;
+    for(int i=0; i<n2; i++)
+    {
+        sf>>B[i];
+    }
+}
+void skc(int A[], int &n1, int &n2, int B[])
+{
+    int b, k;
+     for(int i=0; i<n1; i++)
+     {
+            k=0;
+            b=i;
+        for(int y=0; y<n2; y++)
+        {
+            if(B[y]%A[i]==0)
+            {
+                n1+=1;
+                b+=1;
+                for(int d=n1; d>=b-k; d--)
+                {
+                    cout<<d<<" ";   
+                    A[d]=A[d-1];
+                }
+                A[b-k]=B[y];
+                k+=1;
+            }
+        }
+        i+=k;
+     }
+}
+
+void Irasymas (const char RF[], int A[], int n1)
+{
+    ofstream rf(RF);
+    for(int i=0; i<n1; i++){
+    rf<<A[i]<<" ";
+   }
+
+}
+
+/////////////////////////////////////////////
+//////Kolekcijos/////////////////////////////
+
+#include <iostream>
+#include <fstream>
+const char FR[]="duom.txt";
+const char FW[]="ans.txt";
+using namespace std;
+void skt(const char FR[], int A[], int &n1, int &n2, int B[], int &k, int &g);
+void rusiuojam(int A[], int B[], int k, int g);
+void Irasymas (const char FW[], int A[], int B[], int k, int g);
+
+int main()
+{
+   int n1, n2, A[10], B[10], k, g;
+   skt(FR,A,n1,n2,B,k, g);
+   rusiuojam(A,B, k, g);
+   Irasymas(FW, A, B, k, g);
+   return 0;
+}
+void skt(const char FR[], int A[], int &n1, int &n2, int B[], int &k, int &g)
+{
+    ifstream fr(FR);
+    fr>>n1;
+    k=0;
+    g=0;
+    int c;
+    for(int i=0; i<n1; i++)
+    {
+        fr>>c;
+        if(c<100)
+        {
+            A[0+k]=c;
+            k++;
+        }
+         if(c>99)
+        {
+            B[0+g]=c;
+            g++;
+        }
+    }
+    fr>>n2;
+    for(int i=0; i<n2; i++)
+    {
+        fr>>c;
+        if(c<100)
+        {
+            A[0+k]=c;
+            k++;
+        }
+         if(c>99)
+        {
+            B[0+g]=c;
+            g++;
+        }
+    }
+}
+void rusiuojam(int A[], int B[], int k, int g)
+{ 
+    int a=0;
+    for(int i=0; i<k; i++){
+        for(int y=i; y<k; y++){
+            if(A[i]>A[y]){
+                a=A[i];
+                A[i]=A[y];
+                A[y]=a;
+            }
+        }
+    }
+    for(int i=0; i<g; i++){
+        for(int y=i; y<g; y++){
+            if(B[i]>B[y]){
+                a=B[i];
+                B[i]=B[y];
+                B[y]=a;
+            }
+        }
+    }
+}
+
+void Irasymas (const char FW[], int A[], int B[], int k, int g)
+{
+    ofstream fw(FW);
+    fw<<"Rasos kolekcija:"<<endl;
+    for(int i=0; i<k; i++)
+    {
+    fw<<A[i]<<" ";
+        if(i==k-1)
+        {
+          fw<<" "<<endl;  
+        }
+    }
+      fw<<"Rimo kolekcija:"<<endl;
+     for(int i=0; i<g; i++)
+     {
+     fw<<B[i]<<" ";
+     }
+}
+
+
+/////////////////////////////////
+/////////////Morzes kodas/////////////
+
+//Source: https://www.w3schools.com/charsets/ref_html_ascii.asp
+
+#include <iostream>
+
+using namespace std;
+
+int main() {
+
+string morseCode[36];
+morseCode[0] = ".-"; //A
+morseCode[1] = "-..."; //B
+morseCode[2] = "-.-."; //C
+morseCode[3] = "-.."; //D
+morseCode[4] = "."; //E
+morseCode[5] = "..-."; //F
+morseCode[6] = "--."; //G
+morseCode[7] = "...."; //H
+morseCode[8] = ".."; //I
+morseCode[9] = ".---"; //J
+morseCode[10] = "-.-"; //K
+morseCode[11] = ".-.."; //L
+morseCode[12] = "--"; //M
+morseCode[13] = "-."; //N
+morseCode[14] = "---"; //O
+morseCode[15] = ".--."; //P
+morseCode[16] = "--.-"; //Q
+morseCode[17] = ".-."; //R
+morseCode[18] = "..."; //S
+morseCode[19] = "-"; //T
+morseCode[20] = "..-"; //U
+morseCode[21] = "...-"; //V
+morseCode[22] = ".--"; //W
+morseCode[23] = "-..-"; //X
+morseCode[24] = "-.--"; //Y
+morseCode[25] = "--.."; //Z
+morseCode[26] = "-----";// 0
+morseCode[27] = ".----";// 1
+morseCode[28] = "..---";// 2
+morseCode[29] = "...--";// 3
+morseCode[30] = "....-";// 4
+morseCode[31] = ".....";// 5
+morseCode[32] = "----.";// 6
+morseCode[33] = "---..";// 7
+morseCode[33] = "--...";// 8
+morseCode[34] = "-....";// 9
+morseCode[35] = " ";// " "
+
+string userInput;
+cout << "Input a message to translate into Morse code:" <<endl;
+getline(cin, userInput);
+
+string translate = "";
+string translate2 = "";
+for(int i = 0; i < userInput.length(); i++) 
+{  
+      int c = userInput[i] - 97;
+      if (c >= 0 && c <=25) 
+      {
+           translate += morseCode[c] + morseCode[35];
+      }
+      for(char sim='0'; sim <='9'; sim++)
+      {
+          string str = "";
+          str+=sim;
+           if(userInput == str)
+           {
+               int c = userInput[i] - 23;
+            translate2 += morseCode[c] + morseCode[35];
+           }
+      }
+}
+
+cout << translate<<" "<<translate2<<" ";
+return 0;
+}
