@@ -1,0 +1,111 @@
+//2008m. vbe 17 psl
+//transportas
+
+#include <iostream>
+#include <fstream>
+#include <cmath>
+#include <string>
+const char SF[]="duom.txt";
+const char RF[]="ans.txt";
+using namespace std;
+void skaitau(int B[], int didzskc, string stot, int &l, char &c, const char SF[], int &n, int &n1, int A[]);
+int main()
+{   int n,l,didzskc;
+    int n1=0;
+    char c;
+    string stot;
+    int A[100]={0};
+    int B[100]={0};
+    skaitau(B,didzskc,stot,l,c,SF,n,n1,A);
+    return 0;
+}
+void skaitau(int B[], int didzskc, string stot, int &l, char &c, const char SF[], int &n, int &n1, int A[]){
+int x;
+ifstream sf(SF);
+sf>>n;
+for(int i=0; i<n; i++){
+        sf>>stot;
+        c=sf.get();
+        if(c==' '){
+            c=sf.get();
+        }
+        while(isalpha(c)!=0){
+            c=sf.get();
+        }
+        sf>>n1;
+        for(int y=0; y<n1; y++){
+           sf>>x;
+            for(int l=0; l<100; l++){
+                if(l==x){
+                A[l]++;
+            }
+        }
+}
+}
+
+int maxx=0;
+for(int i=0; i<100; i++){
+    if(A[i]>=maxx){
+        maxx=A[i];
+    }
+}
+for(int i=0; i<100; i++){
+    if(A[i]==maxx){
+        didzskc=i;
+        break;
+    }
+}
+ofstream rf(RF);
+rf<<didzskc<<endl;
+ifstream bf(SF);
+bf>>n;
+for(int i=0; i<n; i++){
+        bf>>stot;
+        c=bf.get();
+        if(c==' '){
+            c=bf.get();
+        }
+
+
+        while(isalpha(c)!=0){
+            c=bf.get();
+        }
+        bf>>n1;
+        for(int y=0; y<n1; y++){
+           bf>>x;
+           if(x==didzskc){
+            B[i]=1;
+           }
+        }
+}
+ifstream cf(SF);
+cf>>n;
+for(int i=0; i<n; i++){
+        cf>>stot;
+        if(B[i]==1){
+        rf<<stot;
+        }
+        c=cf.get();
+        if(B[i]==1){
+        rf<<c;
+        }
+        if(c==' '){
+            c=cf.get();
+            if(B[i]==1){
+                rf<<c;
+            }
+        }
+        while(isalpha(c)!=0){
+            c=cf.get();
+        if(B[i]==1){
+        rf<<c;
+}
+}
+cf>>n1;
+for(int y=0; y<n1; y++){
+    cf>>x;
+}
+if(B[i]==1){
+rf<<" "<<endl;
+}
+}}
