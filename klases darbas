@@ -1,0 +1,65 @@
+#include <iostream>
+#include <fstream>
+using namespace std;
+const char FR[]="duom.txt";
+const char FW[]="ans.txt";
+
+void skaitom(const char FR[], int A[], int &k);
+void rusiuojam(int A[], int k);
+void pasikartojantys(int A[], int k, int &n);
+void Irasymas (const char FW[], int A[], int k);
+
+int main()
+{
+    int A[100], k, n;
+    skaitom(FR,A,k);
+    rusiuojam(A, k);
+    pasikartojantys(A,k,n);
+    Irasymas(FW, A, n);
+    return 0;
+}
+void skaitom (const char FR[], int A[], int &k)
+{
+  ifstream fr(FR);
+  fr>>k;
+  for(int i=0; i<k; i++)
+    {
+      fr>>A[i];
+    }
+}
+void rusiuojam(int A[], int k)
+{
+    int a=0;
+    for(int i=0; i<k; i++){
+        for(int y=i; y<k; y++){
+            if(A[i]>A[y]){
+                a=A[i];
+                A[i]=A[y];
+                A[y]=a;
+            }
+        }
+    }
+
+}
+
+void pasikartojantys(int A[], int k, int &n)
+{
+    int a=0;
+    for(int i=0; i<k; i++){
+        for(int y=i+1; y<k; y++){
+            if(A[i]==A[y]){
+               A[0+k]=A[i];
+                n++;
+            }
+        }
+    }
+
+}
+void Irasymas (const char FW[], int A[], int n)
+{
+    ofstream fw(FW);
+    for(int i=0; i<n; i++){
+    fw<<A[i]<<" ";
+   }
+
+}
