@@ -109,3 +109,121 @@ if(B[i]==1){
 rf<<" "<<endl;
 }
 }}
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////2009 VBE MAINAI/////////////////////////////////////////////////////////////////////
+
+
+#include <iostream>
+#include <fstream>
+#include <iomanip>
+#include <algorithm>
+#include <string>
+using namespace std;
+const char FR[]="duom.txt";
+const char FW[]="ans.txt";
+
+void skaitom(const char FR[], int a[], int b[], int &k, int &n, int &sum, int &g, int &sum2);
+void Skaiciavimas(int a[], int b[], int n, int k, int sum,int ats[], int ats2[], int sum2);
+void Irasymas (const char FW[], int a[], int k, int n, int g, int ats[], int ats2[]);
+
+int main()
+{
+    int a[3000], b[3000], k, n,g, sum,sum2, ats[3000], ats2[3000];
+    skaitom(FR,a,b,k,n,sum, g, sum2);
+    Skaiciavimas(a,b,n,k,sum, ats, ats2, sum2);
+    Irasymas(FW, a, k, n, g, ats, ats2);
+    return 0;
+}
+void skaitom (const char FR[], int a[], int b[], int &k, int &n, int &sum, int &g, int &sum2)
+{
+  sum2=0;
+  sum=0;
+  g=0;
+  ifstream fr(FR);
+  fr>>k;
+      for(int i=0; i<k; i++)
+        {
+          fr>>a[i];
+          g++;
+        }
+        for(int i=0; i<k; i++)
+        {
+        fr>>b[i];
+        }
+        for(int i=0; i<k; i++)
+        {
+         sum=sum+a[i]*b[i];
+        }
+    fr>>n;
+    for(int i=g; i<n+g; i++)
+    {
+      fr>>a[i];
+    }
+    for(int i=g; i<n+g; i++)
+    {
+      fr>>b[i];
+    }
+    for(int i=g; i<n+g; i++)
+        {
+         sum2=sum2+a[i]*b[i];
+        }
+}
+void Skaiciavimas(int a[], int b[], int n, int k, int sum, int ats[], int ats2[], int sum2)
+{
+    int lol=0;
+    int lol2=0;
+    int m=0;
+    int m2=0;
+    int g=0;
+    int g2=0;
+     for(int i=0; i<n+k; i++)
+    {
+        if(i>=6)
+        {
+            lol=sum%a[i];
+            m=(sum-lol)/a[i];
+            sum=lol;
+            ats[0+g]=m;
+            g++;
+        }
+    }
+      for(int i=0; i<n+k; i++)
+    {
+        if(i<6)
+        {
+            lol2=sum2%a[i];
+            m2=(sum2-lol2)/a[i];
+            sum2=lol2;
+            ats2[0+g2]=m2;
+            g2++;
+        }
+    }
+}
+
+void Irasymas (const char FW[], int a[],int k, int n,int g, int ats[], int ats2[])
+{
+    int l=0;
+    int t=0;
+    ofstream fw(FW);
+    for(int i=0; i<n+g; i++)
+    {
+        if(i>=6)
+        {
+        fw<<a[i]<<" "<<ats[i-k]<<endl;
+        l=l+ats[i-k];
+        }
+    }
+   fw<<l<<endl;
+   for(int i=0; i<k+g-2; i++)
+   {
+    if(i<6)
+        {
+        fw<<a[i]<<" "<<ats2[i]<<endl;
+        t=t+ats2[i];
+        }
+   }
+   fw<<t;
+}
+
