@@ -227,3 +227,57 @@ void Irasymas (const char FW[], int a[],int k, int n,int g, int ats[], int ats2[
    fw<<t;
 }
 
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+\\\\\\\\\\\\\\\\\\\\\\\chess tournament///////////////////////////////////
+
+#include <iostream>
+#include <fstream>
+#include <iomanip>
+#include <algorithm>
+#include <string>
+
+using namespace std;
+
+const char FR[]="duom.txt";
+const char FW[]="ans.txt";
+
+void skaitom(const char FR[], int a[], int &n);
+void skaiciuojam(int a[], int &n);
+
+int main()
+{   int a[1000], n, ats;
+       skaitom (FR,a, n);
+       skaiciuojam(a,n);
+    return 0;
+}
+
+void skaitom(const char FR[], int a[], int &n)
+{
+    ifstream fr(FR);
+    fr>>n;
+    for(int i=0; i<n; i++)
+    {
+      for(int j=0; j<6; j++)
+      {
+          fr>>a[j];
+      }
+    }
+}
+void skaiciuojam(int a[], int &n)
+{
+    int a1=0;
+    int b=0;
+    int c=0;
+    int d=0;
+    int e=0;
+     for(int i=0; i<n; i++)
+    {
+      for(int j=0; j<6; j++)
+      {
+        a1=a[j];
+        a1
+      }
+    }
+}
+
+
