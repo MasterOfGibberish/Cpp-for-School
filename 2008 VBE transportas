@@ -228,7 +228,7 @@ void Irasymas (const char FW[], int a[],int k, int n,int g, int ats[], int ats2[
 }
 
 \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-\\\\\\\\\\\\\\\\\\\\\\\chess tournament///////////////////////////////////
+\\\\\\\\\\\\\\\\\\\\\\\2010 VBE chess tournament///////////////////////////////////
 
 #include <iostream>
 #include <fstream>
@@ -241,18 +241,23 @@ using namespace std;
 const char FR[]="duom.txt";
 const char FW[]="ans.txt";
 
-void skaitom(const char FR[], int a[], int &n);
-void skaiciuojam(int a[], int &n);
+void skaitom(const char FR[], int a[], int n);
+
 
 int main()
-{   int a[1000], n, ats;
+{   int a[100], n;
        skaitom (FR,a, n);
-       skaiciuojam(a,n);
     return 0;
 }
 
-void skaitom(const char FR[], int a[], int &n)
+void skaitom(const char FR[], int a[], int n)
 {
+    int a1=0;
+    int b=0;
+    int c=0;
+    int d=0;
+    int e=0;
+    int f=0;
     ifstream fr(FR);
     fr>>n;
     for(int i=0; i<n; i++)
@@ -260,24 +265,53 @@ void skaitom(const char FR[], int a[], int &n)
       for(int j=0; j<6; j++)
       {
           fr>>a[j];
+          if(j==0)
+          {
+           a1+=a[j];
+           //cout<<a1<<" ";
+          }
+          if(j==1)
+          {
+           b+=a[j];
+          }
+          if(j==2)
+          {
+           c+=a[j];
+          }
+          if(j==3)
+          {
+           d+=a[j];
+          }
+          if(j==4)
+          {
+           e+=a[j];
+          }
+           if(j==5)
+          {
+           f+=a[j];
+          }
       }
     }
-}
-void skaiciuojam(int a[], int &n)
-{
-    int a1=0;
-    int b=0;
-    int c=0;
-    int d=0;
-    int e=0;
-     for(int i=0; i<n; i++)
+    a1=a1/8;
+    b=b/2;
+    c=c/2;
+    d=d/2;
+     int A[]={a1,b,c,d,e,f};
+     int g=0;
+     int ats=0;
+    for(int i=0; i<6; i++)
     {
-      for(int j=0; j<6; j++)
-      {
-        a1=a[j];
-        a1
-      }
+        for(int y=i; y<6; y++)
+        {
+            if(A[i]>A[y])
+            {
+                g=A[i];
+                A[i]=A[y];
+                A[y]=g;
+            }
+        }
     }
+    ats=A[0];
+    ofstream fw(FW);
+    fw<<ats;
 }
-
-
