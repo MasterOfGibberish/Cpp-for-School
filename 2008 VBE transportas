@@ -241,23 +241,26 @@ using namespace std;
 const char FR[]="duom.txt";
 const char FW[]="ans.txt";
 
-void skaitom(const char FR[], int a[], int n);
-
+void skaitom(const char FR[], int a[], int n, int &a1, int &b,int &c, int &d, int &e, int &f);
+void skaiciuojam(int a1, int b,int c, int d, int e, int f, int &ats);
+void Irasymas(int ats);
 
 int main()
-{   int a[100], n;
-       skaitom (FR,a, n);
+{   int a[100], n, a1,b,c,d,e,f, ats;
+       skaitom (FR,a,n,a1,b,c,d,e,f);
+       skaiciuojam(a1,b,c,d,e,f,ats);
+       Irasymas(ats);
     return 0;
 }
 
-void skaitom(const char FR[], int a[], int n)
+void skaitom(const char FR[], int a[], int n, int &a1, int &b,int &c, int &d, int &e, int &f)
 {
-    int a1=0;
-    int b=0;
-    int c=0;
-    int d=0;
-    int e=0;
-    int f=0;
+    a1=0;
+    b=0;
+    c=0;
+    d=0;
+    e=0;
+    f=0;
     ifstream fr(FR);
     fr>>n;
     for(int i=0; i<n; i++)
@@ -268,7 +271,6 @@ void skaitom(const char FR[], int a[], int n)
           if(j==0)
           {
            a1+=a[j];
-           //cout<<a1<<" ";
           }
           if(j==1)
           {
@@ -292,13 +294,17 @@ void skaitom(const char FR[], int a[], int n)
           }
       }
     }
+}
+
+
+void skaiciuojam(int a1, int b,int c, int d, int e, int f, int &ats)
+{
     a1=a1/8;
     b=b/2;
     c=c/2;
     d=d/2;
      int A[]={a1,b,c,d,e,f};
      int g=0;
-     int ats=0;
     for(int i=0; i<6; i++)
     {
         for(int y=i; y<6; y++)
@@ -312,6 +318,10 @@ void skaitom(const char FR[], int a[], int n)
         }
     }
     ats=A[0];
+}
+
+void Irasymas(int ats)
+{
     ofstream fw(FW);
     fw<<ats;
 }
