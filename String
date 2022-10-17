@@ -1,0 +1,38 @@
+//Stringu funkcijos:
+
+Gauti string simbolį: char test = testStr1[2];
+Gauti string ilgį : int totalChars = testStr1.Length;
+Gauti string iskarpą : string test = testStr1.Substring(5, 10);
+Suformatuoti : Format() šita jau naudojom daug kartų su Console.Write(); String.Format("The
+temperature is {0}°C.", temp);
+Pašalinti : Remove()
+Pakeisti : Replace()
+Įterpti : Insert()
+Sujungti : Concat()
+Išskaidyti : Split()
+Sujungti daug string, įdedant simbolius tarp jų. : Join()
+Palyginti : Compare()
+Patikrinti string : IsNullOrEmpty, IsNullOrWhiteSpace
+Gauti kopiją : Clone()
+Convert : ToCharArray()
+Surasti : IndexOf(), LastIndexOf(), IndexOfAny(), StartsWith(), EndsWith();
+Pakeisi didžiąsias: ToLower(), ToUpper()
+Apkarpyti : Trim(), TrimEnd(), TrimStart()
+Gauti string simbolį: char test = testStr1[2];
+Gauti string ilgį : int totalChars = testStr1.Length;
+Gauti string iskarpą : string test = testStr1.Substring(5, 10);
+Suformatuoti : Format() šita jau naudojom daug kartų su Console.Write(); String.Format("The
+temperature is {0}°C.", temp);
+Pašalinti : Remove()
+Pakeisti : Replace()
+Įterpti : Insert()
+Sujungti : Concat()
+Išskaidyti : Split()
+Sujungti daug string, įdedant simbolius tarp jų. : Join()
+Palyginti : Compare()
+Patikrinti string : IsNullOrEmpty, IsNullOrWhiteSpace
+Gauti kopiją : Clone()
+Convert : ToCharArray()
+Surasti : IndexOf(), LastIndexOf(), IndexOfAny(), StartsWith(), EndsWith();
+Pakeisi didžiąsias: ToLower(), ToUpper(), ToLowerInvariant(), ToUpperInvariant()
+Apkarpyti : Trim(), TrimEnd(), TrimStart()
