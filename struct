@@ -1,0 +1,58 @@
+#include <iostream>
+#include <fstream>
+#include <cmath>
+#include <string>
+const char SF[]="duom.txt";
+const char RF[]="ans.txt";
+
+using namespace std;
+struct Duomenys
+{
+    string miestas;
+    int kiekis;
+    int vieta=0;
+    int n=0;
+    int A[20]={0};
+    int vidurkis[2];
+};
+
+void Skaityti (const char SF[], Duomenys A[], int &n1);
+void Skaiciuoti (Duomenys A[], int n1);
+int main()
+{  
+    int n1;
+    Duomenys A[3];
+    Skaityti(SF,A, n1);
+    return 0;
+}
+
+void Skaityti(const char SF[], Duomenys A[], int &n1)
+{
+    int vidurkis=0;
+    ifstream sf(SF);
+    ofstream rf(RF);
+     sf>>n1;
+     for(int i=0; i<n1;i++)
+     {
+         sf>>A[i].miestas>>A[i].kiekis;
+         for(int j=0; j<A[i].kiekis; j++)
+         {
+             sf>>A[i].A[i];
+             vidurkis+=A[i].A[i];
+         }
+         vidurkis=vidurkis/A[i].kiekis;
+         A[i].vidurkis[i]=vidurkis;
+         cout<<A[i].vidurkis[i]<<" ";
+         vidurkis=0;
+         rf<<A[i].miestas<<"     "<<A[i].vidurkis[i]<<" vieta"<<endl;
+     }
+       rf<<" "<<endl;
+    rf<<"Daugiausiai medaliu iskovojes miestas:"<<endl;
+}
+
+
+
+
+
+
+
