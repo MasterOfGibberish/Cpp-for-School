@@ -136,7 +136,8 @@ void Irasyti(const char RF[],Duomenys A[], int n1, int vyriausias)
          {
              rf<<" Vyriausias Lietuvos krepsinio rinktines zaidejas:"<<endl;
              rf<<A[i].vardas<<" "<<A[i].pavarde<<" "
-            <<A[i].pozicija<<" "<<A[i].ugis<<" "<<A[i].svoris<<" "<<A[i].metai<<endl;
+            <<A[i].pozicija<<" "<<A[i].ugis<<" "<<"cm"<<" "<<A[i].svoris<<" "<<"KG"<<
+            " "<<A[i].metai<<" "<<"metai"<<endl;
          }
      }
       rf<<" "<<endl;
@@ -145,14 +146,12 @@ void Irasyti(const char RF[],Duomenys A[], int n1, int vyriausias)
      {
          if(A[i].pozicija=="PF" || A[i].pozicija=="SF")
         {
-         rf<<A[i].vardas<<" "<<A[i].pavarde<<" "
-         <<A[i].pozicija<<" "<<A[i].ugis<<" "<<A[i].svoris<<" "<<A[i].metai<<endl;
+        rf<<A[i].vardas<<" "<<A[i].pavarde<<" "
+            <<A[i].pozicija<<" "<<A[i].ugis<<" "<<"cm"<<" "<<A[i].svoris<<" "<<"KG"<<
+            " "<<A[i].metai<<" "<<"metai"<<endl;
         } 
     }
 }
-
-
-
 
 
 
