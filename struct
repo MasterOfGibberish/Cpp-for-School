@@ -70,3 +70,91 @@ void Skaityti(const char SF[], Duomenys A[], int &n1)
         }
     }
 }
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+////////rinktine ////////////////////////
+
+
+#include <iostream>
+#include <fstream>
+#include <cmath>
+#include <string>
+const char SF[]="duom.txt";
+const char RF[]="ans.txt";
+
+using namespace std;
+struct Duomenys
+{
+  string vardas;
+  string pavarde;
+  string pozicija;
+  int ugis;
+  int svoris;
+  int metai;
+};
+
+void Skaityti (const char SF[], Duomenys A[], int &n1);
+void Vyriausias (Duomenys A[], int n1, int &vyriausias);
+void Irasyti(const char RF[], Duomenys A[], int n1, int vyriausias);
+
+int main()
+{  
+    int n1, vyriausias;
+    Duomenys A[12];
+    Skaityti(SF, A, n1);
+    Vyriausias(A,n1, vyriausias);
+    Irasyti(RF,A,n1, vyriausias);
+    return 0;
+}
+
+void Skaityti(const char SF[], Duomenys A[], int &n1)
+{
+    ifstream sf(SF);
+     sf>>n1;
+     for(int i=0; i<n1;i++)
+     {
+      sf>>A[i].vardas>>A[i].pavarde>>A[i].pozicija>>A[i].ugis>>A[i].svoris>>A[i].metai;
+     }
+ 
+}
+void Vyriausias (Duomenys A[], int n1, int &vyriausias)
+{
+     vyriausias=0;
+    for(int i=0; i<n1;i++)
+    {
+        if(A[i].metai>=vyriausias)
+        {
+            vyriausias=A[i].metai;
+        }
+    }
+}
+void Irasyti(const char RF[],Duomenys A[], int n1, int vyriausias)
+{
+    ofstream rf(RF);
+    for(int i=0; i<n1;i++)
+     {
+         if(A[i].metai==vyriausias)
+         {
+             rf<<" Vyriausias Lietuvos krepsinio rinktines zaidejas:"<<endl;
+             rf<<A[i].vardas<<" "<<A[i].pavarde<<" "
+            <<A[i].pozicija<<" "<<A[i].ugis<<" "<<A[i].svoris<<" "<<A[i].metai<<endl;
+         }
+     }
+      rf<<" "<<endl;
+      rf<<"Lietuvos rinktines puolejai:"<<endl;
+   for(int i=0; i<n1;i++)
+     {
+         if(A[i].pozicija=="PF" || A[i].pozicija=="SF")
+        {
+         rf<<A[i].vardas<<" "<<A[i].pavarde<<" "
+         <<A[i].pozicija<<" "<<A[i].ugis<<" "<<A[i].svoris<<" "<<A[i].metai<<endl;
+        } 
+    }
+}
+
+
+
+
+
+
+
+
