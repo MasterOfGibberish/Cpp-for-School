@@ -154,6 +154,43 @@ void Irasyti(const char RF[],Duomenys A[], int n1, int vyriausias)
 }
 
 
+///////////////////////////////////////////////////////////////////////////////////
 
+
+#include <iostream>
+#include <fstream>
+#include <cmath>
+#include <string>
+const char SF[]="duom.txt";
+const char RF[]="ans.txt";
+
+using namespace std;
+void Skaityti (const char SF[],  int &n1, string bals[], string dalyv[]);
+int main()
+{
+    int n1;
+    string bals[50], dalyv[50];
+   Skaityti(SF, n1, bals, dalyv);
+    return 0;
+}
+
+void Skaityti(const char SF[], int &n1, string bals[], string dalyv[])
+{
+    string praleidziam;
+    ifstream sf(SF);
+     sf>>n1;
+     for(int i=0; i<n1;i++)
+     {
+         sf.ignore();
+         char temp[20], temp2[17];
+         sf.get(temp, 20);
+         sf.ignore();
+         bals[i]= temp;
+         dalyv[i]= temp2;
+         cout<<temp2<<" ";
+     }
+    
+ 
+}
 
 
