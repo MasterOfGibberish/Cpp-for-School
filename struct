@@ -161,36 +161,126 @@ void Irasyti(const char RF[],Duomenys A[], int n1, int vyriausias)
 #include <fstream>
 #include <cmath>
 #include <string>
+
 const char SF[]="duom.txt";
 const char RF[]="ans.txt";
+const int CMax= 12;
+const int CPav= 20;
 
 using namespace std;
-void Skaityti (const char SF[],  int &n1, string bals[], string dalyv[]);
-int main()
+
+struct Duomenys
 {
-    int n1;
+  string vardas;
+  int balsai;
+};
+
+void Skaityti (const char SF[], int &n, string bals[], string dalyv[], int &raktas);
+void Skaiciuoti (Duomenys A[], string dalyv[], int n, int &max);
+void Irasymas (const char RF[], Duomenys A[], int max, int raktas);
+
+int main()
+{  
+    int n, max, raktas;
+    Duomenys A[CMax];
     string bals[50], dalyv[50];
-   Skaityti(SF, n1, bals, dalyv);
+    Skaityti(SF, n, bals, dalyv, raktas);
+    Skaiciuoti(A, dalyv, n, max);
+    Irasymas(RF, A, max, raktas);
     return 0;
 }
 
-void Skaityti(const char SF[], int &n1, string bals[], string dalyv[])
+void Skaityti(const char SF[], int &n, string bals[], string dalyv[], int &raktas)
 {
-    string praleidziam;
+    raktas=0;
     ifstream sf(SF);
-     sf>>n1;
-     for(int i=0; i<n1;i++)
+    char temp[CMax+1], temp2[CPav+1];
+     sf>>n;
+     sf.ignore(80, '\n');
+     for(int i=0; i<n;i++)
      {
-         sf.ignore();
-         char temp[20], temp2[17];
-         sf.get(temp, 20);
-         sf.ignore();
-         bals[i]= temp;
-         dalyv[i]= temp2;
-         cout<<temp2<<" ";
+            sf.get(temp, CMax, '.');
+            sf.ignore(2);
+             sf.get(temp2, CPav, ' ');
+             bals[i]= temp;
+             dalyv[i]= temp2;
+             sf.ignore(80, '\n');
+         
      }
-    
- 
+     
+     for(int i=0; i<n;i++)
+     {
+         for(int j=i+1; j<n;j++)
+         {
+             if(bals[i]==bals[j])
+             {
+                raktas=1;
+             }
+             
+         }
+         
+     }
+}
+
+void Skaiciuoti(Duomenys A[], string dalyv[], int n, int &max)
+{
+     A[0].balsai=0;
+     A[1].balsai=0;
+     A[2].balsai=0;
+     A[3].balsai=0;
+    for(int i=0; i<n;i++)
+     {
+         if(dalyv[i]=="Vaidotas")
+         {
+             A[0].balsai++;
+             A[0].vardas="Vaidotas Vaicius";
+         }
+         if(dalyv[i]=="Lukas")
+         {
+             A[1].balsai++;
+             A[1].vardas="Lukas Kulnelis";
+         }
+         if(dalyv[i]=="Tadas")
+         {
+             A[2].balsai++;
+             A[2].vardas="Tadas Liutika";
+         }
+         if(dalyv[i]=="Justinas")
+         {
+             A[3].balsai++;
+             A[3].vardas="Justinas Meleta";
+         }
+     }
+     max=0;
+     for(int i=0; i<4; i++)
+    {
+       if(A[i].balsai>max)
+       {
+           max=A[i].balsai;
+       }
+    }
+}
+
+void Irasymas (const char RF[], Duomenys A[], int max, int raktas)
+{
+    ofstream rf(RF);
+    if(raktas==1)
+    {
+        rf<<"RINKIMAI SUKLASTOTI!!!";
+    }
+    else
+    {
+        for(int i=0; i<4; i++)
+        {
+             if(A[i].balsai==max)
+             {
+                 rf<<"laimejo:  "<<A[i].vardas<<" surinkes: "<<max<<" balsus"<<endl;
+                 rf<<" "<<endl;
+                 rf<<"Visu balsu suvestine:"<<endl;
+             }
+            rf<<A[i].vardas<<" "<<A[i].balsai<<endl;
+        }
+    }
 }
 
 
