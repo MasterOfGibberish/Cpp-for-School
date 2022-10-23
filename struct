@@ -282,5 +282,116 @@ void Irasymas (const char RF[], Duomenys A[], int max, int raktas)
         }
     }
 }
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////
+//////////////////////////
+void Naikiname(Duomenys A[], int n)
+{
+  for(int i=0; i<n; i++)
+    {
+        for(int j=i+1; i<n;j++)
+        {
+            if((A[i].vardas==A[j].vardas) && (A[i].pavarde==A[j].pavarde))
+            {
+                cout<<"yvgvghvghv ";
+
+            }
+        }
+    }
+
+}
+////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#include <iostream>
+#include <fstream>
+#include <cmath>
+#include <string>
+const char SF[]="duom.txt";
+const char SF2[]="duom2.txt";
+const char RF[]="akatsukai.txt";
+
+using namespace std;
+struct Duomenys
+{
+  string vardas;
+  string pavarde;
+  string pozicija;
+  int ugis;
+  int svoris;
+  int metai;
+};
+
+void Skaityti (const char SF[],const char SF2[], Duomenys A[], int n1, int n2, int &n);
+void Vyriausias (Duomenys A[], int n, int &vyriausias);
+void Irasyti(const char RF[], Duomenys A[], int n, int vyriausias);
+
+int main()
+{
+    int n1,n2,n, vyriausias;
+    Duomenys A[50];
+    Skaityti(SF,SF2, A, n, n2, n);
+   Vyriausias(A,n, vyriausias);
+    Irasyti(RF,A,n, vyriausias);
+    return 0;
+}
+
+void Skaityti(const char SF[],const char SF2[], Duomenys A[],int n1, int n2, int &n)
+{
+    ifstream sf(SF);
+     ifstream sf2(SF2);
+     sf>>n1;
+     sf2>>n2;
+     n=n1+n2;
+     for(int i=0; i<n1;i++)
+     {
+      sf>>A[i].vardas>>A[i].pavarde>>A[i].pozicija>>A[i].ugis>>A[i].svoris>>A[i].metai;
+     }
+     for(int i=n1; i<n1+n2;i++)
+     {
+         sf2>>A[i].vardas>>A[i].pavarde>>A[i].pozicija>>A[i].ugis>>A[i].svoris>>A[i].metai;
+     }
+
+
+}
+void Vyriausias (Duomenys A[], int n, int &vyriausias)
+{
+     vyriausias=0;
+    for(int i=0; i<n;i++)
+    {
+        if(A[i].ugis>=vyriausias)
+        {
+            vyriausias=A[i].ugis;
+        }
+    }
+
+}
+void Irasyti(const char RF[],Duomenys A[], int n, int vyriausias)
+{
+       ofstream rf(RF);
+    for(int i=0; i<n;i++)
+     {
+         if(A[i].ugis==vyriausias)
+         {
+             rf<<" Vyriausias Lietuvos krepsinio rinktines zaidejas:"<<endl;
+             rf<<A[i].vardas<<" "<<A[i].pavarde<<" "
+            <<A[i].pozicija<<" "<<A[i].ugis<<" "<<"cm"<<" "<<A[i].svoris<<" "<<"KG"<<
+            " "<<A[i].metai<<" "<<"metai"<<endl;
+         }
+     }
+      rf<<" "<<endl;
+      rf<<"Lietuvos rinktines puolejai:"<<endl;
+   for(int i=0; i<n;i++)
+     {
+         if(A[i].pozicija=="PF" || A[i].pozicija=="SF")
+        {
+         rf<<A[i].vardas<<" "<<A[i].pavarde<<" "
+            <<A[i].pozicija<<" "<<A[i].ugis<<" "<<"cm"<<" "<<A[i].svoris<<" "<<"KG"<<
+            " "<<A[i].metai<<" "<<"metai"<<endl;
+        } 
+    }
+}
+
 
 
