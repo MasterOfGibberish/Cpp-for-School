@@ -393,5 +393,78 @@ void Irasyti(const char RF[],Duomenys A[], int n, int vyriausias)
     }
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////RINKITINE 110PSL//////////////////////////////////////////////////////////////////////////
+
+#include <iostream>
+#include <fstream>
+#include <cmath>
+#include <string>
+
+const char FR[]="duom.txt";
+const char FW[]="ans.txt";
+using namespace std;
+
+struct Duomenys{
+    string vardas;
+    int ugis;
+    int taskai;
+};
+
+void Skaityti(const char FR[], Duomenys A[], int &n, int &p, int &k);
+void Skaiciuoti(Duomenys A[], int n, int p, int k, int &auksciausias, int &g);
+void Irasyti (const char FW[], int n, Duomenys A[], int g, int k);
+int main()
+{
+  int n,p,k,g, auksciausias;
+  Duomenys A[40];
+  Skaityti(FR, A, n, p, k);
+  Skaiciuoti(A,n,p,k, auksciausias, g);
+  Irasyti(FW, n, A, g, k);
+
+    return 0;
+}
+
+void Skaityti(const char FR[], Duomenys A[], int &n, int &p, int &k)
+{
+     ifstream fr(FR);
+     fr>>n;
+     for(int i=0; i<n;i++)
+     {
+      fr>>A[i].vardas>>A[i].ugis>>A[i].taskai;
+     }
+     fr>>p>>k;
+}
+
+void Skaiciuoti(Duomenys A[], int n, int p, int k, int &auksciausias, int &g)
+{
+    double procentas=0;
+    auksciausias=0;
+    g=0;
+    procentas=(100-p)*0.01;
+    for(int i=0; i<n; i++)
+    {
+     if(A[i].ugis>=auksciausias)
+        {
+            auksciausias=A[i].ugis;
+        }
+    }
+    g = auksciausias*procentas;
+
+}
+
+void Irasyti (const char FW[], int n, Duomenys A[], int g, int k)
+{
+    ofstream fw(FW);
+    fw<<"VARDAS UGIS TASKAI:"<<endl;
+    for(int i=0; i<n; i++)
+    {
+       if(A[i].ugis>=g || A[i].taskai>=k)
+       {
+           fw<<A[i].vardas<<"  "<<A[i].ugis<<"  "<<A[i].taskai<<endl;
+       }
+    }
+
+}
 
 
