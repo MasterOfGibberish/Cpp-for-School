@@ -466,5 +466,75 @@ void Irasyti (const char FW[], int n, Duomenys A[], int g, int k)
     }
 
 }
+//////////////////////////////////////////
 
+/////////////////////////////////
+
+
+#include <iostream>
+#include <fstream>
+#include <cmath>
+#include <string>
+
+const char FR[]="duom.txt";
+const char FR2[]="duom2.txt";
+const char FW[]="ans.txt";
+
+using namespace std;
+struct Duomenys{
+   string vardas;
+   string pavarde;
+   int butonr;
+   double siluma, elektra, vanduo;
+};
+void Skaityti (const char FR[], const char FR2[], Duomenys A[], int &n);
+void Bandom (int n);
+int main()
+{
+   int n;
+   Duomenys A[200];
+   Skaityti(FR,FR2,A,n);
+   Bandom (n);
+    return 0;
+}
+void Skaityti(const char FR[], const char FR2[], Duomenys A[], int &n)
+{
+    int m=0;
+    ifstream fr(FR);
+    ifstream fr2(FR2);
+    fr>>n;
+    for(int i=0; i<n; i++)
+    {
+        fr>>A[i].vardas>>A[i].pavarde>>A[i].butonr>>A[i].siluma>>A[i].elektra>>A[i].vanduo;
+    }
+    fr2>>m;
+    for(int i=5; i<n+m; i++)
+    {
+        fr2>>A[i].vardas>>A[i].pavarde>>A[i].butonr>>A[i].siluma>>A[i].elektra>>A[i].vanduo;
+    }
+    n=n+m;
+}
+
+void Bandom (int n)
+{
+    cout<<n;
+}
+
+
+///////////////////////
+
+
+5
+Pirmasis Petras 15 5.5 0.0 -54.0
+Antrute Jurgita 13 -25.05 2.5 -13
+Katyte Pilkute 1 0.0 0.0 0.0
+Katinas Batuotas 16 -5.5 -18.2 -45.0
+Basas Algis 14 2.2 2.2 2.2
+///////////////////////////
+
+
+3 
+Pirmasis Petras 15 0.0 0.0 14.0
+Katyte Pilkute 1 3.0 0.0 3.0
+Basas Algis 14 15.0 0.2 12.0
 
