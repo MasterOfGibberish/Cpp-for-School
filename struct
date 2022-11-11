@@ -407,8 +407,7 @@ using namespace std;
 
 struct Duomenys{
     string vardas;
-    int ugis;
-    int taskai;
+    double ugis, taskai;
 };
 
 void Skaityti(const char FR[], Duomenys A[], int &n, int &p, int &k);
@@ -464,7 +463,6 @@ void Irasyti (const char FW[], int n, Duomenys A[], int g, int k)
            fw<<A[i].vardas<<"  "<<A[i].ugis<<"  "<<A[i].taskai<<endl;
        }
     }
-
 }
 //////////////////////////////////////////
 
@@ -488,13 +486,15 @@ struct Duomenys{
    double siluma, elektra, vanduo;
 };
 void Skaityti (const char FR[], const char FR2[], Duomenys A[], int &n);
-void Bandom (int n);
+void Skaiciuojame(Duomenys A[],int &n);
+void Irasome(const char FW[], Duomenys A[], int n);
 int main()
 {
    int n;
    Duomenys A[200];
    Skaityti(FR,FR2,A,n);
-   Bandom (n);
+   Skaiciuojame(A,n);
+   Irasome(FW,A,n);
     return 0;
 }
 void Skaityti(const char FR[], const char FR2[], Duomenys A[], int &n)
@@ -515,26 +515,48 @@ void Skaityti(const char FR[], const char FR2[], Duomenys A[], int &n)
     n=n+m;
 }
 
-void Bandom (int n)
+void Skaiciuojame(Duomenys A[], int &n)
 {
-    cout<<n;
+    int k=0;
+    for(int i=0; i<n;i++)
+    {
+        for(int j=i+1;j<n;j++)
+        {
+           if(A[i].vardas==A[j].vardas && A[i].pavarde==A[j].pavarde)
+           {
+              A[i].siluma+=A[j].siluma;
+              A[i].elektra+=A[j].elektra;
+              A[i].vanduo+=A[j].vanduo;
+              k++;
+           }
+        }
+    }
+    n-=k;
 }
-
-
-///////////////////////
-
-
-5
-Pirmasis Petras 15 5.5 0.0 -54.0
-Antrute Jurgita 13 -25.05 2.5 -13
-Katyte Pilkute 1 0.0 0.0 0.0
-Katinas Batuotas 16 -5.5 -18.2 -45.0
-Basas Algis 14 2.2 2.2 2.2
-///////////////////////////
-
-
-3 
-Pirmasis Petras 15 0.0 0.0 14.0
-Katyte Pilkute 1 3.0 0.0 3.0
-Basas Algis 14 15.0 0.2 12.0
-
+void Irasome(const char FW[], Duomenys A[], int n)
+{
+    ofstream fw(FW);
+    fw<<"--------------------------------------------------------"<<endl;
+    fw<<" Vardas, pavarde   Buto nr.  Sildymas  Elektra  Vanduo"<<endl;
+    fw<<"--------------------------------------------------------"<<endl;
+    for(int i=0;i<n;i++)
+    {
+        fw<<A[i].vardas<<" "<<A[i].pavarde<<" "<<A[i].butonr<<" "<<
+        A[i].siluma<<" "<<A[i].elektra<<" "<<A[i].vanduo<<endl;
+    }
+    fw<<"---------------------------------------------------"<<endl;
+    fw<<" "<<endl;
+    fw<<" "<<endl;
+    fw<<"--------------------------------------------------------"<<endl;
+    fw<<" Vardas, pavarde   Buto nr.  Sildymas  Elektra  Vanduo"<<endl;
+    fw<<"--------------------------------------------------------"<<endl;
+    for(int i=0;i<n;i++)
+    {
+        if(A[i].elektra<0 || A[i].siluma<0 || A[i].vanduo<0 )
+        {
+             fw<<A[i].vardas<<" "<<A[i].pavarde<<" "<<A[i].butonr<<" "<<
+             A[i].siluma<<" "<<A[i].elektra<<" "<<A[i].vanduo<<endl;
+        }
+    }
+    fw<<"---------------------------------------------------"<<endl;
+}
