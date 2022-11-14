@@ -473,6 +473,7 @@ void Irasyti (const char FW[], int n, Duomenys A[], int g, int k)
 #include <fstream>
 #include <cmath>
 #include <string>
+#include <iomanip>
 
 const char FR[]="duom.txt";
 const char FR2[]="duom2.txt";
@@ -541,7 +542,7 @@ void Irasome(const char FW[], Duomenys A[], int n)
     fw<<"--------------------------------------------------------"<<endl;
     for(int i=0;i<n;i++)
     {
-        fw<<A[i].vardas<<" "<<A[i].pavarde<<" "<<A[i].butonr<<" "<<
+        fw<<fixed<<setprecision(2)<<A[i].vardas<<" "<<A[i].pavarde<<" "<<A[i].butonr<<" "<<
         A[i].siluma<<" "<<A[i].elektra<<" "<<A[i].vanduo<<endl;
     }
     fw<<"---------------------------------------------------"<<endl;
@@ -554,9 +555,10 @@ void Irasome(const char FW[], Duomenys A[], int n)
     {
         if(A[i].elektra<0 || A[i].siluma<0 || A[i].vanduo<0 )
         {
-             fw<<A[i].vardas<<" "<<A[i].pavarde<<" "<<A[i].butonr<<" "<<
+             fw<<fixed<<setprecision(2)<<A[i].vardas<<" "<<A[i].pavarde<<" "<<A[i].butonr<<" "<<
              A[i].siluma<<" "<<A[i].elektra<<" "<<A[i].vanduo<<endl;
         }
     }
     fw<<"---------------------------------------------------"<<endl;
 }
+
