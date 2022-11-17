@@ -561,4 +561,98 @@ void Irasome(const char FW[], Duomenys A[], int n)
     }
     fw<<"---------------------------------------------------"<<endl;
 }
+///////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////Prekes 138psl.//////////////////////////////
+
+#include <iostream>
+#include <fstream>
+#include <iomanip>
+const char FR[]="duom.txt";
+const char FW[]="ats.txt";
+const int Max=20;
+const int data=11;
+
+using namespace std;
+
+struct Duomenys{
+  string pavadinimas,galiojimas;
+  int vartojimas;
+};
+void Skaityti(const char FR[], Duomenys A[], int &n);
+void Tikrinimas(Duomenys A[], int n, string &kintamasis, string &kintamasis2);
+void Irasymas(const char FW[], Duomenys A[], int n, string kintamasis, string kintamasis2);
+
+int main()
+{ int n;
+   string kintamasis, kintamasis2;
+    Duomenys A[100];
+    Skaityti(FR,A,n);
+    Tikrinimas(A,n, kintamasis, kintamasis2);
+    Irasymas(FW, A, n, kintamasis, kintamasis2);
+    return 0;
+}
+
+void Skaityti(const char FR[], Duomenys A[], int &n)
+{
+    ifstream fr(FR);
+    int k=0;
+    char name[Max+1], laikas[data+1];
+    fr>>n;
+    fr.ignore(80,'\n');
+    for(int i=0;i<n;i++)
+    {
+        fr.get(name,Max,'2');
+        A[i].pavadinimas=name;
+        fr.get(laikas, data);
+        A[i].galiojimas=laikas;
+        fr>>k;
+        A[i].vartojimas=k;
+        fr.ignore(80,'\n');
+    }
+}
+
+void Tikrinimas(Duomenys A[], int n, string &kintamasis, string &kintamasis2)
+{
+    kintamasis="";
+    kintamasis2="";
+    string ivestis="";
+
+    string belekas=""; //naudojamas tik, kad teisingai perskaitytu duomenis, taciau jis niekur nenaudojamas
+    cout<<"iveskite galiojimo data: "<<endl;
+
+    getline(cin,ivestis,'\n');
+    kintamasis=ivestis;
+    getline(cin, ivestis, '\n');
+    kintamasis2=ivestis;
+    getline(cin, belekas, '\n');
+    cout<<"-------------------------------"<<endl;
+    cout<<"jus ivedete"<<" "<<kintamasis<< " -"<<kintamasis2<<endl;
+    cout<<"-------------------------------"<<endl;
+
+
+}
+void Irasymas(const char FW[], Duomenys A[], int n, string kintamasis, string kintamasis2)
+{
+    int k=0;
+    int g=0;
+    double j=0.0;
+    ofstream fw(FW);
+    fw<<"-------------------------------"<<endl;
+    for(int i=0; i<n;i++)
+    {
+        if(A[i].galiojimas>=kintamasis && A[i].galiojimas<=kintamasis2)
+        {
+              fw<<A[i].pavadinimas<<" "<<A[i].galiojimas<<" "<<A[i].vartojimas <<endl;
+              g+=A[i].vartojimas;
+              k++;
+        }
+    }
+    fw<<"-------------------------------"<<endl;
+    j=double(g/k);
+    cout<<k;
+    fw<<fixed<<setprecision(2)<<"Vartojimo vidurkis "<<j<<endl;
+
+}
+
+
 
