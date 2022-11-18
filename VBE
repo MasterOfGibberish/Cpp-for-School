@@ -1,0 +1,113 @@
+///////2019 METU VBE  ALIEJUS
+
+
+
+
+#include <fstream>
+#include <iostream>
+const char FR[]="duom.txt";
+const char FW[]="ats.txt";
+
+using namespace std;
+void Skaityti(const char FR[],int n[], int Price[], int &FullPrice, int &k);
+void Skaiciuoti (int n[], int k, int &suma);
+void Irasymas(const char FW[], int k, int suma, int n[], int FullPrice,int Price[]);
+
+int main()
+{  int l,m,g;
+    int k,FullPrice, suma;
+    int Price[100],n[100];
+    Skaityti(FR,n,Price, FullPrice, k);
+    Skaiciuoti(n,k, suma);
+    Irasymas(FW,k,suma,n,FullPrice,Price);
+    return 0;
+}
+
+void Skaityti(const char FR[],int n[], int Price[], int &FullPrice, int &k)
+{
+    fstream fr(FR);
+    for(int i=0;i<3;i++)
+    {
+       fr>>n[i];
+    }
+    fr>>k;
+    fr>>FullPrice;
+    for(int i=0;i<3;i++)
+    {
+        fr>>Price[i];
+    }
+}
+
+void Skaiciuoti (int n[], int k, int &suma)
+{
+    suma=k;
+    for(int i=0; i<3;i++)
+    {
+        if(i==2)
+        {
+            n[i]=n[i]*5;
+        }
+        if(i==1)
+        {
+            n[i]=n[i]*3;
+        }
+
+       suma=suma-n[i];
+    }
+}
+
+void Irasymas(const char FW[], int k, int suma, int n[], int FullPrice, int Price[])
+{
+    int r[100];
+    int r1=0;
+    int r3=0;
+    int r5=0;
+    int pelnas=0;
+    ofstream fw(FW);
+   for(int i=0;i<3;i++)
+        {
+            if(i==2)
+            {
+                n[i]=n[i]/5;
+            }
+            if(i==1)
+            {
+                n[i]=n[i]/3;
+            }
+            fw<<n[i]<<" ";
+        }
+        fw<<suma<<endl;
+        fw<<'0'<<" "<<'0'<<" "<<'0'<<endl;
+    int l=suma;
+   for (l > 0; ;) 
+   {
+        if (l >= 5 )
+        {
+          l -= 5;
+          r5 ++;
+        }
+        else if (l >= 3) 
+        {
+            l -= 3;
+            r3 ++;
+        }
+        else if (l >= 1) 
+        {
+            l -= 1;
+            r1 ++;
+        }
+        else {
+            break;
+          }
+        }
+        r[0]=r1;
+        r[1]=r3;
+        r[2]=r5;
+        fw<<r1<<" "<<r3<<" "<<r5<<endl;
+        for(int i=2;i>=0;i--)
+        {
+            pelnas+=Price[i]*(n[i]+r[i]);
+        }
+        fw<<pelnas-FullPrice;
+}
+
