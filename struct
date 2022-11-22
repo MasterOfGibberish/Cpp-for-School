@@ -709,7 +709,115 @@ void Skaiciuoti(Duomenys A[], int n)
 
 }
 
+//////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////// VIESBUCIO GYVENTOJAI 138 PSL
 
+#include <iostream>
+#include <fstream>
+const char FR[]="duom.txt";
+const char FW[]="Ats.txt";
+const int Max=20;
+
+using namespace std;
+struct Duomenys{
+   string vardas;
+   int metai, menuo, diena, para;
+    double mokestis;
+};
+struct Duomenys2{
+   int metai2, menuo2, diena2;
+};
+void Skaityti(const char FR[], Duomenys A[], int &n);
+void Skaiciuoti(Duomenys A[], int n, Duomenys2 B[]);
+void Irasyti (const char FW[], Duomenys A[], int n, Duomenys2 B[]);
+int main()
+{
+    int n;
+   Duomenys A[100];
+   Duomenys2 B[100];
+   Skaityti(FR,A,n);
+   Skaiciuoti(A,n, B);
+   Irasyti(FW, A, n,B);
+    return 0;
+}
+void Skaityti(const char FR[], Duomenys A[], int &n) //Perskaitome
+{
+    ifstream fr(FR);
+    fr>>n;
+    char name[Max+1];
+    fr.ignore(80,'\n');
+    for(int i=0; i<n;i++)
+    {
+        fr.get(name, Max,'2');
+        A[i].vardas=name;
+        fr>>A[i].metai>>A[i].menuo>>A[i].diena>>A[i].para>>A[i].mokestis;
+        fr.ignore(80,'\n');
+    }
+    fr.close();
+}
+void Skaiciuoti(Duomenys A[], int n, Duomenys2 B[]) 
+{
+    for(int i=0;i<n;i++)
+    {
+      A[i].mokestis=A[i].mokestis*A[i].para; //suskaiciuoju mokesti
+      
+      B[i].metai2=A[i].metai; //prilyginu jog issaugociau atvykimo data
+      B[i].menuo2=A[i].menuo;
+      B[i].diena2=A[i].diena;
+    }
+        for(int i=0;i<n;i++) //skaiciuoja isvykimo data (yra paklaida nes imu 30 dienas uz menesi)
+        {
+            for(int j=0;j<A[i].para;j++)
+            {
+                if(A[i].diena<=30)
+                {
+                    A[i].diena++;
+                }
+                if(A[i].diena>30)
+                {
+                    A[i].diena=0;
+                    A[i].menuo++;
+                }
+                if(A[i].menuo>12)
+                {
+                    A[i].menuo=1;
+                    A[i].metai++;
+                }
+            }
+      }
+      
+      for(int i=0; i<n;i++) //surusiuojama pagal mokesti
+      {
+          for(int j=i+1;j<n;j++)
+          {
+              if(A[i].mokestis<A[j].mokestis)
+              {
+                  swap(A[i],A[j]);
+              }
+          }
+      }
+}
+void Irasyti (const char FW[], Duomenys A[], int n, Duomenys2 B[])
+{
+    ofstream fw(FW);
+    fw<<"Vardas, Pavarde      Atvyko   Isvyko     Sumokejo"<<endl;
+    fw<<"----------------------------------------------------"<<endl;
+     for(int i=0;i<n;i++)
+    {
+       fw<<A[i].vardas<<" "<<B[i].metai2<<" "<<B[i].menuo2<<" "<<B[i].diena2
+       <<"   "<<A[i].metai<<" "<<A[i].menuo<<" "<<A[i].diena<<"     "<<A[i].mokestis<<endl;
+    }
+        fw<<"----------------------------------------------------"<<endl;
+    fw.close();
+}
+///////////////////////////////////////////////////////////////////////////////
+//Duomenys:
+3 
+Pirmas Petras 2010 12 25 15 25.5 
+Antrute Jurgita 2011 01 15 65 24.36 
+Pilkoji Pelyte 2010 11 01 155 0.1
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 
 
