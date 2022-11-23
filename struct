@@ -818,6 +818,122 @@ Antrute Jurgita 2011 01 15 65 24.36
 Pilkoji Pelyte 2010 11 01 155 0.1
 
 /////////////////////////////////////////////////////////////////////////////////////////
+//////////////////     ABONENTAI   138PSL.
+#include <iostream>
+#include <fstream>
+#include <iomanip>
+const char FR[]="duom.txt";
+const char FR2[]="duom2.txt";
+const char FW[]="akatsukai.txt";
+const int Max=20;
+using namespace std;
+
+struct Duomenys{
+  string vardas;
+  int numeris;
+  string miestas;
+  double laikas;
+};
+struct Duomenys2{
+  string miestas2;
+  double kaina;
+};
+void Skaityti(const char FR[],const char FR2[], Duomenys A[], Duomenys2 B[], int &n, int &m);
+void Skaiciuojame (Duomenys A[], Duomenys2 B[],int &n, int m);
+void Irasyti(const char FW[], Duomenys A[], int n);
+
+int main()
+{ 
+    int n,m;
+    Duomenys A[100];
+    Duomenys2 B[100];
+    Skaityti(FR,FR2,A,B,n,m);
+    Skaiciuojame(A,B,n,m);
+    Irasyti(FW,A,n);
+    return 0;
+}
+void Skaityti(const char FR[],const char FR2[], Duomenys A[], Duomenys2 B[],int &n, int &m)
+{
+    ifstream fr(FR);
+    char name[Max+1];
+    fr>>n;
+    fr.ignore(100,'\n');
+    for(int i=0;i<n;i++)
+    {
+        fr.get(name,Max,'8');
+        A[i].vardas=name;
+        fr>>A[i].numeris>>A[i].miestas>>A[i].laikas;
+        fr.ignore(100,'\n');
+    }
+    fr.close();
+    
+    ifstream fr2(FR2);
+    fr2>>m;
+    for(int i=0;i<m;i++)
+    {
+        fr2>>B[i].miestas2>>B[i].kaina;
+    }
+}
+
+void Skaiciuojame (Duomenys A[], Duomenys2 B[],int &n, int m)
+{
+    int k=0;
+    for(int i=0;i<n;i++)
+    {
+        for(int j=0;j<m;j++)
+        {
+            if(A[i].miestas==B[j].miestas2)
+            {
+                k++;
+                A[i].laikas=A[i].laikas*B[j].kaina;
+            }
+        }
+    }
+    n=k;
+}
+
+void Irasyti(const char FW[], Duomenys A[], int n)
+{
+    double k=0;
+    ofstream fw(FW);
+    fw<<"Vardas, Pavarde       Mokestis"<<endl;
+    fw<<"---------------------------------------"<<endl;
+    for(int i=0;i<n;i++)
+    {
+        for(int j=i+1;j<n;j++)
+        {
+            if(A[i].vardas==A[j].vardas)
+            {
+                A[i].laikas=A[j].laikas+A[i].laikas;
+                A[j].vardas="pasikartojantis ";
+            }
+        }
+        if(A[i].vardas!="pasikartojantis ")
+        {
+            k+=A[i].laikas;
+          fw<<fixed<<setprecision(2)<<A[i].vardas<<A[i].laikas<<endl;  
+        }
+    }
+    fw<<"---------------------------------------"<<endl;
+    fw<<"Pajamos: "<<k<<endl;
+}
 
 
+////////////////////////////////////
+//////Duomenys:
+5
+Pirmasis Petras     86959595 Klaipeda 12
+Antrute Jurgita     86959594 Klaipeda 24
+Jugutis Jurgis      86959593 Vilnius 12
+Antrute Jurgita     86949592 Vilnius 15
+Rimutis Rimas       86959591 Raseiniai 12
+
+7
+Ariogala 12.5
+Baisiogala 6.25
+Klaipeda 10.89
+Kaunas 5.5 
+Raseiniai 6.5 
+Vilnius 5.68
+Voskoniai 7.8
 
