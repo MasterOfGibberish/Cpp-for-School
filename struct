@@ -967,17 +967,19 @@ typedef int masyvas[100][100];
 struct Duomenys{
     string pavadinimas;
     int kaina;
-
+    int suma;
 };
 void Skaityti(const char FR[], Duomenys A[], int &n, int &m, masyvas B);
-
+void Skaiciuoti (Duomenys A[], int n,int m, masyvas B, int &didz, int &indeksas);
+void Irasyti(const char FW[], Duomenys A[], masyvas B, int n, int didz, int indeksas);
 int main()
 {
-     masyvas B;
-    int n,m;
-
+    masyvas B;
+    int n,m, didz, indeksas;
     Duomenys A[100];
     Skaityti(FR,A,n,m, B);
+    Skaiciuoti(A,n,m,B, didz, indeksas);
+    Irasyti(FW, A, B, n, didz, indeksas);
     return 0;
 }
 
@@ -995,17 +997,56 @@ void Skaityti(const char FR[], Duomenys A[], int &n, int &m,  masyvas B)
         //cout<<A[i].pavadinimas<<" "<<A[i].kaina<<endl;
         fr.ignore(100,'\n');
     }
-    for(int i=0; i<n;i++)
+    for(int i=0; i<m;i++)
     {
-        for(int j=0;j<m;j++)
+        for(int j=0;j<n;j++)
         {
             fr>>B[i][j];
-            cout<<B[i][j]<<" ";
+            //cout<<B[i][j]<<" ";
         }
-        cout<<endl;
+        //cout<<endl;
     }
     fr.close();
 }
+
+void Skaiciuoti (Duomenys A[], int n, int m, masyvas B, int &didz, int &indeksas)
+{
+    int sum=0;
+    for(int i=0; i<m;i++)
+    {
+        for(int j=0;j<n;j++)
+        {
+            sum=B[i][j]*A[j].kaina;
+            A[i].suma+=sum;
+        }
+    }
+    for(int i=0; i<m;i++)
+    {
+     if(A[i].suma>didz)
+     {
+         didz=A[i].suma;
+         indeksas=i;
+     }
+    }
+}
+
+void Irasyti(const char FW[], Duomenys A[], masyvas B, int n, int didz, int indeksas)
+{
+    ofstream fw(FW);
+    for(int i=0;i<n;i++)
+    {
+        if(!B[indeksas][i]==0)
+        {
+            fw<<A[i].pavadinimas<<" "<<A[i].kaina<<" "<<"x"<<" "<<
+            B[indeksas][i]<<" "<<"="<<" "<<B[indeksas][i]*A[i].kaina<<endl;
+        }
+    }
+    fw<<endl;
+    fw << "Is viso......................." << didz;
+    fw.close();
+}
+
+
 
 
 
