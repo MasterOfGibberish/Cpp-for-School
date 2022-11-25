@@ -963,24 +963,25 @@ const char FR[]="duom.txt";
 const char FW[]="ats.txt";
 const int Max=24;
 using namespace std;
-//typedef int b[100][100];
+typedef int masyvas[100][100];
 struct Duomenys{
     string pavadinimas;
     int kaina;
-    int masyvas[8][6];
+
 };
-void Skaityti(const char FR[], Duomenys A[], int &n, int &m);
+void Skaityti(const char FR[], Duomenys A[], int &n, int &m, masyvas B);
 
 int main()
 {
-   
+     masyvas B;
     int n,m;
+
     Duomenys A[100];
-    Skaityti(FR,A,n,m);
+    Skaityti(FR,A,n,m, B);
     return 0;
 }
 
-void Skaityti(const char FR[], Duomenys A[], int &n, int &m)
+void Skaityti(const char FR[], Duomenys A[], int &n, int &m,  masyvas B)
 {
     ifstream fr(FR);
     char name[Max+1];
@@ -994,16 +995,23 @@ void Skaityti(const char FR[], Duomenys A[], int &n, int &m)
         //cout<<A[i].pavadinimas<<" "<<A[i].kaina<<endl;
         fr.ignore(100,'\n');
     }
-    for(int i=0; i<m;i++)
+    for(int i=0; i<n;i++)
     {
-        for(int j=0;j<n;j++)
+        for(int j=0;j<m;j++)
         {
-            fr>>A[j][i].masyvas;
-            //cout<<i<<" "<<j;
+            fr>>B[i][j];
+            cout<<B[i][j]<<" ";
         }
+        cout<<endl;
     }
     fr.close();
 }
+
+
+
+
+
+
 
 
 
