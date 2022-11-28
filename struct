@@ -1194,6 +1194,54 @@ void Irasyti(const char FW[], Duomenys A[], int n)
 }
 
 
+#include<fstream>
+#include <iostream>
+const char FR[]="Radio_duom.txt";
+const char FW[]="Radio_rez.txt";
+const int Max=13;
+const int Max2=2;
+using namespace std;
+struct Duomenys{
+  string vardas,domenas;
+};
+void Skaityti(const char FR[], int &n, Duomenys A[]);
+
+int main()
+{
+    int n;
+    Duomenys A[100];
+   Skaityti(FR,n,A);
+    return 0;
+}
+void Skaityti(const char FR[], int &n, Duomenys A[])
+{
+    int m=0;
+    ifstream fr(FR);
+    char name[Max+1], salis[Max2+1];
+    fr>>n;
+    fr.ignore(80,'\n');
+    for(int i=0;i<n;i++)
+    {
+        fr.get(name,Max,'\n');
+        A[i].vardas=name;
+        fr.ignore(80,'\n');
+        fr>>m;
+         cout<<m<<endl;
+        fr.ignore(80,'\n');
+        for(int j=0;j<m;j++)
+        {
+            fr.ignore(2);
+            fr.get(salis, Max2);
+            A[i].domenas=salis;
+            fr.ignore(80,'\n');
+        }
+    }
+    for(int i=0;i<n;i++)
+    {
+        //cout<<A[i].vardas<<" "<<A[i].domenas<<endl;
+        //cout<<m<<endl;
+    }
+}
 
 
 
