@@ -107,3 +107,84 @@ void Irasymas (const char FW[], int n,  int a[], int min)
   }
   fw.close();
 }
+///////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+////////////////////////////////////
+/////////////
+#include<fstream>
+#include <iostream>
+#include <algorithm> // until c++11
+#include <utility>
+#include <cmath>
+#include <vector>
+
+const char FR[]="duom.txt";
+using namespace std;
+struct Duomenys
+{
+    string vardas;
+    char lytis;
+    int ugis;
+};
+void Skaityti(const char FR[], int &n, Duomenys A[]);
+void Rykiuoti(int n, Duomenys A[]);
+int main()
+{
+    Duomenys A[100];
+    int n;
+    Skaityti(FR,n,A);
+    Rykiuoti(n,A);
+    return 0;
+}
+
+void Skaityti(const char FR[], int &n, Duomenys A[])
+{
+   ifstream fr(FR);
+   fr>>n;
+   for(int i=0;i<n;i++)
+   {
+       fr>>A[i].vardas>>A[i].lytis>>A[i].ugis;
+       //cout<<A[i].vardas<<" "<<A[i].lytis<<" "<<A[i].ugis<<endl;
+   }
+
+   fr.close();
+   
+}
+
+void Rykiuoti(int n, Duomenys A[])
+{
+    for(int i=0;i<n;i++)
+    {
+        for(int j=i+1;j<n;j++)
+        {
+            if(A[i].ugis<A[j].ugis)
+            {
+                swap(A[i],A[j]);
+            }
+        }
+    }
+    for(int i=0;i<n;i++)
+    {
+        cout<<A[i].vardas<<" "<<A[i].lytis<<" "<<A[i].ugis<<endl; 
+    }
+    vector<Duomenys>duomenys;
+    for(int i=0;i<n;i++)
+    {
+        //cout<<A[i].vardas<<" "<<A[i].lytis<<" "<<A[i].ugis<<endl; 
+        if(A[i].lytis=='w')
+        {
+            int a=i-1;
+            cout<<i;
+            duomenys.erase(duomenys.begin());
+        }
+        
+    }
+     for(int i=0;i<n;i++)
+    {
+        cout<<A[i].vardas<<" "<<A[i].lytis<<" "<<A[i].ugis<<endl; 
+    }
+}
+
+
+
+
