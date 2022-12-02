@@ -193,4 +193,109 @@ baxuras m 190
 moteeris m 180
 baxuras w 210
 
+////////////////////////////////////////////////
+///////////////////////////////////////////
+//////////////////////////
+
+
+
+
+#include <iostream>
+#include <fstream>
+const char FR[]="duom.txt";
+const char FW[]="ats.txt";
+const int Max=25;
+using namespace std;
+
+struct Duomenys{
+ string vardas;
+ char  lytis;
+ int atlyginimas;
+};
+void Skaityti (const char FR[], int &n, Duomenys A[]);
+void naikiname(Duomenys A[], int &n);
+void Rikiavimas (Duomenys A[], int n);
+void Irasymas (const char FW[], int n, Duomenys A[]);
+
+int main()
+{
+    Duomenys A[100];
+    int n,k;
+    Skaityti(FR,n, A);
+    naikiname(A,n);
+    Rikiavimas (A,n);
+    Irasymas (FW,n,A);
+    return 0;
+}
+void Skaityti (const char FR[], int &n, Duomenys A[])
+{
+    ifstream fr(FR);
+    fr>>n;
+    char name[Max+1];
+    fr.ignore();
+    for(int i=0; i<n;i++)
+    {
+        fr.get(name,Max);
+        A[i].vardas=name;
+        fr>>A[i].lytis>>A[i].atlyginimas;
+        fr.ignore();
+    }
+   fr.close();
+}
+void naikiname(Duomenys A[], int &n)
+{
+    for(int i=0; i<n; i++)
+  {
+        if(A[i].lytis=='m' || A[i].atlyginimas < 800)
+           {
+               for(int j=i; j<n;j++)
+                 {
+                   A[j]=A[j+1];
+                 }
+              i--;
+              n--;
+           }
+    }
+  }
+
+void Rikiavimas (Duomenys A[], int n)
+{
+    for(int i=0;i<n;i++)
+    {
+      for(int j=i+1;j<n;j++)
+      {
+          if(A[i].atlyginimas<A[j].atlyginimas)
+          {
+              swap(A[i],A[j]);
+
+          }
+      }
+    }
+}
+
+void Irasymas (const char FW[], int n, Duomenys A[])
+{
+  ofstream fw(FW);
+  for(int i=0; i<n;i++)
+    {
+        fw<<A[i].vardas<<" "<<A[i].lytis<<" "<<A[i].atlyginimas<<endl;
+    }
+    fw.close();
+}
+
+
+////////////////////
+////////////////
+//////////
+
+8
+Giedrius Girdauskas     v 700
+Lina Joksaite           m 700
+Stasys Stasytis         v 1500
+Gita Gitaite            m 1600
+Romas Lydeka            v 800
+Kajus Vibelis           v 750
+Kajus Lasys             v 760
+Gitanas Gytis           v 900
+
 
