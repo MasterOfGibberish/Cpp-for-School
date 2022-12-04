@@ -297,5 +297,115 @@ Romas Lydeka            v 800
 Kajus Vibelis           v 750
 Kajus Lasys             v 760
 Gitanas Gytis           v 900
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////
+/////////////////////////////////////////
+////////////////////////////
+////////////
+//////
+//
+/
+#include <iostream>
+#include <fstream>
+const char FR[]="duom.txt";
+const char FW[]="ats.txt";
+const int Max=20;
+using namespace std;
+
+struct Duomenys{
+ string vardas;
+ char  lytis;
+ int atlyginimas;
+};
+void Skaityti (const char FR[], int &n, Duomenys A[]);
+void naikiname(Duomenys A[], int &n);
+void Rikiavimas (Duomenys A[], int n);
+void Iterpiame(Duomenys A[], int &n);
+void Irasymas (const char FW[], int n, Duomenys A[]);
+
+int main()
+{
+    Duomenys A[100];
+    int n;
+    Skaityti(FR,n, A);
+    naikiname(A,n);
+    Rikiavimas (A,n);
+    Iterpiame (A,n);
+    Irasymas (FW,n,A);
+    return 0;
+}
+void Skaityti (const char FR[], int &n, Duomenys A[])
+{
+    ifstream fr(FR);
+    fr>>n;
+    char name[Max+1];
+    fr.ignore();
+    for(int i=0; i<n;i++)
+    {
+        fr.get(name,Max);
+        A[i].vardas=name;
+        fr>>A[i].lytis>>A[i].atlyginimas;
+        fr.ignore();
+    }
+   fr.close();
+}
+void naikiname(Duomenys A[], int &n)
+{
+    for(int i=0; i<n; i++)
+  {
+        if(A[i].lytis=='m' || A[i].atlyginimas < 800)
+           {
+               for(int j=i; j<n;j++)
+                 {
+                   A[j]=A[j+1];
+                 }
+              i--;
+              n--;
+           }
+    }
+  }
+  void Iterpiame(Duomenys A[], int &n)
+{
+    int g=n;
+    for(int i=0; i<g;i++){
+        if(A[i].atlyginimas==800){
+            for(int t=g;t>i;t--)
+            {
+
+                A[t+1].atlyginimas=A[t].atlyginimas;
+            }
+            g++;
+            A[i+1].atlyginimas=100;
+            }
+        }
+
+    n=g;
+}
+
+void Rikiavimas (Duomenys A[], int n)
+{
+    for(int i=0;i<n;i++)
+    {
+      for(int j=i+1;j<n;j++)
+      {
+          if(A[i].atlyginimas<A[j].atlyginimas)
+          {
+              swap(A[i],A[j]);
+
+          }
+      }
+    }
+}
+
+void Irasymas (const char FW[], int n, Duomenys A[])
+{
+  ofstream fw(FW);
+  for(int i=0; i<n;i++)
+    {
+        fw<<A[i].vardas<<" "<<A[i].lytis<<" "<<A[i].atlyginimas<<endl;
+    }
+    fw.close();
+}
 
 
