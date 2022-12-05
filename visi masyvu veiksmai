@@ -407,5 +407,127 @@ void Irasymas (const char FW[], int n, Duomenys A[])
     }
     fw.close();
 }
+/////////////
+////////////////////////////////////////
+//////////////////////////////////////////////////////////
+
+
+#include <iostream>
+#include <fstream>
+const char FR[]="duom.txt";
+const char FW[]="ats.txt";
+const int Max=26;
+const int Max2=5;
+using namespace std;
+
+struct Duomenys{
+ string vardas, lytis;
+ int atlyginimas;
+};
+struct Duomenys2{
+string vardas, lytis;
+ int atlyginimas;
+};
+void Skaityti (const char FR[], int &n, Duomenys A[], Duomenys2 B[]);
+void Rikiavimas (Duomenys A[], int n);
+void Iterpiame(Duomenys A[], int &n, Duomenys2 B[]);
+void Irasymas (const char FW[], int n, Duomenys A[]);
+
+int main()
+{
+    Duomenys A[100];
+    Duomenys2 B[100];
+    int n;
+    Skaityti(FR,n, A, B);
+    Rikiavimas (A,n);
+    Iterpiame (A,n, B);
+    Irasymas (FW,n,A);
+    return 0;
+}
+void Skaityti (const char FR[], int &n, Duomenys A[], Duomenys2 B[])
+{
+    ifstream fr(FR);
+    fr>>n;
+    char name[Max+1], lytisz[Max2+1];
+    fr.ignore();
+    for(int i=0; i<n;i++)
+    {
+        fr.get(name,Max);
+        A[i].vardas=name;
+        fr.get(lytisz,Max2);
+        A[i].lytis=lytisz;
+        fr>>A[i].atlyginimas;
+        fr.ignore();
+    }
+     fr.ignore(100,'\n');
+    for(int i=0; i<1;i++)
+    {
+        fr.get(name,Max);
+        B[i].vardas=name;
+        fr.get(lytisz,Max2);
+        B[i].lytis=lytisz;
+        fr>>B[i].atlyginimas;
+        fr.ignore();
+    }
+   fr.close();
+}
+void Rikiavimas (Duomenys A[], int n)
+{
+    for(int i=0;i<n;i++)
+    {
+      for(int j=i+1;j<n;j++)
+      {
+          if(A[i].atlyginimas<A[j].atlyginimas)
+          {
+              swap(A[i],A[j]);
+
+          }
+      }
+    }
+}
+  void Iterpiame(Duomenys A[], int &n, Duomenys2 B[])
+{
+    int g=n;
+    int j=0;
+    for(int i=0; i<g;i++){
+        if(A[i+1].atlyginimas<B[0].atlyginimas && A[i-1].atlyginimas>B[0].atlyginimas && A[i].vardas!=B[0].vardas){
+            for(int t=g;t>i;t--)
+            {
+
+                A[t+1]=A[t];
+            }
+            g++;
+            A[i+1].vardas=B[0].vardas;
+            A[i+1].lytis=B[0].lytis;
+            A[i+1].atlyginimas=B[0].atlyginimas;
+            }
+        }
+    n=g;
+}
+
+
+void Irasymas (const char FW[], int n, Duomenys A[])
+{
+  ofstream fw(FW);
+  for(int i=0; i<n;i++)
+    {
+        fw<<A[i].vardas<<" "<<A[i].lytis<<" "<<A[i].atlyginimas<<endl;
+    }
+    fw.close();
+}
+/////////////////////////////////////////
+//////////////
+
+8
+Giedrius Girdauskas      vyr. 700
+Lina Juksaite            mot. 700
+Stasys Stalytis          vyr. 1500
+Gida Giraite             mot. 1600
+Romas Lydeka             vyr. 800
+Kajus Vigelis            mot. 750
+Kajus Lasys              vyr. 760
+Gitanas Gytis            vyr. 900
+
+Vaidas Reglaitis         vyr. 755
 
 
