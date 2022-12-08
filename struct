@@ -1457,6 +1457,103 @@ Vilkelis
 3 1 1 1 0 1
 5 2 5 1 1 0
 
+////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////
+/////////////////////////////////////////////
+////////////////     VAISTAZOLIU FABRIKAS
+
+#include <iostream>
+#include <fstream>
+const char FR[]="duom.txt";
+const char FW[]="Ats.txt";
+
+using namespace std;
+struct Duomenys{
+int dezute, likutis;
+};
+void Skaityti(const char FR[], int &n, Duomenys A[], int &k);
+void Skaiciuoti(Duomenys A[], int n, int k, int &Max, int &g);
+void Irasyti(Duomenys A[], int n, int k, int Max, int g);
+
+int main()
+{
+    Duomenys A[100];
+    int n, k, Max, g;
+    Skaityti(FR, n, A,k);
+    Skaiciuoti(A,n,k, Max, g);
+    Irasyti(A,n,k,Max, g);
+    return 0;
+}
+
+void Skaityti(const char FR[], int &n, Duomenys A[], int &k)
+{
+    ifstream fr(FR);
+    fr>>n>>k;
+    for(int i=0;i<n;i++)
+    {
+     fr>>A[i].dezute;
+    }
+}
+
+void Skaiciuoti(Duomenys A[], int n, int k, int &Max, int &g)
+{
+    double j=0;
+     for(int i=0;i<n;i++)
+     {
+         g=A[i].dezute;
+         A[i].dezute=A[i].dezute/k;
+         A[i].likutis=g-(A[i].dezute*k);
+     }
+     for(int i=0;i<n;i++)
+     {
+         j+=A[i].likutis;
+     }
+      j=j/k;
+      g=j;
+      if(j>g)
+      {
+          g++;
+      }
+     for(int i=0;i<n;i++)
+     {
+         if(A[i].dezute>Max)
+         {
+             Max=A[i].dezute;
+         }
+     }
+}
+
+void Irasyti(Duomenys A[], int n, int k, int Max, int g)
+{
+    ofstream fw("Ats.txt");
+      for(int i=0;i<n;i++)
+     {
+         fw<<A[i].dezute<<"   "<<A[i].likutis<<endl;
+     }
+   fw<<endl;
+   fw<<g<<endl;
+   fw<<Max;
+}
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////
+Duomenys:
+
+10 8
+78
+56
+45
+81
+64
+75
+82
+66
+72
+71
+
+
+
+
+
 
 
 
