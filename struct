@@ -1549,6 +1549,88 @@ Duomenys:
 66
 72
 71
+///////////////////////////////////////////////////////
+///////////////////////////
+////////////////             Informatikos Olimpiada
+#include <iostream>
+#include <fstream>
+
+using namespace std;
+const int MAX =17;
+struct Duomenys{
+     string vardas;
+     int rezultatas;
+     int rezultatai[100];
+};
+void Skaityti (Duomenys A[],int &n,int &k, int &r);
+void Skaiciuoti (Duomenys A[], int n, int k);
+void Irasyti (Duomenys A[], int n, int k, int r);
+
+int main()
+{
+    Duomenys A[100];
+    int n,k,r;
+    Skaityti(A,n,k,r);
+    Skaiciuoti(A,n,k);
+    Irasyti(A,n,k,r);
+    return 0;
+}
+void Skaityti (Duomenys A[],int &n,int &k, int &r)
+{
+    int g=0;
+   ifstream fr("duom.txt");
+   fr>>n>>k>>r;
+   char name[MAX+1];
+   fr.ignore();
+   for(int i=0;i<n;i++)
+   {
+       fr.get(name,MAX);
+       A[i].vardas=name;
+       for(int j=0; j<k;j++)
+       {
+           fr>>A[i].rezultatai[j];
+       }
+       fr.ignore();
+   }
+}
+void Skaiciuoti (Duomenys A[], int n, int k)
+{
+    for(int i=0;i<n;i++)
+   {
+       for(int j=0; j<k;j++)
+       {
+           A[i].rezultatas+=A[i].rezultatai[j];
+       }
+   }
+
+}
+
+void Irasyti (Duomenys A[], int n, int k, int r)
+{
+    ofstream fw("rez.txt");
+   for(int i=0;i<n;i++)
+   {
+       fw<<A[i].vardas<<" "<<A[i].rezultatas<<" ";
+           fw<<endl;
+   }
+}
+
+////////////////////////////////////////////
+///////////////////////////////////////
+//////////////////////////
+Duomenys:
+
+10 4 150
+Letapedis Lokys  20 50 30  0
+Piskis Kiskis    10 30 60 20
+Snape Lape       90 80 70 60
+Pilkas Vilkas    20 40 10 10
+Patarska Sarka   20 10 15  0
+Tylioji Peleda   90 80 70 69
+Juoda Varna      40 30 20 20
+Kezys Ezys       60  0 60 30
+Dryzius Barsukas 95 67 49 81
+Ukas Apuokas     95 67 75 93
 
 
 
