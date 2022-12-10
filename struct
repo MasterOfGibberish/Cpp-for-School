@@ -1564,7 +1564,8 @@ struct Duomenys{
 };
 void Skaityti (Duomenys A[],int &n,int &k, int &r);
 void Skaiciuoti (Duomenys A[], int n, int k);
-void Irasyti (Duomenys A[], int n, int k, int r);
+void Rusiuoti (Duomenys A[], int n);
+void Irasyti (Duomenys A[], int n, int r);
 
 int main()
 {
@@ -1572,12 +1573,12 @@ int main()
     int n,k,r;
     Skaityti(A,n,k,r);
     Skaiciuoti(A,n,k);
-    Irasyti(A,n,k,r);
+    Rusiuoti(A,n);
+    Irasyti(A,n,r);
     return 0;
 }
 void Skaityti (Duomenys A[],int &n,int &k, int &r)
 {
-    int g=0;
    ifstream fr("duom.txt");
    fr>>n>>k>>r;
    char name[MAX+1];
@@ -1605,15 +1606,50 @@ void Skaiciuoti (Duomenys A[], int n, int k)
 
 }
 
-void Irasyti (Duomenys A[], int n, int k, int r)
+void Rusiuoti (Duomenys A[], int n)
 {
+    for(int i=0; i<n;i++)
+    {
+        for(int j=0;j<n;j++)
+        {
+            if(A[i].rezultatas>A[j].rezultatas)
+            {
+                swap(A[i], A[j]);
+            }
+        }
+    }
+}
+
+void Irasyti (Duomenys A[], int n, int r)
+{
+    int g=0;
     ofstream fw("rez.txt");
    for(int i=0;i<n;i++)
    {
-       fw<<A[i].vardas<<" "<<A[i].rezultatas<<" ";
+       if(A[i].rezultatas>=r)
+       {
+        fw<<A[i].vardas<<" "<<A[i].rezultatas<<" ";
            fw<<endl;
+           if(i==2)
+           {
+               fw<<"-----------------------------------------------------"<<endl;
+           }
+           g++;
+       }
    }
+   fw<<"-----------------------------------------------------"<<endl;
+   fw<<"-----------------------------------------------------"<<endl;
+   for(int i=0; i<n;i++)
+   {
+       if(A[i].rezultatas<r)
+       {
+         fw<<A[i].vardas<<" "<<A[i].rezultatas<<" ";
+           fw<<endl;
+       }
+   }
+    fw<<g;
 }
+
 
 ////////////////////////////////////////////
 ///////////////////////////////////////
