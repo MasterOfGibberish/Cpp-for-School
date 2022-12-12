@@ -1668,6 +1668,109 @@ Kezys Ezys       60  0 60 30
 Dryzius Barsukas 95 67 49 81
 Ukas Apuokas     95 67 75 93
 
+///////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////
+/////////////////////////////////////////////
+////////////////////////////////////////
+//////////////////////////
+//////////////////////////////////////
+#include<fstream>
+#include <iostream>
+#include <algorithm> // until c++11
+#include <utility>
+const char FR[]="Kaziukas_duom.txt";
+const char FW[]="Kaziukas_rez.txt";
+const int Max=14;
+typedef int masyvas[100][100];
+using namespace std;
+struct Duomenys
+{
+    string vardas;
+    int taskai={0};
+    int diena={0};
+};
+void Skaityti(const char FR[], int &n, int &m, Duomenys A[], masyvas B);
+void Skaiciuoti_Dovanas(Duomenys A[],masyvas B, int n, int m, int &didziausias);
+void Irasyti(const char FW[], Duomenys A[], int m, int didziausias);
+int main()
+{   Duomenys A[100];
+    masyvas B;
+    int m,n, didziausias;
+    Skaityti(FR,n,m,A, B);
+    Skaiciuoti_Dovanas(A,B,n,m, didziausias);
+    Irasyti(FW,A,m, didziausias);
+    return 0;
+}
+void Skaityti(const char FR[], int &n, int &m, Duomenys A[], masyvas B)
+{
+   ifstream fr(FR);
+   char name[Max+1];
+   fr>>n>>m;
+   fr.ignore(80,'\n');
+   for(int i=0;i<m;i++)
+   {
+       fr.get(name, Max);
+       A[i].vardas=name;
+       fr.ignore(80,'\n');
+       //cout<<A[i].vardas<<endl;
+   }
+   for(int i=0;i<n;i++)
+   {
+       for(int j=0;j<m+1;j++)
+       {
+       fr>>B[i][j];
+      // cout<<B[i][j]<<" ";
+       }
+       //cout<<endl;
+   }
+   fr.close();
+}
+void Skaiciuoti_Dovanas(Duomenys A[],masyvas B, int n, int m, int &didziausias)
+{
+    int g[100]={0};
+    for(int j=0;j<n;j++)
+    {
+        for(int i=1;i<m+1;i++)
+        {
+          A[i-1].taskai+=B[j][i];
+          }
+    }
+    for(int i=0;i<n;i++)
+    {
+        g[i]=B[i][0];
+        if(B[i][0])
+          cout<<B[i][0]<<" ";
+
+        cout<<endl;
+    }
+
+    for(int j=0;j<n;j++)
+    {
+      if(didziausias<A[j].taskai)
+      {
+          didziausias=A[j].taskai;
+      }
+    }
+}
+
+
+void Irasyti(const char FW[], Duomenys A[], int m, int didziausias)
+{
+    int viso=0;
+    string didziausias2="";
+    ofstream fw(FW);
+    for(int i=0;i<m;i++)
+    {
+        viso+=A[i].taskai;
+        fw<<A[i].vardas<<" "<<A[i].taskai<<endl;
+        if(A[i].taskai==didziausias)
+        {
+            didziausias2=A[i].vardas;
+        }
+    }
+    fw<<"Is viso........."<<viso<<endl;
+    fw<<didziausias2;
+}
 
 
 
