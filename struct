@@ -1773,6 +1773,67 @@ void Irasyti(const char FW[], Duomenys A[], int m, int didziausias)
 }
 
 
+//////////////////////////////////////////////////////////////////
+///////////////////////// Marsrutinis Autobusas
+
+#include <iostream>
+#include <fstream>
+
+using namespace std;
+const char FR[]="auto_duom.txt";
+const char FW[]="auto_rez.txt";
+struct Duomenys{
+   string stotele;
+   int ilipo;
+   int islipo;
+};
+void Skaityti(int &n, int &m, Duomenys A[]);
+
+int main()
+{
+    int n, m;
+    Duomenys A[100];
+    Skaityti(n,m,A);
+    return 0;
+}
+void Skaityti(int &n, int &m,Duomenys A[])
+{
+    ifstream fr("auto_duom.txt");
+    fr>>m>>n;
+    for(int i=0;i<n;i++)
+    {
+        fr>>A[i].stotele;
+        //cout<<A[i].stotele<<endl;
+    }
+    for(int i=0;i<m;i++)
+    {
+        for(int j=0;j<n;j+=2)
+        {
+            fr>>A[j].ilipo>>A[j+1].islipo;
+            cout<<A[j].ilipo<<" "<<A[j+1].islipo<<endl;
+        }
+    }
+
+}
+///////////////
+5 7
+Stotis
+Vilties
+Centras
+Sportininku
+Ausros
+Savivaldbes
+Mokykla
+10 0 5 1 6 4 8 11 9 3 8 15
+3 10
+12 5 18 3 10 14 20 11 24 7
+10 2 2 30
+10 24 14 6 20 10 20 25 15 18
+15 5 30 3
+15 4 8 20 12 25 5 11 8 5 20
+3 18 15
+8 1 5 2 5 10 12 5 9 8 1 10
+3 1
 
 
 
