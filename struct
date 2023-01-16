@@ -1836,23 +1836,104 @@ Mokykla
 3 1
 
 ------------------------------------------------------------------------------
+/////////////////////////////////////////////////////
+//////////////////////////////    KTU PELENE//////////////////////////////// 61 PSL.
+#include <fstream>
+#include <iostream>
 
-15
-b 1 
-g 5 
-g 6 
-b 4 
-g 2 
-g 6 
-b 3 
-b 6 
-g 1 
-b 1 
-g 3 
-g 1 
-b 5 
-g 5 
-g 6
+using namespace std;
+const char FR[]="Duomenys1.txt";
+const char FW[]="Rezultatai1.txt";
+
+struct Duomenys{
+  char kokybe;
+  int dydis;
+};
+
+void Skaitymas(const char FR[], Duomenys A[], int &n);
+void Naikiname(Duomenys A[], int &n);
+void Rikiuojame(Duomenys A[], int n);
+void Skirtingi (Duomenys A[], int n, int &dezes);
+void Irasyti (int n, Duomenys A[], int dezes);
+
+int main()
+{
+    int n;
+    int dezes = 0;
+    Duomenys A [500];
+    Skaitymas(FR,A,n);
+    Naikiname(A,n);
+    Rikiuojame(A,n);
+    Skirtingi(A,n, dezes);
+    Irasyti(n,A,dezes);
+    return 0;
+}
+void Skaitymas(const char FR[], Duomenys A[], int &n) //skaitymas
+{
+    ifstream fr(FR);
+    fr>>n;
+    for(int i = 0; i < n; i++)
+    {
+        fr>>A[i].kokybe>>A[i].dydis;
+    }
+}
+
+void Naikiname(Duomenys A[], int &n) //naikiname blogus zirnius
+{
+    for(int i = 0; i < n; i++)
+    {
+        if(A[i].kokybe == 'b')
+        {
+            for(int j = i; j < n; j++)
+            {
+                A[j]=A[j+1];
+            }
+            i--;
+            n--;
+        }
+    }
+}
+
+void Rikiuojame(Duomenys A[], int n) //rikiuojame zirnius pagal dydi
+{
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = i + 1; j < n; j++)
+        {
+            if(A[i].dydis > A[j].dydis)
+            {
+                swap(A[i],A[j]);
+            }
+        }
+    }
+}
+
+void Skirtingi (Duomenys A[], int n, int &dezes)  //randame kiek deziu reiks skirtingiems zirniams
+{
+    for(int i = 0; i < n; i++)
+    {
+        if(A[i].dydis != A[i+1].dydis)
+        {
+            dezes++;
+        }
+    }
+}
+
+void Irasyti (int n, Duomenys A[], int dezes)
+{
+    ofstream fw(FW);
+    for (int i = 0; i < n; i++)
+    {
+        fw<<A[i].dydis<<" ";
+    }
+    fw<<endl;
+    fw<<endl;
+    fw<<dezes;
+    fw.close();
+}
+
+
+
 
 
 
