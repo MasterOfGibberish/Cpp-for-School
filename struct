@@ -1933,6 +1933,179 @@ void Irasyti (int n, Duomenys A[], int dezes)
 }
 
 
+/////////////////////////////////////////
+/////////////////KTU NACIONALINE RINKTINE
+
+#include <iostream>
+#include <fstream>
+#include <cmath>
+#include <string>
+
+using namespace std;
+
+const char FR[]="duom.txt";
+const char FW[]="ans.txt";
+
+struct Duomenys{
+    string vardas;
+    string pavarde;
+    double naudingumas;
+};
+
+void Skaityti (Duomenys A[], Duomenys B[], int &n, double &p, int &k); //n - kiekis; p - pir reitingas; k - kandidat7 kiekis
+void Naudingumas (Duomenys A[], int &n, double p, string &aprasas);
+void Rikiavimas (Duomenys A[], int n, string &aprasas);
+void Iterpimas (Duomenys A[], Duomenys B[], int &n, int k,string &aprasas);
+void Irasyti(Duomenys A[], int n,string aprasas);
+int main()
+{
+  int n, k, g;
+  double p;
+  string aprasas;
+  Duomenys A[100];
+  Duomenys B[100];
+  Skaityti (A, B, n, p, k);
+  Naudingumas(A, n, p, aprasas);
+  Irasyti (A, n, aprasas);
+  Rikiavimas (A, n, aprasas);
+  Irasyti (A, n, aprasas);
+  Iterpimas (A, B, n, k, aprasas);
+  Irasyti (A, n, aprasas);
+    return 0;
+}
+
+void Skaityti(Duomenys A[], Duomenys B[], int &n, double &p, int &k)
+{
+    int i=0;
+    ifstream fr(FR);
+    fr >>  p >> n; // read the data into variables
+    for (int i = 0; i < n; i++)
+    {
+        fr>>A[i].vardas>>A[i].pavarde>>A[i].naudingumas;
+    }
+         fr>>k;
+    while (fr>>B[i].vardas>>B[i].pavarde>>B[i].naudingumas)
+    {
+        //cout<<B[i].vardas<<" "<<B[i].pavarde<<" "<<B[i].naudingumas<<endl;
+        i++;
+    }
+}
+
+void Naudingumas (Duomenys A[], int &n, double p, string &aprasas)
+{
+    aprasas="Be pasalintu zaideju:";
+    for (int i = 0; i < n; i++)
+    {
+        if(A[i].naudingumas < p)
+        {
+            for (int j = i; j < n; j++)
+            {
+                A[j]=A[j + 1];
+            }
+            i--;
+            n--;
+        }
+    }
+}
+
+void Rikiavimas (Duomenys A[], int n, string &aprasas)
+{
+    aprasas="Surikiuota:";
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = i + 1; j < n; j++)
+        {
+            if(A[i].naudingumas < A[j].naudingumas)
+            {
+                swap(A[i], A[j]);
+            }
+            if(A[i].naudingumas == A[j].naudingumas)
+            {
+                if(A[i].vardas[0] < A[j].vardas[0])
+                {
+                    swap(A[i], A[j]);
+                }
+            }
+        }
+    }
+}
+
+void Iterpimas (Duomenys A[], Duomenys B[], int &n, int k, string &aprasas)
+{
+    aprasas="Su papildomais zaidejais:";
+    for (int i = 0; i < k+1; i++)
+    {
+        for (int j = i + 1; j < k+1; j++)
+        {
+             if(A[i].naudingumas < A[j].naudingumas)
+            {
+                swap(A[i], A[j]);
+            }
+            if(A[i].naudingumas == A[j].naudingumas)
+            {
+                if(A[i].vardas[0] < A[j].vardas[0])
+                {
+                    swap(A[i], A[j]);
+                }
+            }
+        }
+    }
+    for (int i = 0; i < n; i++)
+    {
+       for (int j = 0; j < k; j++)
+       {
+           if(A[i+1].naudingumas < B[j].naudingumas && A[i-1].naudingumas > B[j].naudingumas && A[i].pavarde != B[j].pavarde)
+           {
+               n++;
+               for (int g=n; g < i; g--)
+               {
+                   A[g+1] = A[g];
+               }
+               A[i+1]=B[j];
+           }
+       }
+    }
+}
+
+void Irasyti(Duomenys A[], int n, string aprasas)
+{
+    ofstream fw(FW, ios::app);
+    fw<<aprasas<<endl;
+    fw<<"------------------------------------"<<endl;
+    fw<<"  |Vardas"<<"   |Pavarde"<<" |Naudingumas"<<endl;
+    fw<<"------------------------------------"<<endl;
+    for (int i = 0; i < n; i++)
+    {
+        fw<<"|"<<A[i].vardas<<" |"<<A[i].pavarde<<"      |"<<A[i].naudingumas<<endl;
+    }
+    fw<<"---------------------------------------"<<endl;
+    fw<<endl;
+}
+
+///////////////////////////////////
+
+5.0
+15
+Mantas Kalnietis 5.4
+Adas Juskevicius 10.1
+Martynas Pocius 2.4
+Renaldas Seibutis 0.0
+Martynas Gecevicius 9.6
+Tomas Delininkaitis 5.4
+Jonas Maciulis 11.4
+Mindaugas Kuzminskas 11.4
+Donatas Motiejunas 11.4
+Linas Kleiza 2.2
+Paulius Jankunas 8.9
+Ksystofas Lavrinovicius 6.9
+Darjusas Lavrinoviciusz 6.9
+Jonas Valanciunas 10.0
+Robertas Javtokas 5.4
+3
+Arturas Milaknis 6.9
+Domantas Sabonis 6.9
+Gediminas Orelikas 7.1
+Jonas Jonaitis 7.7
 
 
 
