@@ -1955,11 +1955,12 @@ struct Duomenys{
 void Skaityti (Duomenys A[], Duomenys B[], int &n, double &p, int &k); //n - kiekis; p - pir reitingas; k - kandidat7 kiekis
 void Naudingumas (Duomenys A[], int &n, double p, string &aprasas);
 void Rikiavimas (Duomenys A[], int n, string &aprasas);
-void Iterpimas (Duomenys A[], Duomenys B[], int &n, int k,string &aprasas);
+void Iterpimas (Duomenys A[], Duomenys B[], int &n, int k, string &aprasas);
+void Nepateke (Duomenys B[], int k, string aprasas);
 void Irasyti(Duomenys A[], int n,string aprasas);
 int main()
 {
-  int n, k, g;
+  int n, k;
   double p;
   string aprasas;
   Duomenys A[100];
@@ -1971,6 +1972,7 @@ int main()
   Irasyti (A, n, aprasas);
   Iterpimas (A, B, n, k, aprasas);
   Irasyti (A, n, aprasas);
+  Nepateke (B, k, aprasas);
     return 0;
 }
 
@@ -2033,38 +2035,63 @@ void Rikiavimas (Duomenys A[], int n, string &aprasas)
 void Iterpimas (Duomenys A[], Duomenys B[], int &n, int k, string &aprasas)
 {
     aprasas="Su papildomais zaidejais:";
-    for (int i = 0; i < k+1; i++)
+    for (int i = 0; i < k + 1; i++)
     {
-        for (int j = i + 1; j < k+1; j++)
+        for (int j = i + 1; j < k + 1; j++)
         {
-             if(A[i].naudingumas < A[j].naudingumas)
+            if (B[i].naudingumas < B[j].naudingumas)
             {
-                swap(A[i], A[j]);
+                swap(B[i], B[j]);
             }
-            if(A[i].naudingumas == A[j].naudingumas)
+            if (B[i].naudingumas == B[j].naudingumas)
             {
-                if(A[i].vardas[0] < A[j].vardas[0])
+                if(B[i].vardas[0] < B[j].vardas[0])
                 {
-                    swap(A[i], A[j]);
+                    swap(B[i], B[j]);
                 }
             }
         }
     }
-    for (int i = 0; i < n; i++)
+
+   for (int i = 0; i < k; i++)
     {
-       for (int j = 0; j < k; j++)
-       {
-           if(A[i+1].naudingumas < B[j].naudingumas && A[i-1].naudingumas > B[j].naudingumas && A[i].pavarde != B[j].pavarde)
-           {
-               n++;
-               for (int g=n; g < i; g--)
-               {
-                   A[g+1] = A[g];
-               }
-               A[i+1]=B[j];
-           }
-       }
+        for (int j = 0; j < n; j++)
+        {
+            if (B[i].naudingumas > A[j].naudingumas)
+            {
+                for (int l = n; l > j; l--)
+                {
+                    A[l] = A[l-1];
+                }
+                A[j] = B[i];
+                n++;
+                break;
+            }
+            if(B[i].naudingumas == A[j].naudingumas && A[j].vardas[0] == B[i].vardas[0])
+            {
+                for (int l = n; l > j; l--)
+                {
+                    A[l] = A[l-1];
+                }
+                A[j] = B[i];
+                n++;
+                break;
+            }
+        }
     }
+}
+
+void Nepateke (Duomenys B[], int k, string aprasas)
+{
+    ofstream fw(FW, ios::app);
+    aprasas="Nepateke:";
+    fw<<aprasas<<endl;
+    fw<<"------------------------------------"<<endl;
+    fw<<"  |Vardas"<<"   |Pavarde"<<" |Naudingumas |"<<endl;
+    fw<<"------------------------------------"<<endl;
+        fw<<"|"<<B[k].vardas<<" |"<<B[k].pavarde<<"      |"<<B[k].naudingumas<<endl;
+    fw<<"---------------------------------------"<<endl;
+    fw<<endl;
 }
 
 void Irasyti(Duomenys A[], int n, string aprasas)
@@ -2072,7 +2099,7 @@ void Irasyti(Duomenys A[], int n, string aprasas)
     ofstream fw(FW, ios::app);
     fw<<aprasas<<endl;
     fw<<"------------------------------------"<<endl;
-    fw<<"  |Vardas"<<"   |Pavarde"<<" |Naudingumas"<<endl;
+    fw<<"  |Vardas"<<"   |Pavarde"<<" |Naudingumas |"<<endl;
     fw<<"------------------------------------"<<endl;
     for (int i = 0; i < n; i++)
     {
