@@ -458,3 +458,54 @@ for(int i = 0; i < userInput.length(); i++)
 cout << translate<<" "<<translate2<<" ";
 return 0;
 }
+
+///////////////////////////////////////
+BINARY KONVERTER
+
+#include <iostream>
+#include <fstream>
+#include <cmath>
+#include <string>
+
+using namespace std;
+
+int main()
+{
+    long long desimtainis = 0;
+    long long dvejetainis = 0;
+    int pasirinkimas, skaicius, likutis, i;
+    cout<<" Iveskite sk: ";
+    cin>>skaicius;
+    cout<<endl;
+    cout<<"Pasirinkite ar keisite i dvejetaini (iveskite 1) ARBA pasirinkite ar keisite i desimtaini (iveskite 2) ";
+    cin>>pasirinkimas;
+    if (pasirinkimas != 1 && pasirinkimas != 2)
+    {
+        cout<<"Manau metas i pirma klase ;) Ismokite skaityti!";
+    }
+    else if (pasirinkimas == 1)
+    {
+        i = 1;
+        while (skaicius != 0)
+        {
+          likutis = skaicius % 2;
+          dvejetainis += likutis * i;
+          i = i * 10;
+          skaicius = skaicius / 2;
+        }
+        cout<<dvejetainis<<endl;
+    }
+    else if (pasirinkimas == 2)
+    {
+        while (skaicius != 0)
+        {
+            likutis = skaicius % 10;
+            desimtainis += likutis * pow(2, i);
+            i++;
+            skaicius = skaicius / 10;
+        }
+        cout<<desimtainis;
+    }
+    return 0;
+}
+
