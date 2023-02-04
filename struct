@@ -2137,46 +2137,69 @@ Jonas Jonaitis 7.7
 
 ////////////////////////////////////
 ////////////////////////////////
-////////////////////
+////////////////////             binary sum
 
 #include <iostream>
+#include <fstream>
+#include <cmath>
 #include <string>
 
 using namespace std;
 
-string addBinary(string a, string b) {
-    int n = a.length();
-    int m = b.length();
-    if (n < m) {
-        swap(a, b);
-        swap(n, m);
-    }
-    string result = "";
-    int carry = 0;
-    int j = m - 1;
-    for (int i = n - 1; i >= 0; i--) {
-        if (j >= 0) {
-            carry += a[i] - '0' + b[j] - '0';
-            j--;
-        } else {
-            carry += a[i] - '0';
-        }
-        result = char(carry % 2 + '0') + result;
-        carry /= 2;
-    }
-    if (carry) {
-        result = '1' + result;
-    }
-    return result;
-}
+const char FR[]="duom.txt";
+const char FW[]="Akatsukai.txt";
 
-int main() {
-    string a, b;
-    cin >> a >> b;
-    cout << addBinary(a, b) << endl;
+void Skaitymas (long long &pirmas_skaicius, long long &antras_skaicius);
+void Sudetis (int pirmas_skaicius, int antras_skaicius, int likutis, int &index, int suma[]);
+void Irasymas(int index, int suma[]);
+
+int main()
+{
+	long long pirmas_skaicius = 0;
+	long long antras_skaicius = 0;
+	int index = 0;
+	int likutis = 0;
+	int suma[100];
+    Skaitymas (pirmas_skaicius, antras_skaicius);
+    Sudetis (pirmas_skaicius, antras_skaicius, likutis, index, suma);
+    Irasymas (index, suma);
     return 0;
 }
 
+void Skaitymas (long long &pirmas_skaicius, long long &antras_skaicius)
+{
+    ifstream fr(FR);
+    fr>>pirmas_skaicius>>antras_skaicius;
+}
+
+void Sudetis (int pirmas_skaicius, int antras_skaicius, int likutis, int &index, int suma[])
+{
+   while (pirmas_skaicius != 0 || antras_skaicius != 0)
+  {
+   int n = pirmas_skaicius % 10 + antras_skaicius % 10;
+   suma[index] = (n + likutis) % 2;
+   likutis = (n + likutis) / 2;
+   pirmas_skaicius /= 10;
+   antras_skaicius /= 10;
+   index++;
+  }
+
+  if (!likutis == 0)
+  {
+   suma[index] = likutis;
+  }
+  //cout<<index;
+}
+void Irasymas(int index, int suma[])
+{
+    ofstream fw (FW);
+    for (int j = index; j >= 0; j--)
+    {
+     fw<<(suma[j]);
+    }
+}
+
+//////////////////////////////////////////
 
 
 
