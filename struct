@@ -2200,6 +2200,108 @@ void Irasymas(int index, int suma[])
 }
 
 //////////////////////////////////////////
+/////////////////////////////////////
+//////////////////////////////////
+
+#include <cmath>
+#include <iostream>
+#include <fstream>
+#include <cstdlib>
+
+using namespace std;
+
+const char FR[] = "Duomenys2.txt";
+const char FW[] = "Rezultatai2.txt";
+
+struct Duomenys{
+   string vardas, pavarde;
+   int valandos, minutes;
+};
+
+void Skaitymas(Duomenys A[], int &n, int &laikas);
+void tikrinimas (Duomenys A[], int n, int &k);
+void Absoliutus_laikas (Duomenys A[], int n, int laikas, int &min1, int &min2, int &vidurkis);
+void Irasymas (Duomenys A[], int n, int min1, int min2, int vidurkis, int k);
+
+int main()
+{
+    int min1 = 1000000, min2 = 1000000;
+    int laikas, n, vidurkis, k;
+    Duomenys A[25];
+    Skaitymas (A, n, laikas);
+    tikrinimas (A, n, k);
+    Absoliutus_laikas (A, n, laikas, min1, min2, vidurkis);
+    Irasymas (A, n, min1, min2, vidurkis, k);
+    return 0;
+}
+
+void Skaitymas(Duomenys A[], int &n, int &laikas)
+{
+    ifstream fr("Duomenys2.txt");
+    fr>>n>>laikas;
+    for (int i = 0; i < n; i++)
+    {
+        fr>>A[i].vardas>>A[i].pavarde>>A[i].valandos>>A[i].minutes;
+    }
+}
+
+void tikrinimas (Duomenys A[], int n, int &k)
+{
+    k = 0;
+    int t = 0;
+    cout<<"write t value ";
+    cin>>t;
+    for (int i = 0; i < n; i++)
+    {
+        int tarpininkas = A[i].minutes + A[i].valandos * 60;
+        if(t < tarpininkas)
+        {
+            k++;
+        }
+    }
+}
+
+void Absoliutus_laikas (Duomenys A[], int n, int laikas, int &min1, int &min2, int &vidurkis)
+{
+    int suma = 0;
+    for (int i = 0; i < n; i++)
+    {
+        A[i].minutes += A[i].valandos * 60;
+        suma += A[i].minutes;
+        A[i].minutes = abs(laikas - A[i].minutes);
+    }
+    vidurkis = suma / n;
+
+    for (int i = 0; i < n; i++)
+    {
+        if (A[i].minutes < min1) {
+            min2 = min1;
+            min1 = A[i].minutes;
+        } else if (A[i].minutes < min2) {
+            min2 = A[i].minutes;
+        }
+    }
+}
+
+void Irasymas (Duomenys A[], int n, int min1, int min2, int vidurkis, int k)
+{
+    ofstream fw("Rezultatai2.txt");
+    for (int i = 0; i < n; i++)
+    {
+        fw<<A[i].vardas<<" "<<A[i].pavarde<<" "<<A[i].valandos<<" "<<A[i].minutes<<endl;
+    }
+
+    for (int i = 0; i < n; i++)
+    {
+        if (A[i].minutes == min1 || A[i].minutes == min2)
+        {
+            fw<<A[i].vardas<<" "<<A[i].pavarde<<"; ";
+        }
+    }
+    fw<<endl;
+    fw<<k<<endl;
+    fw<<vidurkis;
+}
 
 
 
