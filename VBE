@@ -111,3 +111,114 @@ void Irasymas(const char FW[], int k, int suma, int n[], int FullPrice, int Pric
         fw<<pelnas-FullPrice;
 }
 
+/////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////
+     VBE SOKIAI
+
+#include <iostream>
+#include <fstream>
+#include <algorithm>
+
+using namespace std;
+const char FR[] = "U2.txt";
+const char FW[] = "U2rez.txt";
+const int MAX = 20;
+typedef int technika[100][100];
+typedef int artistiskumas[100][100];
+
+struct Duomenys {
+    string sokeju_pora;
+    int taskai;
+};
+
+void Skaityti(Duomenys A[], int &n, int &k, technika B, artistiskumas C);
+void Skaiciavimai(Duomenys A[], technika B, artistiskumas C, int n, int k);
+void Mazejimas(Duomenys A[], int n);
+void Irasymas(Duomenys A[], int n);
+
+int main() {
+    technika B;
+    artistiskumas C;
+    Duomenys A[100];
+    int n, k;
+
+    Skaityti(A, n, k, B, C);
+    Skaiciavimai(A, B, C, n, k);
+    Mazejimas(A, n);
+    Irasymas(A, n);
+    return 0;
+}
+
+void Skaityti(Duomenys A[], int &n, int &k, technika B, artistiskumas C)
+{
+    ifstream fr(FR);
+    char name[MAX+1];
+    fr >> n >> k;
+    fr.ignore();
+    for (int i = 0; i < n; i++)
+    {
+        fr.get(name, MAX);
+        A[i].sokeju_pora = name;
+        for (int j = 0; j < k; j++)
+        {
+            fr >> B[i][j];
+        }
+        for (int j = 0; j < k; j++)
+        {
+            fr >> C[i][j];
+        }
+        fr.ignore();
+    }
+    fr.close();
+}
+
+void Skaiciavimai(Duomenys A[], technika B, artistiskumas C, int n, int k)
+{
+    for (int i = 0; i < n; i++)
+    {
+        sort(B[i], B[i] + k);
+        sort(C[i], C[i] + k);
+    }
+
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < k; j++)
+        {
+            if (j != 0 && j != 4)
+            {
+                A[i].taskai += B[i][j];
+            }
+        }
+        for (int j = 0; j < k; j++)
+            {
+            if (j != 0 && j != 4)
+            {
+                A[i].taskai += C[i][j];
+            }
+        }
+    }
+}
+
+void Mazejimas(Duomenys A[], int n)
+{
+    for (int i = 0; i < n; i++)
+        {
+        for (int j = i + 1; j < n; j++)
+        {
+            if (A[i].taskai < A[j].taskai)
+            {
+                swap(A[i], A[j]);
+            }
+        }
+    }
+}
+
+void Irasymas(Duomenys A[], int n) {
+    ofstream fw(FW);
+    for (int i = 0; i < n; i++)
+    {
+        fw << A[i].sokeju_pora << " " << A[i].taskai << endl;
+    }
+    fw.close();
+}
