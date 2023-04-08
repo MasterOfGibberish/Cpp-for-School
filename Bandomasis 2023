@@ -1,0 +1,312 @@
+////// Naujagimiai
+
+#include <iostream>
+#include <fstream>
+#include <iomanip>
+#include <cmath>
+#include <algorithm>
+
+using namespace std;
+
+const char FR[]="U1.txt";
+const char FW[]="U1rez.txt";
+const int MAX = 12;
+
+struct Duomenys{
+   string pavarde, vardas;
+   char lytis;
+   int gimimas;
+   int populiariausi = 0;
+   int menuo = 0;
+};
+
+void Skaitymas(int &n, Duomenys A[]);
+void Berniuku_ieskojimas(int n, Duomenys A[], int &berniukai);
+void Populiariausi(int n, Duomenys A[], int &k);
+void Daugiausiai(int n, Duomenys A[]);
+void Irasymas(int n, int berniukai, Duomenys A[], int k);
+
+int main()
+{
+    int n;
+    int berniukai = 0;
+    int k = 0;
+    Duomenys A[100];
+    Skaitymas(n, A);
+    Berniuku_ieskojimas(n, A, berniukai);
+    Populiariausi(n, A, k);
+    Daugiausiai(n,A);
+    Irasymas(n, berniukai, A, k);
+    return 0;
+}
+
+void Skaitymas(int &n, Duomenys A[])
+{
+    ifstream fr("U1.txt");
+    fr>>n;
+    char name[MAX+1];
+    char surname[MAX+1];
+
+    fr.ignore();
+    for(int i = 0; i < n; i++)
+    {
+        fr.get(surname, MAX);
+        A[i].pavarde=surname;
+        fr.get(name, MAX);
+        A[i].vardas=name;
+        fr>>A[i].lytis;
+        fr.ignore(6);
+        fr>>A[i].gimimas;
+        //cout<<A[i].pavarde<<" "<<A[i].vardas<<" "<<A[i].lytis<<" "<<A[i].gimimas<<endl;
+
+        fr.ignore(80, '\n');
+    }
+}
+
+void Berniuku_ieskojimas(int n, Duomenys A[], int &berniukai)
+{
+    for(int i = 0; i < n; i++)
+    {
+        if(A[i].lytis == 'v')
+        {
+            berniukai++;
+        }
+    }
+}
+
+void Populiariausi(int n, Duomenys A[], int &k)
+{
+    string vardas="";
+    for (int i = 0; i < n; i++)
+    {
+        vardas = A[i].vardas;
+       for(int j = i; j < n; j++)
+       {
+           if(vardas == A[j].vardas)
+           {
+               A[i].populiariausi++;
+           }
+       }
+    }
+    for (int i = 0; i < n; i++)
+    {
+        if(k < A[i].populiariausi)
+        {
+            k = A[i].populiariausi;
+        }
+    }
+}
+
+void Daugiausiai(int n, Duomenys A[])
+{
+    for (int i = 0; i < n; i++)
+    {
+           for(int j = 1; j <= 12; j++)
+           {
+
+               if(A[i].gimimas == j)
+               {
+                   A[j].menuo++;
+               }
+
+           }
+
+    }
+}
+
+void Irasymas(int n, int berniukai, Duomenys A[], int k)
+{
+    ofstream fw("U1rez.txt");
+     fw<<"Berniukai:" <<berniukai<<endl;
+    for (int i = 0; i < n; i++)
+    {
+        if(A[i].populiariausi == k)
+        {
+            fw<<A[i].vardas<<"    ";
+        }
+    }
+     fw<<endl;
+     for (int i = 1; i <= 12; i++)
+    {
+        fw<<A[i].menuo<<" ";
+    }
+}
+
+/////////////////////////////////////////////////////////////////////
+////////////////////U1.txt
+
+8
+Antanaitis  Martynas    v 2022-02-16
+Giedraitis  Arunas      v 2022-04-01
+Rokaitis    Rokas       v 2022-01-01
+Martinaitis Martynas    v 2022-04-03
+Gretaitë    Greta       m 2022-02-14
+Rasaitë     Rasa        m 2022-01-10
+Juozaitis   Rokas       v 2022-03-12
+Gerdaitë    Gerta       m 2022-01-15
+
+///////////////////////////////////////////////////////////////////
+
+
+#include <iostream>
+#include <fstream>
+#include <iomanip>
+#include <cmath>
+#include <algorithm>
+
+using namespace std;
+
+const char FR[]="U2.txt";
+const char FW[]="U2rez.txt";
+
+struct Duomenys{
+  string vardas, pavarde, kursas[100];
+  int skaicius = 0;
+  int skaicius2 = 0;
+};
+
+void Skaitymas (int &n, Duomenys A[], int &m, string a[]);
+void Daugiausiai (int n, Duomenys A[], int &MAX);
+void Laisva(int m, Duomenys A[], string a[], int n);
+void Irasymas (int n, Duomenys A[], int MAX);
+
+int main()
+{
+    int MAX=0;
+    int n, m;
+    string a[12];
+    Duomenys A[100];
+    Skaitymas(n, A, m, a);
+    Daugiausiai(n, A, MAX);
+    Laisva(m, A, a, n);
+    Irasymas(n, A, MAX);
+    return 0;
+}
+
+void Skaitymas (int &n, Duomenys A[], int &m, string a[])
+{
+    ifstream fr("U2.txt");
+    fr>>n;
+    for(int i = 0; i < n; i++)
+    {
+        fr>>A[i].vardas>>A[i].pavarde;
+        fr>>A[i].skaicius;
+        for(int j = 0; j < A[i].skaicius; j++)
+        {
+            fr>>A[i].kursas[j];
+            //cout<<A[i].kursas[j]<<" ";
+        }
+    }
+
+    fr>>m;
+    //cout<<m;
+     for(int i = 0; i < m; i++)
+    {
+        fr>>a[i];
+        //cout<<a[i]<<endl;
+    }
+
+}
+
+void Daugiausiai (int n, Duomenys A[], int &MAX)
+{
+
+    for(int i = 0; i < n; i++)
+    {
+        if(MAX<A[i].skaicius)
+        {
+            MAX=A[i].skaicius;
+        }
+    }
+    //cout<<MAX;
+}
+
+void Laisva(int m, Duomenys A[], string a[], int n)
+{
+    for(int i = 0; i < n; i++)
+    {
+        for(int j = 0; j < m; j++)
+        {
+             for(int k = 0; k < A[i].skaicius; k++)
+            {
+
+                if(a[j] == A[i].kursas[k])
+                {
+                    A[i].skaicius2++;
+                    //cout<<A[i].skaicius2<<endl;
+                }
+            }
+        }
+    }
+
+     for(int i = 0; i < n; i++)
+    {
+        for(int j = 0; j < m; j++)
+        {
+           if(A[i].skaicius<A[j].skaicius)
+           {
+               swap(A[i], A[j]);
+           }
+        }
+    }
+
+     for(int i = 0; i < 5; i++)
+    {
+        //cout<<A[i].vardas<< " "<<A[i].pavarde<<endl;
+    }
+}
+
+void Irasymas (int n, Duomenys A[], int MAX)
+{
+    ofstream fw("U2rez.txt");
+     for(int i = 0; i < n; i++)
+    {
+        if(A[i].skaicius == MAX)
+        {
+            fw<<A[i].vardas<< " "<<A[i].pavarde<<endl;
+        }
+    }
+    fw<<endl;
+     for(int i = 0; i < 2; i++)
+    {
+       fw<<A[i].vardas<< " "<<A[i].pavarde<<endl;
+    }
+}
+
+///////////////////////////////////////////////////////////////
+///////////////////////////////U2.txt
+
+5
+Anusauskiene Rimante
+2
+Angl12a Angl12b
+Baltrusauskas Raimondas
+5
+Mate12a Mate12b Mate11a Mate11b Mate11c
+Jokubauskas Jonas
+4
+Fizi12a Fizi12b Fizi12c Fizi11a
+Povilaitiene Jurate
+4
+Liet12b Liet12c Liet11a Liet11c
+Pranaitiene Vilija
+2
+Liet12a Liet11b
+10
+Fizi12a
+Fizi12b
+Liet12c
+Liet12c
+Liet11c
+Mate12a
+Mate12b
+Mate12c
+Mate11a
+Mate11b
+
+
+
+
+
+
+
