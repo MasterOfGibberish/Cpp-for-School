@@ -1,0 +1,58 @@
+#include <fstream>
+#include <iostream>
+#include <iomanip>
+
+using namespace std;
+const char FR[]="U1.txt";
+const char FW[]="U1rez.txt";
+
+void Skaiciavimas(int mergaites[], int visi[], int suvalge[]);
+
+int main()
+{
+    int mergaites[10] = {10, 10, 10, 10, 10, 10, 10, 10, 10, 10};
+    int visi[20]= {0}, suvalge[10];
+    Skaiciavimas (mergaites, visi, suvalge);
+    return 0;
+}
+
+void Skaiciavimas(int mergaites[], int visi[], int suvalge[])
+{
+    ifstream fr(FR);
+    ofstream fw(FW);
+    for (int i = 0; i < 10; i++)
+    {
+        fr >> suvalge[i];
+        cout << suvalge[i] << " ";
+    }
+    fr.close();
+
+    int k = 0;
+    for (int i = 0; i < 10; i++)
+    {
+        for (int j = 0; j < 11; j++)
+        {
+            visi[i] = suvalge[i];
+            if (mergaites[i] - suvalge[i] >= 0)
+            {
+                if(j >= 1)
+                {
+                   //visi[j + k] += suvalge[j];
+                   visi[j + k] += 1;
+                   mergaites[i] -= 1;
+                }
+            }
+            else
+            {
+                break;
+            }
+        }
+        k += 1;
+    }
+
+    for (int i = 0; i < 20; i++)
+    {
+        fw << visi[i] << " ";
+    }
+    fw.close();
+}
