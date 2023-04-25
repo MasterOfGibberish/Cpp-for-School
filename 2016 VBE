@@ -65,3 +65,126 @@ void kiekis(int n, int mase, int MAX, int koeficientas)
 10000
 5650
 ////////////////////////////////////////////////////
+
+/////////////MANKSTA 
+
+
+#include <iostream>
+#include <fstream>
+#include <iomanip>
+
+using namespace std;
+
+const char FR[]="U1.txt";
+const char FW[]="U1rez.txt";
+const int MAX = 20;
+
+struct Duomenys{
+  string pavadinimas, pratimas;
+  int kiekis = 0;
+};
+
+void Skaitymas (Duomenys A[], int &n);
+void Skaiciavimas (Duomenys A[], int n, int &k);
+void Rikiavimas (Duomenys A[], int k);
+void Irasymas (Duomenys A[], int n, int k);
+
+int main()
+{
+    int n, k = 0;
+    Duomenys A[100];
+    Skaitymas (A, n);
+    Skaiciavimas (A, n, k);
+    Rikiavimas (A, k);
+    Irasymas (A, n, k);
+    return 0;
+}
+
+void Skaitymas (Duomenys A[], int &n)
+{
+    ifstream fr ("U1.txt");
+    char name [MAX + 1];
+    fr >> n;
+    fr.ignore();
+    for (int i = 0; i < n; i++)
+    {
+        fr.get(name, MAX);
+        A[i].pavadinimas = name;
+        fr >> A[i].kiekis;
+        fr.ignore();
+    }
+}
+
+void Skaiciavimas (Duomenys A[], int n, int &k)
+{
+     for (int i = 0; i < n; i++)   //rasti kiek skirtingu pavadinimu teko atlikti
+    {
+        bool found = false;
+        for (int j = 0; j < i; j++)
+        {
+            if (A[i].pavadinimas == A[j].pavadinimas)
+            {
+                found = true;
+                break;
+            }
+        }
+        if (!found)
+        {
+            A[k].pratimas = A[i].pavadinimas;
+            k++;
+        }
+    }
+    //cout<<k;
+
+    for (int i = 0; i < k; i++)
+    {
+        for (int j = i + 1; j < n; j++)
+        {
+          if(A[i].pratimas == A[j].pavadinimas)
+          {
+              A[i].kiekis += A[j].kiekis;
+          }
+        }
+        //cout<<A[i].kiekis<<endl;
+    }
+}
+
+void Rikiavimas (Duomenys A[], int k)
+{
+   for(int i = 0; i < k; i++)
+   {
+       for(int j = i + 1; j < k; j++)
+       {
+           if (A[i].kiekis < A[j].kiekis)
+           {
+               swap (A[i], A[j]);
+           }
+       }
+   }
+}
+
+void Irasymas (Duomenys A[], int n, int k)
+{
+    ofstream fw("U1rez.txt");
+    for (int i = 0; i < k; i++)
+    {
+        fw << A[i].pratimas << " " << A[i].kiekis<<endl;
+        fw << endl;
+    }
+}
+
+
+////////////////////////
+10
+prisitraukimai      10
+atsispaudimai       15
+atsilenkimai        12
+prisitraukimai      4
+atsilenkimai        15
+atsilenkimai        10
+prisitraukimai      12
+atsilenkimai        10
+atsispaudimai       2
+atsispaudimai       2
+
+//////////////////////////////////////////////////
