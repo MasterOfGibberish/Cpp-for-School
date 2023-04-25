@@ -1,0 +1,67 @@
+////// KUPRINES
+
+#include <iostream>
+#include <fstream>
+#include <iomanip>
+
+using namespace std;
+
+const char FR[]="U1.txt";
+const char FW[]="U1rez.txt";
+
+void sunkiausia(int &n, int mase, int &MAX);
+void kiekis(int n, int mase, int MAX, int koeficientas);
+
+int main()
+{
+    int n, mase, koeficientas = 0, MAX = 0;
+    sunkiausia(n,mase, MAX);
+    kiekis (n, mase, MAX, koeficientas);
+    return 0;
+}
+
+void sunkiausia(int &n, int mase, int &MAX)
+{
+    ifstream fr("U1.txt");
+    fr>>n;
+    for (int i = 0; i < n; i++)
+    {
+        fr>>mase;
+        if(MAX < mase)
+        {
+            MAX = mase;
+        }
+    }
+}
+
+void kiekis(int n, int mase, int MAX, int koeficientas)
+{
+    ifstream fr("U1.txt");
+    fr.ignore();
+    int k = 0;
+   for (int i = 0; i < n; i++)
+    {
+        fr >> mase;
+        if(mase != MAX)
+        {
+           k = MAX - (2 * mase);
+           if(k >= 0)
+           {
+               koeficientas++;
+           }
+        }
+    }
+    ofstream fw("U1rez.txt");
+    fw << MAX << " " << koeficientas;
+}
+
+/////////////////////////////////////////////////////////
+
+6
+5000
+4500
+5500
+3500
+10000
+5650
+////////////////////////////////////////////////////
