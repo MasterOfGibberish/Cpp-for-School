@@ -51,6 +51,108 @@ void Skaiciavimas( int visi[], int suvalge[])
 
 6 3 2 8 0 5 4 9 1 3
 ////////////////////////////////////////////////////////////////////////////////
+//Avys
 
 
+#include <iostream>
+#include <fstream>
+#include <iomanip>
+
+using namespace std;
+
+const char FR[] = "U2.txt";
+const char FW[] = "U2rez.txt";
+
+struct Duomenys{
+  string Avis, DNR;
+  int koeficientas=0;
+};
+
+void Skaitymas(Duomenys A[], int &n, int &g, int &indeksas);
+void Skaiciavimas (Duomenys A[], int n, int g, int indeksas);
+void Rikiavimas (Duomenys A[], int n, int indeksas);
+void Irasymas (Duomenys A[], int n);
+
+int main()
+{
+    int n, g, indeksas;
+    Duomenys A[100];
+    Skaitymas(A, n, g, indeksas);
+    Skaiciavimas(A, n, g, indeksas);
+    Rikiavimas (A, n, indeksas);
+    Irasymas(A, n);
+    return 0;
+}
+
+void Skaitymas(Duomenys A[], int &n, int &g, int &indeksas)
+{
+    ifstream fr("U2.txt");
+    fr>>n>>g>>indeksas;
+    for (int i = 0; i < n; i++)
+    {
+        fr>>A[i].Avis>>A[i].DNR;
+        //cout<<A[i].Avis<<" "<<A[i].DNR<<endl;
+    }
+}
+
+void Skaiciavimas (Duomenys A[], int n, int g, int indeksas)
+{
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < g; j++)
+        {
+            if(i != indeksas - 1)
+            {
+                if (A[indeksas - 1].DNR[j] == A[i].DNR[j])
+                {
+                    A[i].koeficientas++;
+                    //cout<<A[i].koeficientas<<" ";
+               }
+            }
+        }
+       //cout<<endl;
+    }
+}
+
+void Rikiavimas (Duomenys A[], int n, int indeksas)
+{
+    A[indeksas - 1].koeficientas = 69;
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = i + 1; j < n; j++)
+        {
+            if(A[i].koeficientas < A[j].koeficientas)
+            {
+                swap(A[i], A[j]);
+            }
+        }
+        //cout<<A[i].koeficientas<<" ";
+    }
+}
+
+void Irasymas (Duomenys A[], int n)
+{
+    ofstream fw("U2rez.txt");
+    for (int i = 0; i < n; i++)
+    {
+        if(i == 0)
+        {
+            fw<<A[i].Avis<<endl;
+            fw<<endl;
+        }
+        else
+        {
+            fw<<A[i].Avis<<" "<<A[i].koeficientas<<endl;
+            fw<<endl;
+        }
+    }
+}
+/////////////////////////////////////////////
+4 6
+3
+Baltukas TAGCTT
+Bailioji ATGCAA
+Doli AGGCTC
+Smarkuolis AATGAA
+//////////////////////////////////////////////////////////
 
