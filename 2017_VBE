@@ -1,0 +1,46 @@
+#include <iostream>
+#include <fstream>
+#include <iomanip>
+
+using namespace std;
+
+const char FR[] = "U1.txt";
+const char FW[] = "U1rez.txt";
+
+string Konvertavimas(int desimtainis);
+void Irasymas (int &n, int &k);
+
+int main() {
+    int n, k;
+    Irasymas(n, k);
+    return 0;
+}
+
+void Irasymas(int &n, int &k) {
+    ifstream fr(FR);
+    ofstream fw(FW);
+    fr >> n >> k;
+    int desimtainis;
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < k; j++) {
+            for (int m = 1; m <= 3; m++) {
+                fr >> desimtainis;
+                cout << desimtainis << " ";
+                fw << Konvertavimas(desimtainis);
+            }
+            if (j != (k -1))
+            {
+                fw << ";";
+            }
+        }
+        fw << endl;
+    }
+}
+
+string Konvertavimas(int desimtainis) {
+    const string Duomenys[] = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "A", "B", "C", "D", "E", "F"};
+
+    int pirmas = desimtainis / 16;
+    int antras = desimtainis % 16;
+    return (Duomenys[pirmas] + Duomenys[antras]);
+}
