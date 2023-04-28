@@ -123,4 +123,34 @@ for (int i=0; i<n; i++){
 
 
  }
+///////////////////////////////////////////////
+
+#include <iostream>
+#include<fstream>
+using namespace std;
+const char SF[]="duom.txt";
+const char RF[]="ats.txt";
+string skaiciuoju(int skaicius);
+int main()
+{int a,b,sk1,sk2,sk3;
+ifstream sf (SF);
+ofstream rf (RF);
+sf>>a>>b;
+for (int i=0; i<a*b; i++){
+    sf>>sk1>>sk2>>sk3;
+    rf<<skaiciuoju(sk1)<<skaiciuoju(sk2)<<skaiciuoju(sk3);
+    if((i+1)%b==0) rf<<endl;
+    else rf<<";";
+
+}
+sf.close();
+rf.close();
+
+    return 0;
+}
+string skaiciuoju(int skaicius){
+string kodai[16]={"0","1","2","3","4","5","6","7","8","9","A","B","C","D","E","F"};
+return(kodai[skaicius%16]+kodai[skaicius/16]);
+
+}
 
