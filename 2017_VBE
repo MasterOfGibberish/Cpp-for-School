@@ -44,3 +44,83 @@ string Konvertavimas(int desimtainis) {
     int antras = desimtainis % 16;
     return (Duomenys[pirmas] + Duomenys[antras]);
 }
+
+////////////////////////////////////////////////
+
+#include <iostream>
+#include<fstream>
+using namespace std;
+const char SF[]="duom.txt";
+const char RF[]="ats.txt";
+struct staciakampis{
+int x,y,dx,dy;
+int R=255;
+int G=255;
+int B=255;};
+
+void Skaitau (int &n, staciakampis duom []);
+void Skaiciuoju (int n, staciakampis duom[], staciakampis piesinys[100][100], int &a, int &b);
+void klijuoju(staciakampis x, staciakampis piesinys[100][100]) ;
+void naujinu (staciakampis z, int &a, int &b);
+void rasau(  staciakampis piesinys[100][100],int a, int b);
+staciakampis z;
+
+int main()
+{ int n,a=0,b=0;
+staciakampis x;
+staciakampis duom[100],piesinys[100][100];
+Skaitau(n,duom);
+Skaiciuoju(n,duom,piesinys,a,b);
+rasau(piesinys,a,b);
+
+    return 0;
+}
+void Skaitau (int &n, staciakampis duom []){
+ifstream sf(SF);
+sf>>n;
+for (int i=0; i<n; i++){
+    sf>>duom[i].x;
+    sf>>duom[i].y;
+    sf>>duom[i].dx;
+    sf>>duom[i].dy;
+    sf>>duom[i].R;
+    sf>>duom[i].G;
+    sf>>duom[i].B;
+    }
+sf.close();
+}
+void Skaiciuoju (int n, staciakampis duom[], staciakampis piesiniys[100][100], int &a, int &b){
+for (int i=0; i<n; i++){
+   klijuoju(duom[i],piesiniys);
+   naujinu(duom[i],a,b);
+}
+
+
+}
+ void klijuoju(staciakampis z,staciakampis piesinys[100] [100]) {
+ for (int i=z.x; i<z.x+z.dx; i++)
+    for (int j=z.y; j<z.y+z.dy; j++){
+    piesinys [i][j].R=z.R;
+    piesinys [i][j].G=z.G;
+    piesinys [i][j].B=z.B;
+    }
+ }
+
+ void naujinu (staciakampis z, int &a, int &b){
+
+ if(z.R!=255 ||z.G!=255 ||z.B!=255){
+    if(z.x+z.dx>b)b=z.x+z.dx;
+    if(z.y+z.dy>a)a=z.y+z.dy;
+     }
+
+ }
+ void rasau( staciakampis piesinys[100][100],int a, int b){
+ ofstream rf(RF);
+ for (int i=0; i<a; i++)
+    for (int j=0; j<b; j++)
+    rf<< piesinys [j][i].R<<" "<<piesinys [j][i].G<<" "<<piesinys [j][i].B<<endl;
+
+
+
+ }
+
