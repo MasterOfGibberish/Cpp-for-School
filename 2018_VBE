@@ -1,0 +1,120 @@
+#include <iostream>
+#include <fstream>
+#include <iomanip>
+using namespace std;
+
+const char FR[] = "U1.txt";
+const char FW[] = "U1rez.txt";
+
+struct Duomenys{
+    char spalva;
+    int kiekis, indeksas = 0;
+};
+
+void Skaitymas (int &n, Duomenys A[]);
+void vienodi(int n, Duomenys A[]);
+void maziausias (int n, Duomenys A[], int &maz);
+void skaiciavimas( int n, Duomenys A[], int maz);
+void Irasymas (int n, Duomenys A[], int maz);
+
+int main()
+{
+    int n, maz;
+    Duomenys A[100];
+    Skaitymas (n, A);
+    vienodi(n, A);
+    maziausias(n, A, maz);
+    skaiciavimas (n, A, maz);
+    Irasymas(n, A, maz);
+    return 0;
+}
+
+void Skaitymas (int &n, Duomenys A[])
+{
+   ifstream fr("U1.txt");
+   fr>>n;
+   for (int i = 0; i < n; i++)
+   {
+       fr>>A[i].spalva>>A[i].kiekis;
+   }
+  /* cout<<n<<endl;
+   for (int i = 0; i < n; i++)
+  {
+       cout<< A[i].spalva<<" "<<A[i].kiekis<<endl;
+  } */
+
+}
+
+void vienodi(int n, Duomenys A[])
+{
+     for (int i = 0; i < n; i++)
+   {
+       for (int j = i + 1; j < n; j++)
+       {
+           if(A[i].spalva == A[j].spalva)
+           {
+               A[i].kiekis += A[j].kiekis;
+               A[0].indeksas++;
+           }
+       }
+   }
+
+}
+
+void maziausias (int n, Duomenys A[], int &maz)
+{
+
+   maz = A[0].kiekis ;
+    for (int i = 1; i < A[0].indeksas; i++)
+   {
+     if(A[i].kiekis < A[i + 1].kiekis )
+     {
+         maz = A[i + 1].kiekis;
+     }
+   }
+  maz = maz / 2;
+}
+
+void skaiciavimas( int n, Duomenys A[], int maz)
+{
+
+    for (int i = 0; i < A[0].indeksas; i++)
+   {
+     A[i].kiekis = A[i].kiekis - 2 * maz;
+   }
+
+}
+
+void Irasymas (int n, Duomenys A[], int maz)
+{
+    ofstream fw ("U1rez.txt");
+    fw<< maz<<endl;
+    for (int i = 0; i < A[0].indeksas; i++)
+    {
+        if(A[i].spalva == 'G')
+        {
+          fw <<  A[i].spalva<<" "<<A[i].kiekis<<endl;
+        }
+
+
+    }
+    for (int i = 0; i < A[0].indeksas; i++)
+    {
+        if(A[i].spalva == 'Z')
+        {
+          fw <<  A[i].spalva<<" "<<A[i].kiekis<<endl;
+        }
+
+
+    }
+         for (int i = 0; i < A[0].indeksas; i++)
+    {
+       if(A[i].spalva == 'R')
+        {
+          fw <<  A[i].spalva<<" "<<A[i].kiekis<<endl;
+        }
+
+
+    }
+
+}
