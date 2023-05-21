@@ -1,0 +1,250 @@
+///////////ALIEJUS
+
+#include <iostream>
+#include <fstream>
+#include <iomanip>
+#include <cmath>
+
+using namespace std;
+const char FR[] = "U1.txt";
+const char FW[] = "U1rez.txt";
+
+void skaiciuoti (int n1, int n3, int n5, int &k, int &su1, int &su3, int &su5);
+
+int main()
+{
+    int n1, n5, n3, k, islaidos, p1, p3, p5, su1, su3, su5;
+    ifstream fr(FR);
+    ofstream fw(FW);
+    fr>>n1>>n3>>n5>>k>>islaidos>>p1>>p3>>p5;
+    skaiciuoti (n1, n3, n5, k, su1, su3, su5);
+    fw << su1<<" "<<su3<<" "<<su5<<" "<<k<<endl;
+    fw<<n1-su1<< " "<<n3 - su3<<" " <<n5 - su5 <<endl;
+    n5 = k/5;
+    k -= n5 * 5;
+
+    n3 = k / 3;
+    k -= n3 * 3;
+
+    n1 = k;
+
+    fw << n1 << " " << n3 <<" " << n5 <<endl;
+    fw << (n1 + su1) * p1 + (n3 + su3) * p3 + (n5 + su5) * p5 - islaidos;
+
+    fr.close();
+    fw.close();
+    return 0;
+}
+
+void skaiciuoti (int n1, int n3, int n5, int &k, int &su1, int &su3, int &su5)
+{
+   su5 = min (k/5, n5);
+   k -=su5 * 5;
+
+   su3 = min (k/3, n3);
+   k -=su3 * 3;
+
+   su1 = min (k/1, n1);
+   k -=su1;
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////SPORTAS
+
+#include <iostream>
+#include <fstream>
+#include <iomanip>
+
+using namespace std;
+const char FR[] = "U2.txt";
+const char FW [] = "U2rez.txt";
+const int MAX = 20;
+
+struct Duomenys{
+  string vardas;
+  int numeris, valanda, minutes, sekundes, tsk1, tsk2, tsk3, tsk4;
+};
+
+void Skaitymas (Duomenys A[], Duomenys B[], int &n, int &m);
+void Skaiciavimas (Duomenys A[], Duomenys B[], int n, int m);
+void Rikiavimas (Duomenys B[],  int m);
+void Irasymas (Duomenys B[], int m);
+
+int main()
+{
+    Duomenys A[100];
+    Duomenys B[100];
+    int n, m;
+    Skaitymas (A, B, n, m);
+    Skaiciavimas (A, B, n, m);
+    Rikiavimas (B, m);
+    Irasymas (B, m);
+    return 0;
+}
+
+void Skaitymas (Duomenys A[], Duomenys B[], int &n, int &m)
+{
+  char name[MAX +1];
+  ifstream fr("U2.txt");
+  fr >> n;
+  fr.ignore();
+  for (int i = 0; i < n; i++)
+  {
+      fr.get(name, MAX);
+      A[i].vardas = name;
+      fr >> A[i].numeris >> A[i].valanda >> A[i].minutes >> A[i].sekundes;
+      fr.ignore(80, '\n');
+  }
+  fr >> m;
+  for (int i = 0; i < m + 1; i ++)
+  {
+      fr >> B[i].numeris >> B[i].valanda >> B[i].minutes >> B[i].sekundes
+      >> B[i].tsk1 >> B[i].tsk2;
+      if(B[i].numeris >= 200)
+      {
+          fr >> B[i].tsk3 >> B[i].tsk4;
+      }
+      for (int j = 0; j < n; j++)
+        {
+            if (B[i].numeris == A[j].numeris)
+            {
+                B[i].vardas = A[j].vardas;
+                break;
+            }
+        }
+
+  }
+
+   /*
+  cout<< m<<endl;
+  for (int i = 0; i < m; i++)
+  {
+      cout<< B[i].vardas << " " << B[i].numeris << " " << B[i].valanda << " " << B[i].minutes << " " <<B[i].sekundes
+      << " "<< B[i].tsk1 << " " << B[i].tsk2 << " " << B[i].tsk3 << " " << B[i].tsk4 <<endl;
+
+  }
+
+  cout<< n<<endl;
+  for (int i = 0; i < n; i++)
+  {
+      cout<< A[i].vardas << " " << A[i].numeris << " " << A[i].valanda << " " << A[i].minutes << " " <<A[i].sekundes<< endl;
+  }
+  */
+}
+
+void Skaiciavimas (Duomenys A[], Duomenys B[], int n, int m)
+{
+
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < m; j++)
+        {
+            if (A[i].numeris == B[j].numeris)
+            {
+                if(B[j].numeris >= 200)
+                {
+
+                     B[j].minutes += abs(B[j].tsk1 - 5);
+                     B[j].minutes += abs(B[j].tsk2 - 5);
+                     B[j].minutes += abs(B[j].tsk3 - 5);
+                     B[j].minutes += abs(B[j].tsk4 - 5);
+
+                }
+                else
+                {
+                    B[j].minutes += abs(B[j].tsk1 - 5);
+                    B[j].minutes += abs(B[j].tsk2 - 5);
+                }
+                int laikasA = A[i].valanda * 3600 + A[i].minutes * 60 + A[i].sekundes;
+                int laikasB = B[j].valanda * 3600 + B[j].minutes * 60 + B[j].sekundes;
+                int skirtumas = laikasB - laikasA;
+
+                if (skirtumas < 0)
+                {
+                    skirtumas += 24 * 3600; // adding 1 day (24 hours) in seconds
+                }
+
+                B[j].valanda = skirtumas / 3600;
+                B[j].minutes = (skirtumas % 3600) / 60;
+                B[j].sekundes = skirtumas % 60;
+            }
+        }
+    }
+
+ /*
+    for (int i = 0; i < m; i++)
+  {
+      cout<< B[i].vardas << " " << B[i].numeris << " " << B[i].valanda << " " << B[i].minutes << " " <<B[i].sekundes
+      << " "<< B[i].tsk1 << " " << B[i].tsk2 << " " << B[i].tsk3 << " " << B[i].tsk4 <<endl;
+
+  }
+  */
+}
+
+void Rikiavimas (Duomenys B[],  int m)
+{
+    for (int i = 0; i < m; i++)
+    {
+        for (int j = i + 1; j < m; j++)
+        {
+            if(B[i].valanda > B[j].valanda)
+            {
+                swap(B[i], B[j]);
+            }
+            if(B[i].valanda == B[j].valanda)
+            {
+                if(B[i].minutes > B[j].minutes)
+                {
+                    swap(B[i], B[j]);
+                }
+                if(B[i].minutes == B[j].minutes)
+                {
+                    if(B[i].sekundes > B[j].sekundes)
+                    {
+                        swap(B[i], B[j]);
+                    }
+                    if(B[i].sekundes == B[j].sekundes)
+                    {
+                        if(B[i].vardas > B[j].vardas)
+                        {
+                            swap(B[i], B[j]);
+                        }
+
+                    }
+                }
+            }
+        }
+    }
+ /*
+    for (int i = 0; i < m; i++)
+  {
+      cout<< B[i].vardas << " " << B[i].numeris << " " << B[i].valanda << " " << B[i].minutes << " " <<B[i].sekundes
+      <<endl;
+
+  }
+  */
+}
+void Irasymas (Duomenys B[], int m)
+{
+    ofstream fw(FW);
+    fw << "Merginos" << endl;
+    for (int i = 0; i < m; i++)
+    {
+        if (B[i].numeris <= 200)
+        {
+            fw << B[i].numeris << " " << B[i].vardas << " " << B[i].valanda << " " << B[i].minutes << " " << B[i].sekundes << endl;
+        }
+    }
+
+    fw << "Vaikinai" << endl;
+    for (int i = 0; i < m; i++)
+    {
+       if (B[i].numeris >= 200)
+        {
+            fw << B[i].numeris << " " << B[i].vardas << " " << B[i].valanda << " " << B[i].minutes << " " << B[i].sekundes << endl;
+        }
+    }
+
+}
+
+
