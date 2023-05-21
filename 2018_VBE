@@ -1,120 +1,232 @@
+//////VELIAVELES
+
+#include <iostream>
+#include <fstream>
+#include <iomanip>
+
+using namespace std;
+
+const char FR [] = "U1.txt";
+const char FW [] = "U1rez.txt";
+
+struct Veliaveles{
+    char spalva;
+    int kiekis;
+};
+
+void Skaitymas (Veliaveles A[], int &n);
+void Vienodi(Veliaveles A[], int &n);
+void maziausias (Veliaveles A[], int &n, int &veliaveles);
+void Irasymas (Veliaveles A[], int n, int veliaveles);
+
+int main()
+{
+    Veliaveles A[100];
+    int n, veliaveles;
+    Skaitymas (A, n);
+    Vienodi (A, n);
+    maziausias (A, n, veliaveles);
+    Irasymas (A, n, veliaveles);
+    return 0;
+}
+//Skaitymas
+void Skaitymas (Veliaveles A[], int &n)
+{
+    ifstream fr("U1.txt");
+    fr>>n;
+    for (int i = 0; i < n; i++)
+    {
+        fr>>A[i].spalva>>A[i].kiekis;
+    }
+}
+//vienodu suradimas
+void Vienodi(Veliaveles A[], int &n)
+{
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = i + 1; j < n; j++)
+        {
+            if(A[i].spalva == A[j].spalva)
+            {
+                A[i].kiekis += A[j].kiekis;
+                A[j]=A[j+1];
+                i--;
+                n--;
+            }
+        }
+    }
+}
+//maziausiai esanciu leveliu kiekis ir pagal ta suskaiciuojame veliaveliu skaiciu
+void maziausias (Veliaveles A[], int &n, int &veliaveles)
+{
+    int maziausias = A[0].kiekis;
+    for (int i = 0; i < n; i++)
+    {
+        if (A[i].kiekis < maziausias)
+        {
+            maziausias = A[i].kiekis;
+        }
+    }
+
+    veliaveles = maziausias / 2;
+
+    for (int i = 0; i < n; i++)
+    {
+        A[i].kiekis -= maziausias;
+    }
+
+}
+//Irassau gautus rezultatus
+void Irasymas (Veliaveles A[], int n, int veliaveles)
+{
+    ofstream fw("U1rez.txt");
+    fw << veliaveles << endl;
+    for (int i = 0; i < n; i++)
+    {
+        if (A[i].spalva == 'G')
+        {
+             fw << A[i].spalva << " = " << A[i].kiekis << endl;
+        }
+    }
+
+    for (int i = 0; i < n; i++)
+    {
+        if (A[i].spalva == 'Z')
+        {
+             fw << A[i].spalva << " = " << A[i].kiekis << endl;
+        }
+    }
+
+    for (int i = 0; i < n; i++)
+    {
+        if (A[i].spalva == 'R')
+        {
+             fw << A[i].spalva << " = " << A[i].kiekis << endl;
+        }
+    }
+}
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//////SLIDININKAI
+
 #include <iostream>
 #include <fstream>
 #include <iomanip>
 using namespace std;
 
-const char FR[] = "U1.txt";
-const char FW[] = "U1rez.txt";
+const char FR[] = "U2.txt";
+const char FW[] = "U2rez.txt";
+const int MAX = 20;
 
 struct Duomenys{
-    char spalva;
-    int kiekis, indeksas = 0;
+   string vardas;
+   int valanda, minutes, sekundes, skirtumas;
 };
 
-void Skaitymas (int &n, Duomenys A[]);
-void vienodi(int n, Duomenys A[]);
-void maziausias (int n, Duomenys A[], int &maz);
-void skaiciavimas( int n, Duomenys A[], int maz);
-void Irasymas (int n, Duomenys A[], int maz);
+void Skaitymas (Duomenys A[], Duomenys B[], int &n, int &m);
+void Skaiciavimas (Duomenys A[], Duomenys B[], int m, int n);
+void Rikiavimas (Duomenys B[], int m);
+void Irasymas (Duomenys B[], int m);
 
 int main()
 {
-    int n, maz;
     Duomenys A[100];
-    Skaitymas (n, A);
-    vienodi(n, A);
-    maziausias(n, A, maz);
-    skaiciavimas (n, A, maz);
-    Irasymas(n, A, maz);
+    Duomenys B[100];
+    int n, m;
+    Skaitymas(A, B, n , m);
+    Skaiciavimas (A, B, m, n);
+    Rikiavimas (B, m);
+    Irasymas (B, m);
     return 0;
 }
-
-void Skaitymas (int &n, Duomenys A[])
+//skaitymas
+void Skaitymas (Duomenys A[], Duomenys B[], int &n, int &m)
 {
-   ifstream fr("U1.txt");
-   fr>>n;
-   for (int i = 0; i < n; i++)
-   {
-       fr>>A[i].spalva>>A[i].kiekis;
-   }
-  /* cout<<n<<endl;
-   for (int i = 0; i < n; i++)
-  {
-       cout<< A[i].spalva<<" "<<A[i].kiekis<<endl;
-  } */
+    ifstream fr("U2.txt");
+    fr>>n;
+    char name[MAX + 1];
+    fr.ignore();
+    for (int i = 0; i < n; i++)
+    {
+        fr.get(name, MAX);
+        A[i].vardas = name;
+        fr >> A[i].valanda >> A[i].minutes >> A[i].sekundes;
+        fr.ignore();
+    }
 
+     fr>>m;
+     char name2[MAX + 1];
+     fr.ignore();
+     for (int i = 0; i < m; i++)
+     {
+        fr.get(name2, MAX);
+        B[i].vardas = name2;
+        fr >> B[i].valanda >> B[i].minutes >> B[i].sekundes;
+        fr.ignore();
+     }
 }
-
-void vienodi(int n, Duomenys A[])
+//Skaiciuojame kiek laiko zmones bego
+void Skaiciavimas (Duomenys A[], Duomenys B[], int m, int n)
 {
      for (int i = 0; i < n; i++)
-   {
-       for (int j = i + 1; j < n; j++)
-       {
-           if(A[i].spalva == A[j].spalva)
-           {
-               A[i].kiekis += A[j].kiekis;
-               A[0].indeksas++;
-           }
-       }
-   }
-
-}
-
-void maziausias (int n, Duomenys A[], int &maz)
-{
-
-   maz = A[0].kiekis ;
-    for (int i = 1; i < A[0].indeksas; i++)
-   {
-     if(A[i].kiekis < A[i + 1].kiekis )
-     {
-         maz = A[i + 1].kiekis;
-     }
-   }
-  maz = maz / 2;
-}
-
-void skaiciavimas( int n, Duomenys A[], int maz)
-{
-
-    for (int i = 0; i < A[0].indeksas; i++)
-   {
-     A[i].kiekis = A[i].kiekis - 2 * maz;
-   }
-
-}
-
-void Irasymas (int n, Duomenys A[], int maz)
-{
-    ofstream fw ("U1rez.txt");
-    fw<< maz<<endl;
-    for (int i = 0; i < A[0].indeksas; i++)
     {
-        if(A[i].spalva == 'G')
+        for (int j = 0; j < m; j++)
         {
-          fw <<  A[i].spalva<<" "<<A[i].kiekis<<endl;
+            if (A[i].vardas == B[j].vardas)
+            {
+                int laikasA = A[i].valanda * 3600 + A[i].minutes * 60 + A[i].sekundes;
+                int laikasB = B[j].valanda * 3600 + B[j].minutes * 60 + B[j].sekundes;
+                int skirtumas = laikasB - laikasA;
+
+                if (skirtumas < 0)
+                {
+                    skirtumas += 24 * 3600; // adding 1 day (24 hours) in seconds
+                }
+
+                B[j].valanda = skirtumas / 3600;
+                B[j].minutes = (skirtumas % 3600) / 60;
+                B[j].sekundes = skirtumas % 60;
+            }
         }
-
-
     }
-    for (int i = 0; i < A[0].indeksas; i++)
-    {
-        if(A[i].spalva == 'Z')
-        {
-          fw <<  A[i].spalva<<" "<<A[i].kiekis<<endl;
-        }
-
-
-    }
-         for (int i = 0; i < A[0].indeksas; i++)
-    {
-       if(A[i].spalva == 'R')
-        {
-          fw <<  A[i].spalva<<" "<<A[i].kiekis<<endl;
-        }
-
-
-    }
-
 }
+//Rikiuojame didejimo tvarka
+void Rikiavimas (Duomenys B[], int m)
+{
+    for (int i = 0; i < m; i++)
+    {
+        for (int j = i + 1; j < m; j++)
+        {
+            if (B[i].minutes > B[j].minutes)
+            {
+                swap(B[i], B[j]);
+            }
+            if (B[i].minutes == B[j].minutes)
+            {
+               if (B[i].sekundes > B[j].sekundes)
+               {
+                   swap(B[i], B[j]);
+               }
+            }
+        }
+    }
+}
+//Irasymas
+void Irasymas (Duomenys B[], int m)
+{
+    ofstream fw("U2rez.txt");
+    for (int i = 0; i < m; i++)
+    {
+        if(B[i].valanda == 0)
+        {
+            fw<< B[i].vardas << " " << B[i].minutes << " " <<B[i].sekundes << endl;
+        }
+    }
+}
+
+
+
+
+
