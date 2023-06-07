@@ -1,0 +1,146 @@
+#include <iostream>
+#include <fstream>
+#include <iomanip>
+using namespace std;
+
+struct Duomenys{
+  int numeris, StartMenuo, StartDiena, EndMenuo, EndDiena;
+};
+
+const char FR[]= "U1.txt";
+const char FW [] = "U1rez.txt";
+
+void Skaitymas(int &n, Duomenys A[]);
+void Skaiciavimas(int n, int a[], Duomenys A[]);
+void Irasymas (int a[],int didziausias);
+
+int main()
+{
+    int n, didziausias;
+    int a[93] = {0}; // Initialize the array a[] with zeros
+    Duomenys A[100];
+    Skaitymas(n, A);
+    Skaiciavimas (n, a, A);
+    Irasymas (a, didziausias);
+    return 0;
+}
+
+void Skaitymas(int &n, Duomenys A[])
+{
+    ifstream fr (FR);
+    fr>>n;
+    for(int i = 0; i < n; i++)
+    {
+        fr >> A[i].numeris >> A[i].StartMenuo >> A[i].StartDiena >> A[i].EndMenuo >> A[i].EndDiena;
+    }
+   /*
+     for(int i = 0; i < n; i++)
+    {
+        cout << A[i].numeris << " " << A[i].StartMenuo << " " << A[i].StartDiena << " " << A[i].EndMenuo << " " << A[i].EndDiena<<endl;
+    }
+    */
+}
+
+void Skaiciavimas(int n, int a[], Duomenys A[])
+{
+    for(int i = 0; i < n; i++)
+    {
+        if (A[i].EndMenuo == 7)
+        {
+            A[i].EndDiena += 31;
+        }
+
+        if (A[i].EndMenuo == 8)
+        {
+             A[i].EndDiena += 60;
+        }
+
+        if(A[i].StartMenuo == 6)
+        {
+            for (int j = A[i].StartDiena; j < A[i].EndDiena; j++)
+            {
+                  a[j]++;
+            }
+        }
+        if(A[i].StartMenuo == 7)
+        {
+            for (int j = A[i].StartDiena + 30; j < A[i].EndDiena; j++)
+            {
+                 a[j]++;
+            }
+        }
+        if(A[i].StartMenuo == 8)
+        {
+            for (int j = A[i].StartDiena + 30 + 30; j < A[i].EndDiena; j++)
+            {
+                a[j]++;
+            }
+        }
+    }
+    /*
+    for (int i = 0; i < 92; i++)
+    {
+        cout<<a[i]<<" ";
+    }
+    */
+}
+
+void Irasymas (int a[], int didziausias)
+{
+    int first = -1;
+    int last = 0;
+    ofstream fw(FW);
+
+    for (int i = 0; i < 92; i++)
+    {
+        if (a[i] > didziausias)
+        {
+            didziausias = a[i];
+        }
+    }
+
+    for (int i = 0; i < 92; i++)
+    {
+      if (a[i] == didziausias)
+        {
+            if (first == -1)
+            {
+                first = i;
+            }
+            last = i;
+        }
+    }
+    //scout << first << " " << last;
+    fw << didziausias<<endl;
+    if (first <= 30)
+    {
+        fw << 6 << " " << first <<endl;
+    }
+    if (last <= 30)
+    {
+        fw << 6 << " " << last <<endl;
+    }
+
+    if (first > 30 && first <= 60)
+    {
+        fw << 7 << " " << first - 30 <<endl;
+    }
+    if (last > 30 && last <= 60)
+    {
+        fw << 7 << " " << last - 30 <<endl;
+    }
+
+    if (first > 60)
+    {
+        fw << 8 << " " << first - 60 <<endl;
+    }
+    if (last > 60)
+    {
+        fw << 8 << " " << last - 60 <<endl;
+    }
+}
+
+
+
+
+
