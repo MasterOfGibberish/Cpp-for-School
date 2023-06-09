@@ -140,6 +140,163 @@ void Irasymas (int a[], int didziausias)
     }
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#include <iostream>
+#include <fstream>
+#include <iomanip>
+using namespace std;
+
+struct Duomenys
+{
+    string vardas;
+    int kiekis;
+    string zuvis;
+    int mase;
+    string zuvis2;
+    int taskai = 0;
+    int taskai2 = 0;
+    int mase2=0;
+};
+
+const char FR[] = "U2.txt";
+const char FW[] = "U2rez.txt";
+const int MAX = 20;
+
+void Skaitymas(int& n, int& k, Duomenys A[]);
+void Skaciavimas (int n, int k, Duomenys A[]);
+void Rikiavimas (int n, int k, Duomenys A[]);
+
+int main()
+{
+    int n, k;
+    Duomenys A[100];
+    Skaitymas(n, k, A);
+    Skaciavimas (n, k, A);
+    Rikiavimas (n, k, A);
+    return 0;
+}
+
+void Skaitymas(int& n, int& k, Duomenys A[])
+{
+    char name[MAX + 1];
+    char fish[MAX + 1];
+    ifstream fr(FR);
+    fr >> n;
+    fr.ignore(80, '\n');
+    for (int i = 0; i < n; i++)
+    {
+        fr.get(name, MAX);
+        A[i].vardas = name;
+        fr >> A[i].kiekis;
+        fr.ignore();
+        //cout << " " << A[i].vardas << " " << A[i].kiekis << endl;
+        for (int j = 0; j < A[i].kiekis; j++)
+        {
+            fr.get(fish, MAX);
+            A[j].zuvis = fish;
+            fr >> A[j].mase;
+            fr.ignore(80, '\n');
+            //cout << " " << A[j].zuvis << " " << A[j].mase << endl;
+        }
+    }
+
+    fr>>k;
+    fr.ignore(80, '\n');
+    for (int i = 0; i < k; i++)
+    {
+        fr.get(fish, MAX);
+        A[i].zuvis2 = fish;
+        fr>>A[i].taskai;
+        fr.ignore();
+    }
+
+    fr.close();
+     /*
+      for (int i = 0; i < n; i++)
+    {
+        cout << A[i].vardas << " " << A[i].kiekis << endl;
+        for (int j = 0; j < A[i].kiekis; j++)
+        {
+              cout << A[j].zuvis << " " << A[j].mase << endl;
+        }
+    }
+    for (int i = 0; i < k; i++)
+    {
+        cout<<A[i].zuvis2 << " " <<A[i].taskai<<endl;
+    }
+    */
+}
+void Skaciavimas (int n, int k, Duomenys A[])
+{
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < A[i].kiekis; j++)
+        {
+             if (A[j].mase >= 200)
+              {
+                  A[i].taskai2 += 30;
+              }
+              else
+              {
+                  A[i].taskai2 += 10;
+              }
+
+            for (int g = 0; g < k; g++)
+            {
+
+                  if (A[j].zuvis == A[g].zuvis2)
+                  {
+                      A[i].taskai2 += A[g].taskai;
+                      A[g].mase2 += A[j].mase;
+                  }
+            }
+        }
+    }
+
+
+
+
+    for (int i = 0; i < n; i++)
+    {
+        cout << A[i].vardas << " " << A[i].taskai2 << endl;
+    }
+     for (int g = 0; g < k; g++)
+            {
+               cout<< A[g].mase2<< " " <<endl;
+            }
+
+
+}
+
+
+void Rikiavimas (int n, int k, Duomenys A[])
+{
+     for (int i = 0; i < n; i++)
+    {
+        for (int j = i + 1; j < n; j++)
+        {
+            if(A[i].taskai2 < A[j].taskai2)
+            {
+                swap(A[i], A[j]);
+            }
+        }
+    }
+
+     for (int i = 0; i < k; i++)
+    {
+        for (int j = i + 1; j < k; j++)
+        {
+            if(A[i].mase2 < A[j].mase2)
+            {
+                swap(A[i], A[j]);
+            }
+        }
+    }
+    for (int i = 0; i < k; i++)
+    {
+        cout << A[i].zuvis << " " << A[i].mase2 << endl;
+    }
+}
 
 
 
