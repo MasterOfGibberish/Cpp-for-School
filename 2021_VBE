@@ -1,0 +1,106 @@
+/////////////////////////////////////BEGIMAS
+#include <iostream>
+#include <fstream>
+#include <iomanip>
+#include <cmath>
+
+const char FR [] ="U1.txt";
+const char FW [] = "U1rez.txt";
+
+using namespace std;
+
+struct Duomenys{
+  int data;
+      int RytPraH;
+      int RytPraM;
+      int RytPaH;
+      int RytPaM;
+         int VaPraH;
+         int VaPraM;
+         int VaPaH;
+         int VaPam;
+           int skirtumas;
+};
+
+void Skaityti (int &n, Duomenys A[]);
+void Skaiciuoti (int n, Duomenys A[], int &maziausias);
+void Irasyti (int n, Duomenys A[], int maziausias);
+
+int main()
+{
+    int n, maziausias;
+    Duomenys A[100];
+    Skaityti(n, A);
+    Skaiciuoti (n, A, maziausias);
+    Irasyti (n, A, maziausias);
+    return 0;
+}
+void Skaityti (int &n, Duomenys A[])
+{
+    ifstream fr(FR);
+    fr>>n;
+    for (int i = 0; i < n; i++)
+    {
+        fr >> A[i].data >> A[i].RytPraH >> A[i].RytPraM >> A[i].RytPaH >> A[i].RytPaM >> A[i].VaPraH >> A[i].VaPraM >> A[i].VaPaH >> A[i].VaPam;
+    }
+    /*
+
+    for (int i = 0; i < n; i++)
+    {
+        cout << A[i].data << " " << A[i].RytPraH <<" "<< A[i].RytPraM <<" "<< A[i].RytPaH <<" "<< A[i].RytPaM <<" "<< A[i].VaPraH
+        << " "<< A[i].VaPraM <<" " << A[i].VaPaH <<" "<< A[i].VaPam <<endl;
+    }
+    */
+}
+
+void Skaiciuoti (int n, Duomenys A[], int &maziausias)
+{
+    int rytas = 0;
+    int vakaras = 0;
+    for (int i = 0; i < n; i++)
+    {
+      rytas = abs(A[i].RytPraH * 60 + A[i].RytPraM  - (A[i].RytPaH * 60 + A[i].RytPaM));
+      vakaras = abs(A[i].VaPraH * 60 + A[i].VaPraM  - (A[i].VaPaH * 60 + A[i].VaPam));
+      if (rytas != 0 && vakaras != 0)
+      {
+          A[i].skirtumas = rytas + vakaras;
+      }
+    }
+
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = i + 1; j < n; j++)
+        {
+            if (A[i].skirtumas > A[j].skirtumas)
+            {
+                swap(A[i], A[j]);
+            }
+        }
+
+    }
+
+    for (int i = 0; i < n; i++)
+    {
+        if (A[i].skirtumas < maziausias && A[i].skirtumas != 0)
+        {
+            maziausias = A[i].skirtumas;
+        }
+    }
+}
+
+void Irasyti (int n, Duomenys A[], int maziausias)
+{
+    ofstream fw(FW);
+    fw << "Minimalus laikas" <<endl;
+    fw << maziausias << endl;
+    fw << "Dienos" << endl;
+     for (int i = n; i > 0; i--)
+    {
+       if (A[i].skirtumas == maziausias)
+       {
+           fw << A[i].data <<" ";
+       }
+    }
+}
+
+///////////////////////////////////////////////////////////////////
