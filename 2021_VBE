@@ -103,4 +103,117 @@ void Irasyti (int n, Duomenys A[], int maziausias)
     }
 }
 
-///////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////// APKLAUSA
+
+
+#include <iostream>
+#include <fstream>
+#include <iomanip>
+#include <cmath>
+
+using namespace std;
+
+ struct Duomenys{
+    string vardas;
+    string pamoka;
+    double vidurkis;
+    int pazymiai = 0;
+    int indeksas = 0;
+    int kiekis = 0;
+ };
+
+void Skaitymas (int &n, Duomenys A[]);
+void skaiciavimas (int &n, Duomenys A[]);
+void Irasyti(int n, Duomenys A[]);
+
+int main()
+{
+    int n;
+    Duomenys A[100];
+    Skaitymas (n, A);
+    skaiciavimas (n, A);
+    Irasyti (n,A);
+    return 0;
+}
+
+void Skaitymas (int &n, Duomenys A[])
+{
+    ifstream fr("U2.txt");
+    fr >> n;
+    for (int i = 0; i < n; i++)
+    {
+        fr >> A[i].vardas >> A[i].pamoka >> A[i].indeksas;
+        for (int j = 0; j < A[i].indeksas; j++)
+        {
+            fr >> A[j].pazymiai;
+            A[i].vidurkis += A[j].pazymiai;
+            if (j == A[i].indeksas - 1)
+            {
+                A[i].vidurkis /= A[i].indeksas;
+            }
+
+        }
+    }
+}
+
+void skaiciavimas (int &n, Duomenys A[])
+{
+ cout << fixed << setprecision(2); // Set output precision to 2 decimal places
+
+    for (int i = 0; i < n; i++)
+    {
+        if(A[i].vidurkis < 9)
+       {
+           for (int j = i; j < n; j++)
+           {
+               A[j] = A[j + 1];
+           }
+           i--;
+           n--;
+       }
+    }
+
+    for (int i = 0; i < n; i++)
+    {
+       for (int j = i; j < n; j++)
+       {
+           if(A[i].pamoka == A[j].pamoka)
+           {
+               A[i].kiekis++;
+           }
+       }
+    }
+
+}
+
+void Irasyti(int n, Duomenys A[])
+{
+    int daugiausiai = 0;
+    ofstream fw("U2rez.txt");
+    for (int i = 0; i < n; i++)
+    {
+       for (int j = i; j < n; j++)
+       {
+           if(A[i].pamoka == A[j].pamoka)
+           {
+               if (A[i].kiekis > daugiausiai)
+               {
+                 daugiausiai = A[i].kiekis;
+               }
+           }
+
+       }
+       if (daugiausiai == A[i].kiekis)
+       {
+           fw<<A[i].pamoka <<" "<<A[i].kiekis <<endl;
+       }
+       for (int j = i +1; j < n; j++)
+           {
+               if (A[i].pamoka == A[j].pamoka)
+               {
+                   fw <<  A[i].vardas<<endl;
+               }
+           }
+    }
+}
+
