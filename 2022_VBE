@@ -1,0 +1,143 @@
+/////////////   PROGRAMAVIMO KONKURSAS:
+
+#include <iostream>
+#include <fstream>
+#include <iomanip>
+#include <cmath>
+#include <algorithm>
+
+using namespace std;
+
+struct Duomenys{
+   string vardas;
+   int kiekis;
+   int rezultatas = 0;
+   int laikas;
+};
+
+const char FR[]="U1.txt";
+const char FW[]="U1rez.txt";
+typedef int taskai[100][100];
+const int MAX = 11;
+
+void Skaitymas(int &n, int laikas[], int vertinimas[], Duomenys A[], taskai B);
+void skaiciavimas (int n, int laikas[], int vertinimas[], Duomenys A[], taskai B, int &daugiausiai);
+void Irasymas (int daugiausiai, Duomenys A[]);
+
+int main()
+{
+    int n, laikas[100], vertinimas[100], daugiausiai = 0;
+    taskai B;
+    Duomenys A[100];
+    Skaitymas (n, laikas, vertinimas, A, B);
+    skaiciavimas (n, laikas, vertinimas, A, B, daugiausiai);
+    Irasymas (daugiausiai, A);
+    return 0;
+}
+
+void Skaitymas(int &n, int laikas[], int vertinimas[], Duomenys A[], taskai B)
+{
+    ifstream fr("U1.txt");
+    char name[MAX+1];
+    fr>>n;
+    for (int i = 0; i < n; i++)
+    {
+        fr>>laikas[i];
+    }
+    for (int i = 0; i < n; i++)
+    {
+        fr>>vertinimas[i];
+    }
+    fr.ignore();
+    for (int i = 0; i < 5; i++)
+    {
+        fr.get(name, MAX);
+        A[i].vardas=name;
+        for (int j = 0; j < n; j++)
+        {
+            fr>>B[i][j];
+        }
+        fr.ignore();
+    }
+      /*
+    for (int i = 0; i < n; i++)
+    {
+        cout<<laikas[i]<<" ";
+    }
+    cout<<endl;
+    for (int i = 0; i < n; i++)
+    {
+        cout<<vertinimas[i]<<" ";
+    }
+     cout<<endl;
+    for (int i = 0; i < 5; i++)
+    {
+        cout<<A[i].vardas<<" ";
+
+        for(int j=0; j < n; j++)
+        {
+            cout<<B[i][j]<<" ";
+        }
+         cout<<endl;
+    }
+    */
+}
+
+void skaiciavimas (int n, int laikas[], int vertinimas[], Duomenys A[], taskai B, int &daugiausiai)
+{
+   for (int i = 0; i < 5; i++)
+    {
+        for (int j = 0; j < n; j++)
+        {
+            A[i].laikas += B[i][j];
+            if(B[i][j] > 0)
+            {
+                A[i].kiekis++;
+            }
+            if(B[i][j] > laikas[j] && B[i][j] != 0)
+            {
+                vertinimas[j] = vertinimas[j] / 2;
+              A[i].rezultatas += vertinimas[j] ;
+            }
+            if (B[i][j] <= laikas[j] && B[i][j] != 0)
+            {
+
+                A[i].rezultatas += vertinimas[j];
+            }
+
+        }
+    }
+
+    for (int i = 0; i < 5; i++)
+    {
+        for (int j = i + 1; j < 5; j++)
+        {
+            if (A[i].kiekis < A[j].kiekis)
+            {
+                swap(A[i], A[j]);
+            }
+        }
+    }
+
+    for (int i = 0; i < 5; i++)
+    {
+        if (A[i].rezultatas > daugiausiai)
+        {
+            daugiausiai = A[i].rezultatas;
+        }
+    }
+}
+void Irasymas (int daugiausiai, Duomenys A[])
+{
+    ofstream fw(FW);
+    fw << daugiausiai << endl;
+    for (int i = 0; i < 5; i++)
+    {
+        fw << A[i].vardas << " " << A[i].kiekis <<" " <<A[i].laikas << endl;
+    }
+}
+
+
+
+
+/////////////////////////////////////////////////         Sportas namuose
